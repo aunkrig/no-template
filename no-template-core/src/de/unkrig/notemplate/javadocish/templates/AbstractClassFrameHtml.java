@@ -1,6 +1,6 @@
 
 /*
- * no-template - an extremely light-weight templating framework
+ * No-Template - an extremely light-weight templating framework
  *
  * Copyright (c) 2015, Arno Unkrig
  * All rights reserved.
@@ -136,10 +136,11 @@ class AbstractClassFrameHtml extends NoTemplate {
 
         this.include(TopHtml.class).render(title, options, stylesheetLink);
 
+        String wt = options.windowTitle == null ? "" : " (" + options.windowTitle + ")";
         this.l(
 "<script type=\"text/javascript\"><!--",
 "    if (location.href.indexOf('is-external=true') == -1) {",
-"        parent.document.title=\"" + title + (options.windowTitle == null ? "" : " (" + options.windowTitle + ")") + "\";",
+"        parent.document.title=\"" + title + wt + "\";",
 "    }",
 "//-->",
 "</script>",
@@ -254,7 +255,7 @@ options.top
             this.l(
 "<div class=\"" + kind + "Nav\"><a name=\"navbar_" + kind + "\">",
 "<!--   -->",
-"</a><a href=\"#skip-navbar_" + kind + "\" title=\"Skip navigation links\"></a><a name=\"navbar_" + kind + "_firstrow\">",
+"</a><a href=\"#skip-navbar_" + kind + "\" title=\"Skip navigation links\"></a><a name=\"navbar_" + kind + "_firstrow\">", // SUPPRESS CHECKSTYLE LineLength
 "<!--   -->",
 "</a>",
 "<ul class=\"navList\" title=\"Navigation\">"
@@ -386,7 +387,7 @@ options.top
 "<ul class=\"subNavList\">",
 "<li>Summary:&nbsp;</li>"
                 );
-                Once first = NoTemplate.once();
+                final Once first = NoTemplate.once();
                 for (int i = 0; i < nav4.length;) {
                     String labelHtml = nav4[i++];
                     String link      = nav4[i++];
@@ -415,7 +416,7 @@ options.top
 "<ul class=\"subNavList\">",
 "<li>Detail:&nbsp;</li>"
                 );
-                Once first = NoTemplate.once();
+                final Once first = NoTemplate.once();
                 for (int i = 0; i < nav5.length;) {
                     String labelHtml = nav5[i++];
                     String link      = nav5[i++];
