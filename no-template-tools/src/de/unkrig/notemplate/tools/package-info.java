@@ -1,6 +1,6 @@
 
 /*
- * No-Template - an extremely light-weight templating framework
+ * no-template - an extremely light-weight templating framework
  *
  * Copyright (c) 2015, Arno Unkrig
  * All rights reserved.
