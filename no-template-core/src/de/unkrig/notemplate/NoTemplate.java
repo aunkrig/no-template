@@ -83,7 +83,7 @@ class NoTemplate {
 
         System.out.println("Generating " + out + "...");
 
-        IoUtil.printToFile(out, Charset.forName("UTF-8"), new ConsumerWhichThrows<PrintWriter, EX>() {
+        IoUtil.outputFilePrintWriter(out, Charset.forName("UTF-8"), new ConsumerWhichThrows<PrintWriter, EX>() {
 
             @Override public void
             consume(PrintWriter pw) throws EX {

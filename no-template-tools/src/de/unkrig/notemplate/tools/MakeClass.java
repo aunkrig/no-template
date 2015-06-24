@@ -145,7 +145,7 @@ class MakeClass {
         );
         try {
 
-            IoUtil.printToFile(
+            IoUtil.outputFilePrintWriter(
                 sourceFile,
                 Charset.forName("UTF-8"),
                 new ConsumerWhichThrows<PrintWriter, IOException>() {
