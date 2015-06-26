@@ -72,24 +72,48 @@ class NoTemplate {
     @Nullable private PrintWriter pw;
 
     /**
-     * Renders the given no-template (<var>templateClass</var>) to the given file (<var>out</var>).
+     * Renders the given no-template (<var>templateClass</var>) to the given <var>file</var>. Silently creates any
+     * missing parent directories.
      *
      * @param <T>      The template class
-     * @param renderer Invokes the "{@code render(...)}" method of the template class
+     * @param renderer Prints the text to its <var>subject</var> {@link PrintWriter}
      */
     public static final <T extends NoTemplate, EX extends Exception> void
     render(final Class<T> templateClass, File out, final ConsumerWhichThrows<? super T, EX> renderer)
     throws IOException, EX {
+        NoTemplate.render(templateClass, out, renderer, true);
+    }
 
-        System.out.println("Generating " + out + "...");
+    /**
+     * Renders the given no-template (<var>templateClass</var>) to the given <var>file</var>.
+     *
+     * @param <T>                            The template class
+     * @param renderer                       Prints the text to its <var>subject</var> {@link PrintWriter}
+     * @param createMissingParentDirectories Whether to create any missing parent directories for the <var>file</var>
+     */
+    public static final <T extends NoTemplate, EX extends Exception> void
+    render(
+        final Class<T>                           templateClass,
+        File                                     file,
+        final ConsumerWhichThrows<? super T, EX> renderer,
+        boolean                                  createMissingParentDirectories
+    )
+    throws IOException, EX {
 
-        IoUtil.outputFilePrintWriter(out, Charset.forName("UTF-8"), new ConsumerWhichThrows<PrintWriter, EX>() {
+        System.out.println("Generating " + file + "...");
 
-            @Override public void
-            consume(PrintWriter pw) throws EX {
-                renderer.consume(NoTemplate.newTemplate(templateClass, pw));
-            }
-        });
+        IoUtil.outputFilePrintWriter(
+            file,
+            Charset.forName("UTF-8"),
+            new ConsumerWhichThrows<PrintWriter, EX>() {
+
+                @Override public void
+                consume(PrintWriter pw) throws EX {
+                    renderer.consume(NoTemplate.newTemplate(templateClass, pw));
+                }
+            },
+            createMissingParentDirectories
+        );
     }
 
     /**
