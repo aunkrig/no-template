@@ -90,10 +90,10 @@ class MakeClass {
 
             if ("-help".equals(arg)) {
                 IoUtil.copyResource(
-                    MakeClass.class.getClassLoader(),                                     // classLoader
-                    MakeClass.class.getName().replace('.',  '/') + ".main(String[]).txt", // resourceName
-                    System.out,                                                           // outputStream
-                    false                                                                 // closeOutputStream
+                    MakeClass.class,                // clasS
+                    "MakeClass.main(String[]).txt", // resourceName
+                    System.out,                     // outputStream
+                    false                           // closeOutputStream
                 );
                 return;
             } else
