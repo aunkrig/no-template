@@ -124,6 +124,6 @@ class HtmlTemplate extends NoTemplate {
      *
      * @see #setReplaceNonAsciiCharactersWithHtmlCharacterReferences(boolean)
      */
-    protected static String
+    public static String
     esc(String rawText) { return Entities.replaceXmlSpecialCharactersWithPredefinedEntities(rawText); }
 }

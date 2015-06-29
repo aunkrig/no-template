@@ -54,14 +54,6 @@ class AbstractClassFrameHtml extends NoTemplate {
     static { AssertionUtil.enableAssertionsForThisClass(); }
 
     /**
-     * Renders the "body" section of the page.
-     *
-     * @see #rClassFrameHtml(String, Options, String, String[], String[], String[], String, String[], String[])
-     */
-    protected abstract void
-    rClassFrameBody();
-
-    /**
      * Renders a page for the "class frame", i.e. the frame that covers the right 80% of the JAVADOC frame set.
      * <p>
      *   The layout is as follows:
@@ -102,7 +94,8 @@ class AbstractClassFrameHtml extends NoTemplate {
         @Nullable String[] nav3,
         @Nullable String[] nav4,
         @Nullable String[] nav5,
-        @Nullable String[] nav6
+        @Nullable String[] nav6,
+        Runnable           renderBody
     ) {
 
         this.include(TopHtml.class).render(title, options, stylesheetLink);
@@ -122,7 +115,7 @@ class AbstractClassFrameHtml extends NoTemplate {
 
         this.rTopNavBar(options, nav1, nav2, nav3, nav4, nav5, nav6);
 
-        this.rClassFrameBody();
+        renderBody.run();
 
         this.rBottomNavBar(options, nav1, nav2, nav3, nav4, nav5, nav6);
 
