@@ -40,9 +40,11 @@ class TopHtml extends NoTemplate {
 
     /**
      * Renders the "top" of a JAVADOCish page (ending with "{@code <body>}").
+     *
+     * @param windowTitle The text for the {@code <html><head><title>} element
      */
     public void
-    render(String title, Options options, @Nullable String stylesheetLink) {
+    render(String windowTitle, Options options, @Nullable String stylesheetLink) {
 
         this.l(
 "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">",
@@ -60,7 +62,7 @@ class TopHtml extends NoTemplate {
 
         // HTML window title.
         this.l(
-"<title>" + title + (options.windowTitle == null ? "" : " (" + options.windowTitle + ")") + "</title>"
+"<title>" + windowTitle + (options.windowTitle == null ? "" : " (" + options.windowTitle + ")") + "</title>"
         );
 
         // Generation date meta entry.
