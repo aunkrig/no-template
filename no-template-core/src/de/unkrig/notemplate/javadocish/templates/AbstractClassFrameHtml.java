@@ -80,7 +80,153 @@ class AbstractClassFrameHtml extends NoTemplate {
      *   +--------------------------+
      * </pre>
      * <p>
-     *   The structure of the top an bottom navigation bare is identical:
+     *   For the structure of the top and bottom navigation bars, and the meaning of the <var>nav*</var> parameters,
+     *   see here:
+     * </p>
+     * <dl>
+     *   <dd>{{@link #rTopNavBar(Options, String[], String[], String[], String, String[], String[])}</dd>
+     *   <dd>{{@link #rBottomNavBar(Options, String[], String[], String[], String, String[], String[])}</dd>
+     * </dl>
+     *
+     * @param title          The window title (optionally augmented with {@link Options#windowTitle}
+     * @param options        Container for the various command line options
+     * @param stylesheetLink The (optional) external stylesheet for this page
+     */
+    protected void
+    rClassFrameHtml(
+        String             title,
+        Options            options,
+        @Nullable String   stylesheetLink,
+        @Nullable String[] nav1,
+        @Nullable String[] nav2,
+        @Nullable String[] nav3,
+        @Nullable String[] nav4,
+        @Nullable String[] nav5,
+        @Nullable String[] nav6
+    ) {
+
+        this.include(TopHtml.class).render(title, options, stylesheetLink);
+
+        String wt = options.windowTitle == null ? "" : " (" + options.windowTitle + ")";
+        this.l(
+"<script type=\"text/javascript\"><!--",
+"    if (location.href.indexOf('is-external=true') == -1) {",
+"        parent.document.title=\"" + title + wt + "\";",
+"    }",
+"//-->",
+"</script>",
+"<noscript>",
+"<div>JavaScript is disabled on your browser.</div>",
+"</noscript>"
+        );
+
+        this.rTopNavBar(options, nav1, nav2, nav3, nav4, nav5, nav6);
+
+        this.rClassFrameBody();
+
+        this.rBottomNavBar(options, nav1, nav2, nav3, nav4, nav5, nav6);
+
+        this.include(BottomHtml.class).render();
+    }
+
+    /**
+     * Renders a "top navigation bar".
+     * <p>
+     *   The structure of the "top navigation bar" is as follows:
+     * </p>
+     * <pre>
+     *                                               (options.top)
+     *   +----------------------------------------------------------+
+     *   | (nav1)                                  (options.header) |
+     *   +----------------------------------------------------------+
+     *   | (nav2)  (nav3)  (allclasses)                             |
+     *   +----------------------------------------------------------+
+     *   | Summary: (nav4)   Detail: (nav5)                         |
+     *   +----------------------------------------------------------+
+     * </pre>
+     *
+     * @see #rNavBar(String, String, String[], String[], String[], String, String[], String[])
+     */
+    private void
+    rTopNavBar(
+        Options            options,
+        @Nullable String[] nav1,
+        @Nullable String[] nav2,
+        @Nullable String[] nav3,
+        @Nullable String[] nav4,
+        @Nullable String[] nav5,
+        @Nullable String[] nav6
+    ) {
+
+        // "-top" command line option.
+        if (options.top != null) {
+            this.l(
+options.top
+            );
+        }
+
+        this.l(
+"<!-- ========= START OF TOP NAVBAR ======= -->"
+        );
+
+        this.rNavBar("top", options.header, nav1, nav2, nav3, nav4, nav5, nav6);
+
+        this.l(
+"<!-- ========= END OF TOP NAVBAR ========= -->"
+        );
+    }
+
+    /**
+     * Renders a "bottom navigation bar".
+     * <p>
+     *   The structure of the "top navigation bar" is as follows:
+     * </p>
+     * <pre>
+     *   +----------------------------------------------------------+
+     *   | (nav1)                                  (options.footer) |
+     *   +----------------------------------------------------------+
+     *   | (nav2)  (nav3)  (allclasses)                             |
+     *   +----------------------------------------------------------+
+     *   | Summary: (nav4)   Detail: (nav5)                         |
+     *   +----------------------------------------------------------+
+     *                                               (options.bottom)
+     * </pre>
+     *
+     * @see #rNavBar(String, String, String[], String[], String[], String, String[], String[])
+     */
+    private void
+    rBottomNavBar(
+        Options            options,
+        @Nullable String[] nav1,
+        @Nullable String[] nav2,
+        @Nullable String[] nav3,
+        @Nullable String[] nav4,
+        @Nullable String[] nav5,
+        @Nullable String[] nav6
+    ) {
+
+        this.l(
+"<!-- ======= START OF BOTTOM NAVBAR ====== -->"
+        );
+
+        this.rNavBar("top", options.footer, nav1, nav2, nav3, nav4, nav5, nav6);
+
+        this.l(
+"<!-- ======== END OF BOTTOM NAVBAR ======= -->"
+        );
+
+        // "-bottom" command line option.
+        if (options.bottom != null) {
+            this.l(
+"<p class=\"legalCopy\"><small>" + options.bottom + "</small></p>"
+            );
+        }
+    }
+
+    /**
+     * Renders a "top" or "bottom" navigation bar.
+     * <p>
+     *   The structure of the "top", resp. "bottom" navigation bar is as follows:
      * </p>
      * <pre>
      *   +----------------------------------------------------------+
@@ -101,7 +247,7 @@ class AbstractClassFrameHtml extends NoTemplate {
      *     The label is displayed without a link. This indicates that the function is not available in this context,
      *     but may be in a different context.
      *   </dd>
-     *   <dt>{@#link #HIGHLIT}</dt>
+     *   <dt>{@link #HIGHLIT}</dt>
      *   <dd>
      *     The label is highlighted. This indicates that the document for this function is currently displayed.
      *   </dd>
@@ -115,129 +261,18 @@ class AbstractClassFrameHtml extends NoTemplate {
      *   page", and, on a "class page", displayed with a link to the class's package page.
      * </p>
      *
-     * @param title          The window title (optionally augmented with {@link Options#windowTitle}
-     * @param options        Container for the various command line options
-     * @param stylesheetLink The (optional) external stylesheet for this page
-     * @param allClassesLink Appears with a label "All Classes", and is automagically hidden iff the page resides in
-     *                       a frame (opposed to the "top" browser window")
-     */
-    protected void
-    rClassFrameHtml(
-        String             title,
-        Options            options,
-        @Nullable String   stylesheetLink,
-        @Nullable String[] nav1,
-        @Nullable String[] nav2,
-        @Nullable String[] nav3,
-        @Nullable String   allClassesLink,
-        @Nullable String[] nav4,
-        @Nullable String[] nav5
-    ) {
-
-        this.include(TopHtml.class).render(title, options, stylesheetLink);
-
-        String wt = options.windowTitle == null ? "" : " (" + options.windowTitle + ")";
-        this.l(
-"<script type=\"text/javascript\"><!--",
-"    if (location.href.indexOf('is-external=true') == -1) {",
-"        parent.document.title=\"" + title + wt + "\";",
-"    }",
-"//-->",
-"</script>",
-"<noscript>",
-"<div>JavaScript is disabled on your browser.</div>",
-"</noscript>"
-        );
-
-        this.rTopNavBar(options, nav1, nav2, nav3, allClassesLink, nav4, nav5);
-
-        this.rClassFrameBody();
-
-        this.rBottomNavBar(options, nav1, nav2, nav3, allClassesLink, nav4, nav5);
-
-        this.include(BottomHtml.class).render();
-    }
-
-    /**
      * @param nav1 Typically {@code [ "Overview", x, "Package", x, "Class", x, "Tree", x, "Deprecated", x, "Index", x,
      *             "Help", x ]}, or {@code null} to suppress navigation bar 1
      * @param nav2 Typically {@code [ "Prev Class", x, "Next Class", x ]}, or {@code null} to suppress navigation bar 2
      * @param nav3 Typically {@code [ "Frames", x, "No Frames", x, "All Classes", x ]}, or {@code null} to suppress
      *             navigation bar 3
-     * @param nav4 Typically {@code [ "Nested", x, "Field", x, "Constr", x, "Method", x ]}, or {@code null} to suppress
-     *             navigation bar 4
-     * @param nav5 Typically {@code [ "Field", x, "Constr", x, "Method", x ]}, or {@code null} to suppress navigation
-     *             bar 5
+     * @param nav4 Typically {@code [ "All Classes", x ]}, and is automagically hidden iff the page resides in a frame
+     *             (opposed to the "top" browser window")
+     * @param nav5 Typically {@code [ "Nested", x, "Field", x, "Constr", x, "Method", x ]}, or {@code null} to suppress
+     *             navigation bar 5
+     * @param nav6 Typically {@code [ "Field", x, "Constr", x, "Method", x ]}, or {@code null} to suppress navigation
+     *             bar 6
      */
-    private void
-    rTopNavBar(
-        Options            options,
-        @Nullable String[] nav1,
-        @Nullable String[] nav2,
-        @Nullable String[] nav3,
-        @Nullable String   allClassesLink,
-        @Nullable String[] nav4,
-        @Nullable String[] nav5
-    ) {
-
-        // "-top" command line option.
-        if (options.top != null) {
-            this.l(
-options.top
-            );
-        }
-
-        this.l(
-"<!-- ========= START OF TOP NAVBAR ======= -->"
-        );
-
-        this.rNavBar("top", options.header, nav1, nav2, nav3, allClassesLink, nav4, nav5);
-
-        this.l(
-"<!-- ========= END OF TOP NAVBAR ========= -->"
-        );
-    }
-
-    /**
-     * @param nav1 Typically {@code [ "Overview", x, "Package", x, "Class", x, "Tree", x, "Deprecated", x, "Index", x,
-     *             "Help", x ]}, or {@code null} to suppress navigation bar 1
-     * @param nav2 Typically {@code [ "Prev Class", x, "Next Class", x ]}, or {@code null} to suppress navigation bar 2
-     * @param nav3 Typically {@code [ "Frames", x, "No Frames", x, "All Classes", x ]}, or {@code null} to suppress
-     *             navigation bar 3
-     * @param nav4 Typically {@code [ "Nested", x, "Field", x, "Constr", x, "Method", x ]}, or {@code null} to suppress
-     *             navigation bar 4
-     * @param nav5 Typically {@code [ "Field", x, "Constr", x, "Method", x ]}, or {@code null} to suppress navigation
-     *             bar 5
-     */
-    private void
-    rBottomNavBar(
-        Options            options,
-        @Nullable String[] nav1,
-        @Nullable String[] nav2,
-        @Nullable String[] nav3,
-        @Nullable String   allClassesLink,
-        @Nullable String[] nav4,
-        @Nullable String[] nav5
-    ) {
-
-        this.l(
-"<!-- ======= START OF BOTTOM NAVBAR ====== -->"
-        );
-
-        this.rNavBar("top", options.header, nav1, nav2, nav3, allClassesLink, nav4, nav5);
-
-        this.l(
-"<!-- ======== END OF BOTTOM NAVBAR ======= -->"
-        );
-
-        // "-bottom" command line option.
-        if (options.bottom != null) {
-            this.l(
-"<p class=\"legalCopy\"><small>" + options.bottom + "</small></p>"
-            );
-        }
-    }
-
     private void
     rNavBar(
         String             kind,
@@ -245,10 +280,12 @@ options.top
         @Nullable String[] nav1,
         @Nullable String[] nav2,
         @Nullable String[] nav3,
-        @Nullable String   allClassesLink,
         @Nullable String[] nav4,
-        @Nullable String[] nav5
+        @Nullable String[] nav5,
+        @Nullable String[] nav6
     ) {
+
+        // Render "nav1".
         if (nav1 != null) {
             assert nav1.length % 2 == 0;
 
@@ -306,6 +343,8 @@ options.top
         );
 
         if (nav2 != null || nav3 != null) {
+
+            // Render "nav2".
             if (nav2 != null) {
 
                 assert nav2.length % 2 == 0;
@@ -334,6 +373,7 @@ options.top
                 );
             }
 
+            // Render "nav3".
             if (nav3 != null) {
                 assert nav3.length % 2 == 0;
 
@@ -345,7 +385,7 @@ options.top
                     String link      = nav3[i++];
 
                     this.l(
-"<li><a href=\"" + link + "\" target=\"_" + kind + "\">" + labelHtml + "</a></li>"
+"<li><a href=\"" + link + "\" target=\"_top\">" + labelHtml + "</a></li>"
                     );
                 }
 
@@ -355,10 +395,22 @@ options.top
             }
         }
 
-        if (allClassesLink != null) {
+        // Render "nav4".
+        if (nav4 != null) {
+            assert nav4.length % 2 == 0;
+
             this.l(
-"<ul class=\"navList\" id=\"allclasses_navbar_" + kind + "\">",
-"<li><a href=\"" + allClassesLink + "\">All Classes</a></li>",
+"<ul class=\"navList\" id=\"allclasses_navbar_" + kind + "\">"
+            );
+            for (int i = 0; i < nav4.length;) {
+                String labelHtml = nav4[i++];
+                String link      = nav4[i++];
+
+                this.l(
+"<li><a href=\"" + link + "\">" + labelHtml + "</a></li>"
+                );
+            }
+            this.l(
 "</ul>",
 "<div>",
 "<script type=\"text/javascript\"><!--",
@@ -375,22 +427,24 @@ options.top
             );
         }
 
-        if (nav4 != null || nav5 != null) {
+        if (nav5 != null || nav6 != null) {
+
+            // Render "nav5".
             this.l(
 "<div>"
             );
 
-            if (nav4 != null) {
-                assert nav4.length % 2 == 0;
+            if (nav5 != null) {
+                assert nav5.length % 2 == 0;
 
                 this.l(
 "<ul class=\"subNavList\">",
 "<li>Summary:&nbsp;</li>"
                 );
                 final Once first = NoTemplate.once();
-                for (int i = 0; i < nav4.length;) {
-                    String labelHtml = nav4[i++];
-                    String link      = nav4[i++];
+                for (int i = 0; i < nav5.length;) {
+                    String labelHtml = nav5[i++];
+                    String link      = nav5[i++];
 
                     if (labelHtml == null) continue;
                     assert link != null;
@@ -409,17 +463,18 @@ options.top
                 );
             }
 
-            if (nav5 != null) {
-                assert nav5.length % 2 == 0;
+            // Render "nav6".
+            if (nav6 != null) {
+                assert nav6.length % 2 == 0;
 
                 this.l(
 "<ul class=\"subNavList\">",
 "<li>Detail:&nbsp;</li>"
                 );
                 final Once first = NoTemplate.once();
-                for (int i = 0; i < nav5.length;) {
-                    String labelHtml = nav5[i++];
-                    String link      = nav5[i++];
+                for (int i = 0; i < nav6.length;) {
+                    String labelHtml = nav6[i++];
+                    String link      = nav6[i++];
 
                     if (labelHtml == null) continue;
                     assert link != null;
