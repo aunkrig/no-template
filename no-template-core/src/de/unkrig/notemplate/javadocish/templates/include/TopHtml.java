@@ -44,7 +44,7 @@ class TopHtml extends NoTemplate {
      * @param windowTitle The text for the {@code <html><head><title>} element
      */
     public void
-    render(String windowTitle, Options options, @Nullable String stylesheetLink) {
+    render(String windowTitle, Options options, @Nullable String[] stylesheetLinks) {
 
         this.l(
 "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">",
@@ -73,10 +73,12 @@ class TopHtml extends NoTemplate {
         }
 
         // Include stylesheet.
-        if (stylesheetLink != null) {
-            this.l(
+        if (stylesheetLinks != null) {
+            for (String stylesheetLink : stylesheetLinks) {
+                this.l(
 "<link rel=\"stylesheet\" type=\"text/css\" href=\"" + stylesheetLink + "\" title=\"Style\">"
-            );
+                );
+            }
         }
 
         this.l(

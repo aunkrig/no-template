@@ -84,11 +84,11 @@ class AbstractPackageFrameHtml extends NoTemplate {
         String   heading,
         String   headingLink,
         Options  options,
-        String   styleSheetLink,
+        String[] styleSheetLinks,
         Runnable renderBody
     ) {
 
-        this.include(TopHtml.class).render(heading, options, styleSheetLink);
+        this.include(TopHtml.class).render(heading, options, styleSheetLinks);
 
         this.l(
 "<h1 class=\"bar\"><a href=\"" + headingLink + "\" target=\"classFrame\">" + heading + "</a></h1>",

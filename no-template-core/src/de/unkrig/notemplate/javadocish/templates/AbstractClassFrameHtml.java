@@ -34,8 +34,7 @@ import de.unkrig.notemplate.javadocish.templates.include.BottomHtml;
 import de.unkrig.notemplate.javadocish.templates.include.TopHtml;
 
 /**
- * Does a big part of the work if you plan to generate "JAVADOC-like" documentation, i.e. the frameset and the three
- * frames.
+ * Renders the typical "class frame" (the frame that covers the right 80% of the frame set) page.
  */
 public abstract
 class AbstractClassFrameHtml extends NoTemplate {
@@ -76,19 +75,124 @@ class AbstractClassFrameHtml extends NoTemplate {
      *   see here:
      * </p>
      * <dl>
-     *   <dd>{{@link #rTopNavBar(Options, String[], String[], String[], String, String[], String[])}</dd>
-     *   <dd>{{@link #rBottomNavBar(Options, String[], String[], String[], String, String[], String[])}</dd>
+     *   <dd>{@link #rTopNavBar(Options, String[], String[], String[], String, String[], String[])}</dd>
+     *   <dd>{@link #rBottomNavBar(Options, String[], String[], String[], String, String[], String[])}</dd>
      * </dl>
+     * <p>
+     *   The HTML structure of the body should look like this:
+     * </p>
+     * <pre>
+     * {@code
+     * <div class="header">
+     *   <div class="subTitle">com.acme.util</div>
+     *   <h2 title="Class LirumLarum" class="title">Class LirumLarum&lt;T&gt;</h2>
+     * </div>
+     * <div class="contentContainer">
+     * <ul class="inheritance">
+     *   <li>java.lang.Object</li>
+     *   <ul class="inheritance">
+     *     <li>LirumLarum</li>
+     *   </ul>
+     * </ul>
+     * <div class="description">
+     *   <ul class="blockList">
+     *     <li class="blockList">
+     *       <dl>
+     *         <dt><span class="strong">Type Parameters:</span></dt>
+     *         <dd><code>T</code> - The element type</dd>
+     *       </dl>
+     *       <dl>
+     *         <dt>All Implemented Interfaces:</dt>
+     *         <dd>
+     *           Interface1, Interface2
+     *         </dd>
+     *       </dl>
+     *       <dl>
+     *         <dt>Enclosing class:</dt>
+     *         <dd>EnclosingClass</dd>
+     *       </dl>
+     *       <dl>
+     *         <dt>All Known Subclasses:</dt>
+     *         <dd><a href="...">MySuperClass</a></dd>
+     *       </dl>
+     *       <hr>
+     *       <br>
+     *       <pre>public static abstract class <span class="strong">LirumLarum</span> extends BaseClass</pre>
+     *       <div class="block">This is the first sentence. And this is the rest of the description.</div>"
+     *       <dl>
+     *         <dt><span class="strong">See Also:</span></dt>
+     *         <dd><a href="..."><code>SomeOtherClass</code></a> The label of this tag</dd>
+     *       </dl>
+     *     </li>
+     *   </ul>
+     * </div>
+     * <div class="summary">
+     *   <ul class="blockList">
+     *     <li class="blockList">
+     *       <ul class="blockList">
+     *         <li class="blockList">
+     *           <a name="field_summary"><!--   --></a>
+     *           <h3>Field Summary</h3>
+     *           <table class="overviewSummary" border="0" cellpadding="3" cellspacing="0" summary="Field Summary table, listing fields, and an explanation">
+     *             <caption><span>Fields</span><span class="tabEnd">&nbsp;</span></caption>
+     *             <tr>
+     *               <th class="colFirst" scope="col">Modifier and Type</th>
+     *               <th class="colLast" scope="col">Field and Description</th>
+     *             </tr>
+     *             <tr class="altColor">
+     *               <td class="colFirst"><code>static int a</code></td>
+     *               <td class="colLast">
+     *                 <code><strong><a href="...">a</a></strong></code>
+     *                 <div class="block">First sentence of field description:</div>
+     *               </td>
+     *             </tr>
+     *           </table>
+     *         </li>
+     *       </ul>
+     *
+     *       <!-- Same for nested classes, constructors, methods. -->
+     *
+     *     </li>
+     *   </ul>
+     * </div>
+     * <div class="details">
+     *   <ul class="blockList">
+     *     <li class="blockList">
+     *       <ul class="blockList">
+     *         <li class="blockList">
+     *           <a name="field_detail"><!-- --></a>
+     *           <h3>Field Detail</h3>
+     *           <a name="field2"><!-- --></a>
+     *           <ul class="blockListLast">
+     *             <li class="blockList">
+     *               <h4>field2</h4>
+     *               <pre>static int field2</pre>
+     *               <div class="block">First sentence of field description. And more sentences.</div>
+     *               <dl>
+     *                 <dt><span class="strong">See Also:</span></dt>"
+     *                 <dd><a href="..."><code>SomeOtherElement</code></a> Tag label</dd>
+     *               </dl>
+     *             </li>
+     *           </ul>
+     *         </li>
+     *       </ul>
+     *
+     *       <!-- Same for constructors and methods detail. -->
+     *
+     *     </li>
+     *   </ul>
+     * </div>
+     * }</pre>
      *
      * @param title          The window title (optionally augmented with {@link Options#windowTitle}
      * @param options        Container for the various command line options
-     * @param stylesheetLink The (optional) external stylesheet for this page
+     * @param stylesheetLinks The (optional) external stylesheet for this page
      */
     protected void
     rClassFrameHtml(
         String             title,
         Options            options,
-        @Nullable String   stylesheetLink,
+        @Nullable String[]   stylesheetLinks,
         @Nullable String[] nav1,
         @Nullable String[] nav2,
         @Nullable String[] nav3,
@@ -98,7 +202,7 @@ class AbstractClassFrameHtml extends NoTemplate {
         Runnable           renderBody
     ) {
 
-        this.include(TopHtml.class).render(title, options, stylesheetLink);
+        this.include(TopHtml.class).render(title, options, stylesheetLinks);
 
         String wt = options.windowTitle == null ? "" : " (" + options.windowTitle + ")";
         this.l(
