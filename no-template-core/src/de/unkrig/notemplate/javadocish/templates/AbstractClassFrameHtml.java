@@ -184,15 +184,15 @@ class AbstractClassFrameHtml extends NoTemplate {
      * </div>
      * }</pre>
      *
-     * @param title          The window title (optionally augmented with {@link Options#windowTitle}
-     * @param options        Container for the various command line options
+     * @param windowTitle     The window title (optionally augmented with {@link Options#windowTitle}
+     * @param options         Container for the various command line options
      * @param stylesheetLinks The (optional) external stylesheet for this page
      */
     protected void
     rClassFrameHtml(
-        String             title,
+        String             windowTitle,
         Options            options,
-        @Nullable String[]   stylesheetLinks,
+        @Nullable String[] stylesheetLinks,
         @Nullable String[] nav1,
         @Nullable String[] nav2,
         @Nullable String[] nav3,
@@ -202,13 +202,13 @@ class AbstractClassFrameHtml extends NoTemplate {
         Runnable           renderBody
     ) {
 
-        this.include(TopHtml.class).render(title, options, stylesheetLinks);
+        this.include(TopHtml.class).render(windowTitle, options, stylesheetLinks);
 
         String wt = options.windowTitle == null ? "" : " (" + options.windowTitle + ")";
         this.l(
 "<script type=\"text/javascript\"><!--",
 "    if (location.href.indexOf('is-external=true') == -1) {",
-"        parent.document.title=\"" + title + wt + "\";",
+"        parent.document.title=\"" + windowTitle + wt + "\";",
 "    }",
 "//-->",
 "</script>",
@@ -236,9 +236,9 @@ class AbstractClassFrameHtml extends NoTemplate {
      *   +----------------------------------------------------------+
      *   | (nav1)                                  (options.header) |
      *   +----------------------------------------------------------+
-     *   | (nav2)  (nav3)  (allclasses)                             |
+     *   | (nav2)  (nav3)  (nav4)                                   |
      *   +----------------------------------------------------------+
-     *   | Summary: (nav4)   Detail: (nav5)                         |
+     *   | Summary: (nav5)   Detail: (nav6)                         |
      *   +----------------------------------------------------------+
      * </pre>
      *
@@ -282,9 +282,9 @@ options.top
      *   +----------------------------------------------------------+
      *   | (nav1)                                  (options.footer) |
      *   +----------------------------------------------------------+
-     *   | (nav2)  (nav3)  (allclasses)                             |
+     *   | (nav2)  (nav3)  (nav4)                                   |
      *   +----------------------------------------------------------+
-     *   | Summary: (nav4)   Detail: (nav5)                         |
+     *   | Summary: (nav5)   Detail: (nav6)                         |
      *   +----------------------------------------------------------+
      *                                               (options.bottom)
      * </pre>
@@ -306,7 +306,7 @@ options.top
 "<!-- ======= START OF BOTTOM NAVBAR ====== -->"
         );
 
-        this.rNavBar("top", options.footer, nav1, nav2, nav3, nav4, nav5, nav6);
+        this.rNavBar("bottom", options.footer, nav1, nav2, nav3, nav4, nav5, nav6);
 
         this.l(
 "<!-- ======== END OF BOTTOM NAVBAR ======= -->"
@@ -329,14 +329,17 @@ options.top
      *   +----------------------------------------------------------+
      *   | (nav1)                             (header resp. footer) |
      *   +----------------------------------------------------------+
-     *   | (nav2)  (nav3)  (allclasses)                             |
+     *   | (nav2)  (nav3)  (nav4)                                   |
      *   +----------------------------------------------------------+
-     *   | Summary: (nav4)   Detail: (nav5)                         |
+     *   | Summary: (nav5)   Detail: (nav6)                         |
      *   +----------------------------------------------------------+
      * </pre>
      * <p>
-     *   All of {@code nav1}, {@code nav2}, {@code nav3}, {@code nav4} and {@code nav5} label-link pairs. Entries
-     *   with a {@code null} label are ignored. Links can have the following values:
+     *   {@code nav1}, {@code nav3}, {@code nav4}, {@code nav5} and {@code nav6} are label-link pairs. Entries with a
+     *   {@code null} label are ignored. Links can have the following values:
+     * </p>
+     * <p>
+     *   {@code nav2} is an array of HTML fragments. {@code null} entries are ignored.
      * </p>
      * <dl>
      *   <dt>{@link #DISABLED}</dt>
@@ -360,7 +363,8 @@ options.top
      *
      * @param nav1 Typically {@code [ "Overview", x, "Package", x, "Class", x, "Tree", x, "Deprecated", x, "Index", x,
      *             "Help", x ]}, or {@code null} to suppress navigation bar 1
-     * @param nav2 Typically {@code [ "Prev Class", x, "Next Class", x ]}, or {@code null} to suppress navigation bar 2
+     * @param nav2 Typically {@code [ "<a href=\"...\">Prev Class</a>", "Next Class" ]}, or {@code null} to suppress
+     *             navigation bar 2
      * @param nav3 Typically {@code [ "Frames", x, "No Frames", x, "All Classes", x ]}, or {@code null} to suppress
      *             navigation bar 3
      * @param nav4 Typically {@code [ "All Classes", x ]}, and is automagically hidden iff the page resides in a frame
@@ -444,26 +448,17 @@ options.top
             // Render "nav2".
             if (nav2 != null) {
 
-                assert nav2.length % 2 == 0;
-
                 this.l(
 "<ul class=\"navList\">"
                 );
                 for (int i = 0; i < nav2.length;) {
-                    String labelHtml = nav2[i++];
-                    String link      = nav2[i++];
+                    String html = nav2[i++];
 
-                    if (labelHtml == null) continue;
+                    if (html == null) continue;
 
-                    if (link == AbstractClassFrameHtml.DISABLED) {
-                        this.l(
-"<li>" + labelHtml + "</li>"
-                        );
-                    } else {
-                        this.l(
-"<li><a href=\"" + link + "\">" + labelHtml + "</a></li>"
-                        );
-                    }
+                    this.l(
+"<li>" + html + "</li>"
+                    );
                 }
                 this.l(
 "</ul>"
@@ -538,7 +533,6 @@ options.top
 "<ul class=\"subNavList\">",
 "<li>Summary:&nbsp;</li>"
                 );
-                final Once first = NoTemplate.once();
                 for (int i = 0; i < nav5.length;) {
                     String labelHtml = nav5[i++];
                     String link      = nav5[i++];
@@ -547,12 +541,12 @@ options.top
                     assert link != null;
 
                     this.p("<li>");
-                    if (!first.once()) this.p("&nbsp;|&nbsp;");
                     if (link == AbstractClassFrameHtml.DISABLED) {
                         this.p(labelHtml);
                     } else {
                         this.p("<a href=\"" + link + "\">" + labelHtml + "</a>");
                     }
+                    if (i != nav5.length) this.p("&nbsp;|&nbsp;");
                     this.l("</li>");
                 }
                 this.l(
@@ -568,7 +562,6 @@ options.top
 "<ul class=\"subNavList\">",
 "<li>Detail:&nbsp;</li>"
                 );
-                final Once first = NoTemplate.once();
                 for (int i = 0; i < nav6.length;) {
                     String labelHtml = nav6[i++];
                     String link      = nav6[i++];
@@ -577,12 +570,12 @@ options.top
                     assert link != null;
 
                     this.p("<li>");
-                    if (!first.once()) this.p("&nbsp;|&nbsp;");
                     if (link == AbstractClassFrameHtml.DISABLED) {
                         this.p(labelHtml);
                     } else {
                         this.p("<a href=\"" + link + "\">" + labelHtml + "</a>");
                     }
+                    if (i != nav6.length) this.p("&nbsp;|&nbsp;");
                     this.l("</li>");
                 }
                 this.l(
