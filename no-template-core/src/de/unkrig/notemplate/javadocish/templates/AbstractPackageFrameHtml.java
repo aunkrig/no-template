@@ -37,17 +37,6 @@ class AbstractPackageFrameHtml extends NoTemplate {
 
     static { AssertionUtil.enableAssertionsForThisClass(); }
 
-//    /**
-//     * The label is displayed without a link. This indicates that the function is not available in this context, but
-//     * may be in a different context.
-//     */
-//    protected static final String DISABLED = new String("You should never see this text");
-//
-//    /**
-//     * The label is highlighted. This indicates that the document for this function is currently displayed.
-//     */
-//    protected static final String HIGHLIT  = new String("You should never see this text");
-
     /**
      * Renders a page for the "package frame", i.e. the frame that covers the left 20% of the JAVADOC frame set.
      * <p>
@@ -75,9 +64,10 @@ class AbstractPackageFrameHtml extends NoTemplate {
      *   <dd>{{@link #rBottomNavBar(Options, String[], String[], String[], String, String[], String[])}</dd>
      * </dl>
      *
-     * @param title          The window title (optionally augmented with {@link Options#windowTitle}
-     * @param options        Container for the various command line options
-     * @param stylesheetLink The (optional) external stylesheet for this page
+     * @param heading         The heading of this page, and also the window title (optionally augmented with {@link
+     *                        Options#windowTitle}
+     * @param options         Container for the various command line options
+     * @param styleSheetLinks The (optional) external stylesheets for this page
      */
     protected void
     rPackageFrameHtml(
