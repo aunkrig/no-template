@@ -33,7 +33,7 @@ import de.unkrig.notemplate.javadocish.templates.include.BottomHtml;
 import de.unkrig.notemplate.javadocish.templates.include.TopHtml;
 
 public abstract
-class AbstractPackageFrameHtml extends NoTemplate {
+class AbstractBottomLeftFrameHtml extends NoTemplate {
 
     static { AssertionUtil.enableAssertionsForThisClass(); }
 

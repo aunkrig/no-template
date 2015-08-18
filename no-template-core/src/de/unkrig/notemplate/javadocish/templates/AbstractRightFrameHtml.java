@@ -37,7 +37,7 @@ import de.unkrig.notemplate.javadocish.templates.include.TopHtml;
  * Renders the typical "class frame" (the frame that covers the right 80% of the frame set) page.
  */
 public abstract
-class AbstractClassFrameHtml extends NoTemplate {
+class AbstractRightFrameHtml extends NoTemplate {
 
     /**
      * The label is displayed without a link. This indicates that the function is not available in this context, but
@@ -407,12 +407,12 @@ options.top
 
                 assert link != null;
 
-                if (link == AbstractClassFrameHtml.HIGHLIT) {
+                if (link == AbstractRightFrameHtml.HIGHLIT) {
                     this.l(
 "<li class=\"navBarCell1Rev\">" + labelHtml + "</li>"
                     );
                 } else
-                if (link == AbstractClassFrameHtml.DISABLED) {
+                if (link == AbstractRightFrameHtml.DISABLED) {
                     this.l(
 "<li>" + labelHtml + "</li>"
                     );
@@ -541,7 +541,7 @@ options.top
                     assert link != null;
 
                     this.p("<li>");
-                    if (link == AbstractClassFrameHtml.DISABLED) {
+                    if (link == AbstractRightFrameHtml.DISABLED) {
                         this.p(labelHtml);
                     } else {
                         this.p("<a href=\"" + link + "\">" + labelHtml + "</a>");
@@ -570,7 +570,7 @@ options.top
                     assert link != null;
 
                     this.p("<li>");
-                    if (link == AbstractClassFrameHtml.DISABLED) {
+                    if (link == AbstractRightFrameHtml.DISABLED) {
                         this.p(labelHtml);
                     } else {
                         this.p("<a href=\"" + link + "\">" + labelHtml + "</a>");
