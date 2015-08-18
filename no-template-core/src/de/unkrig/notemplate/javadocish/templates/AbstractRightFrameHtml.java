@@ -184,9 +184,15 @@ class AbstractRightFrameHtml extends NoTemplate {
      * </div>
      * }</pre>
      *
-     * @param windowTitle     The window title (optionally augmented with {@link Options#windowTitle}
+     * @param windowTitle     The window title (will be augmented with the optional {@link Options#windowTitle})
      * @param options         Container for the various command line options
      * @param stylesheetLinks The (optional) external stylesheet for this page
+     * @param nav1            See above
+     * @param nav2            See above
+     * @param nav3            See above
+     * @param nav4            See above
+     * @param nav5            See above
+     * @param nav6            See above
      */
     protected void
     rRightFrameHtml(
