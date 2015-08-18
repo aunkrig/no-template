@@ -25,7 +25,7 @@
  */
 
 /**
- * This package contains the implementation of the "no template" pattern.
+ * This package contains abstract templates for easy implementation of "JAVADOCish" documentation generators.
  */
 @NotNullByDefault
 package de.unkrig.notemplate.javadocish.templates;

@@ -50,8 +50,8 @@ class AbstractIndexHtml extends NoTemplate {
      * @param rightFrameLink       E.g. {@code "overview-summary.html"}
      * @param rightFrameTitle      E.g. {@code "Package, class and interface descriptions"}
      */
-    public void
-    render(
+    protected void
+    rIndex(
         @Nullable String topLeftFrameName,
         @Nullable String topLeftFrameLink,
         @Nullable String topLeftFrameTitle,

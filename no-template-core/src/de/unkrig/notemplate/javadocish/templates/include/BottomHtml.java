@@ -41,7 +41,7 @@ class BottomHtml extends NoTemplate {
     render() {
 
         this.l(
-"</body>",
+"  </body>",
 "</html>"
         );
     }

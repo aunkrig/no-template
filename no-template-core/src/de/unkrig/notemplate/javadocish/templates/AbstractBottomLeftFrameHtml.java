@@ -70,7 +70,7 @@ class AbstractBottomLeftFrameHtml extends NoTemplate {
      * @param styleSheetLinks The (optional) external stylesheets for this page
      */
     protected void
-    rPackageFrameHtml(
+    rBottomLeftFrameHtml(
         String   heading,
         String   headingLink,
         Options  options,
@@ -85,14 +85,14 @@ class AbstractBottomLeftFrameHtml extends NoTemplate {
         );
 
         this.l(
-"<h1 class=\"bar\"><a href=\"" + headingLink + "\" target=\"classFrame\">" + heading + "</a></h1>",
-"<div class=\"indexContainer\">"
+"    <h1 class=\"bar\"><a href=\"" + headingLink + "\" target=\"classFrame\">" + heading + "</a></h1>",
+"    <div class=\"indexContainer\">"
         );
 
         renderBody.run();
 
         this.l(
-"</div>"
+"    </div>"
         );
 
         this.include(BottomHtml.class).render();

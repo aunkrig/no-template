@@ -189,7 +189,7 @@ class AbstractRightFrameHtml extends NoTemplate {
      * @param stylesheetLinks The (optional) external stylesheet for this page
      */
     protected void
-    rClassFrameHtml(
+    rRightFrameHtml(
         String             windowTitle,
         Options            options,
         @Nullable String[] stylesheetLinks,
@@ -206,15 +206,15 @@ class AbstractRightFrameHtml extends NoTemplate {
 
         String wt = options.windowTitle == null ? "" : " (" + options.windowTitle + ")";
         this.l(
-"<script type=\"text/javascript\"><!--",
-"    if (location.href.indexOf('is-external=true') == -1) {",
-"        parent.document.title=\"" + windowTitle + wt + "\";",
-"    }",
-"//-->",
-"</script>",
-"<noscript>",
-"<div>JavaScript is disabled on your browser.</div>",
-"</noscript>"
+"    <script type=\"text/javascript\"><!--",
+"if (location.href.indexOf('is-external=true') == -1) {",
+"  parent.document.title=\"" + windowTitle + wt + "\";",
+"}",
+"    //-->",
+"    </script>",
+"    <noscript>",
+"      <div>JavaScript is disabled on your browser.</div>",
+"    </noscript>"
         );
 
         this.rTopNavBar(options, nav1, nav2, nav3, nav4, nav5, nav6);
@@ -263,13 +263,13 @@ options.top
         }
 
         this.l(
-"<!-- ========= START OF TOP NAVBAR ======= -->"
+"    <!-- ========= START OF TOP NAVBAR ======= -->"
         );
 
         this.rNavBar("top", options.header, nav1, nav2, nav3, nav4, nav5, nav6);
 
         this.l(
-"<!-- ========= END OF TOP NAVBAR ========= -->"
+"    <!-- ========= END OF TOP NAVBAR ========= -->"
         );
     }
 
@@ -391,12 +391,15 @@ options.top
             assert nav1.length % 2 == 0;
 
             this.l(
-"<div class=\"" + kind + "Nav\"><a name=\"navbar_" + kind + "\">",
-"<!--   -->",
-"</a><a href=\"#skip-navbar_" + kind + "\" title=\"Skip navigation links\"></a><a name=\"navbar_" + kind + "_firstrow\">", // SUPPRESS CHECKSTYLE LineLength
-"<!--   -->",
-"</a>",
-"<ul class=\"navList\" title=\"Navigation\">"
+"      <div class=\"" + kind + "Nav\">",
+"        <a name=\"navbar_" + kind + "\">",
+"          <!--   -->",
+"        </a>",
+"        <a href=\"#skip-navbar_" + kind + "\" title=\"Skip navigation links\"></a>",
+"        <a name=\"navbar_" + kind + "_firstrow\">",
+"          <!--   -->",
+"        </a>",
+"        <ul class=\"navList\" title=\"Navigation\">"
             );
 
             for (int i = 0; i < nav1.length;) {
@@ -409,38 +412,38 @@ options.top
 
                 if (link == AbstractRightFrameHtml.HIGHLIT) {
                     this.l(
-"<li class=\"navBarCell1Rev\">" + labelHtml + "</li>"
+"          <li class=\"navBarCell1Rev\">" + labelHtml + "</li>"
                     );
                 } else
                 if (link == AbstractRightFrameHtml.DISABLED) {
                     this.l(
-"<li>" + labelHtml + "</li>"
+"          <li>" + labelHtml + "</li>"
                     );
                 } else
                 {
                     this.l(
-"<li><a href=\"" + link + "\">" + labelHtml + "</a></li>"
+"          <li><a href=\"" + link + "\">" + labelHtml + "</a></li>"
                     );
                 }
             }
 
             this.l(
-"</ul>"
+"        </ul>"
             );
 
             // "-header", resp. "-footer" command line option.
             if (headerFooter != null) {
                 this.l(
-"<div class=\"aboutLanguage\"><em>" + headerFooter + "</em></div>"
+"        <div class=\"aboutLanguage\"><em>" + headerFooter + "</em></div>"
                 );
             }
             this.l(
-"</div>"
+"      </div>"
             );
         }
 
         this.l(
-"<div class=\"subNav\">"
+"      <div class=\"subNav\">"
         );
 
         if (nav2 != null || nav3 != null) {
@@ -449,7 +452,7 @@ options.top
             if (nav2 != null) {
 
                 this.l(
-"<ul class=\"navList\">"
+"        <ul class=\"navList\">"
                 );
                 for (int i = 0; i < nav2.length;) {
                     String html = nav2[i++];
@@ -457,11 +460,11 @@ options.top
                     if (html == null) continue;
 
                     this.l(
-"<li>" + html + "</li>"
+"          <li>" + html + "</li>"
                     );
                 }
                 this.l(
-"</ul>"
+"        </ul>"
                 );
             }
 
@@ -470,19 +473,19 @@ options.top
                 assert nav3.length % 2 == 0;
 
                 this.l(
-"<ul class=\"navList\">"
+"        <ul class=\"navList\">"
                 );
                 for (int i = 0; i < nav3.length;) {
                     String labelHtml = nav3[i++];
                     String link      = nav3[i++];
 
                     this.l(
-"<li><a href=\"" + link + "\" target=\"_top\">" + labelHtml + "</a></li>"
+"          <li><a href=\"" + link + "\" target=\"_top\">" + labelHtml + "</a></li>"
                     );
                 }
 
                 this.l(
-"</ul>"
+"        </ul>"
                 );
             }
         }
@@ -492,30 +495,29 @@ options.top
             assert nav4.length % 2 == 0;
 
             this.l(
-"<ul class=\"navList\" id=\"allclasses_navbar_" + kind + "\">"
+"        <ul class=\"navList\" id=\"allclasses_navbar_" + kind + "\">"
             );
             for (int i = 0; i < nav4.length;) {
                 String labelHtml = nav4[i++];
                 String link      = nav4[i++];
 
                 this.l(
-"<li><a href=\"" + link + "\">" + labelHtml + "</a></li>"
+"          <li><a href=\"" + link + "\">" + labelHtml + "</a></li>"
                 );
             }
             this.l(
-"</ul>",
-"<div>",
-"<script type=\"text/javascript\"><!--",
-"  allClassesLink = document.getElementById(\"allclasses_navbar_" + kind + "\");",
-"  if(window==top) {",
-"    allClassesLink.style.display = \"block\";",
-"  }",
-"  else {",
-"    allClassesLink.style.display = \"none\";",
-"  }",
-"  //-->",
-"</script>",
-"</div>"
+"        </ul>",
+"        <div>",
+"          <script type=\"text/javascript\"><!--",
+"allClassesLink = document.getElementById(\"allclasses_navbar_" + kind + "\");",
+"if (window == top) {",
+"  allClassesLink.style.display = \"block\";",
+"} else {",
+"  allClassesLink.style.display = \"none\";",
+"}",
+"//-->",
+"          </script>",
+"        </div>"
             );
         }
 
@@ -523,15 +525,15 @@ options.top
 
             // Render "nav5".
             this.l(
-"<div>"
+"        <div>"
             );
 
             if (nav5 != null) {
                 assert nav5.length % 2 == 0;
 
                 this.l(
-"<ul class=\"subNavList\">",
-"<li>Summary:&nbsp;</li>"
+"          <ul class=\"subNavList\">",
+"            <li>Summary:&nbsp;</li>"
                 );
                 for (int i = 0; i < nav5.length;) {
                     String labelHtml = nav5[i++];
@@ -540,17 +542,19 @@ options.top
                     if (labelHtml == null) continue;
                     assert link != null;
 
-                    this.p("<li>");
+                    String s;
                     if (link == AbstractRightFrameHtml.DISABLED) {
-                        this.p(labelHtml);
+                        s = labelHtml;
                     } else {
-                        this.p("<a href=\"" + link + "\">" + labelHtml + "</a>");
+                        s = "<a href=\"" + link + "\">" + labelHtml + "</a>";
                     }
-                    if (i != nav5.length) this.p("&nbsp;|&nbsp;");
-                    this.l("</li>");
+                    if (i != nav5.length) s += "&nbsp;|&nbsp;";
+                    this.l(
+"            <li>" + s + "</li>"
+                    );
                 }
                 this.l(
-"</ul>"
+"          </ul>"
                 );
             }
 
@@ -559,8 +563,8 @@ options.top
                 assert nav6.length % 2 == 0;
 
                 this.l(
-"<ul class=\"subNavList\">",
-"<li>Detail:&nbsp;</li>"
+"          <ul class=\"subNavList\">",
+"            <li>Detail:&nbsp;</li>"
                 );
                 for (int i = 0; i < nav6.length;) {
                     String labelHtml = nav6[i++];
@@ -569,28 +573,30 @@ options.top
                     if (labelHtml == null) continue;
                     assert link != null;
 
-                    this.p("<li>");
+                    String s;
                     if (link == AbstractRightFrameHtml.DISABLED) {
-                        this.p(labelHtml);
+                        s = labelHtml;
                     } else {
-                        this.p("<a href=\"" + link + "\">" + labelHtml + "</a>");
+                        s = "<a href=\"" + link + "\">" + labelHtml + "</a>";
                     }
-                    if (i != nav6.length) this.p("&nbsp;|&nbsp;");
-                    this.l("</li>");
+                    if (i != nav6.length) s += "&nbsp;|&nbsp;";
+                    this.l(
+"            <li>" + s + "</li>"
+                    );
                 }
                 this.l(
-"</ul>"
+"          </ul>"
                 );
             }
             this.l(
-"</div>"
+"        </div>"
             );
         }
 
         this.l(
-"<a name=\"skip-navbar_" + kind + "\">",
-"<!--   -->",
-"</a></div>"
+"        <a name=\"skip-navbar_" + kind + "\">",
+"          <!--   -->",
+"        </a></div>"
         );
     }
 }
