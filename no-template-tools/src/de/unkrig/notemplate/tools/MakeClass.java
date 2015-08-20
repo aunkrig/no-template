@@ -172,7 +172,7 @@ class MakeClass {
                             line = line.replaceAll("\\\\", "\\\\\\\\");
                             line = line.replaceAll("\"", "\\\\\"");
 
-                            pw.print("            \"");
+                            pw.print("\"");
                             pw.print(line);
                             pw.println("\",");
                         }
