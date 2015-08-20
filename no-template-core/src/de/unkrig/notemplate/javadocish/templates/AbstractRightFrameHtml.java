@@ -344,9 +344,6 @@ options.top
      *   {@code nav1}, {@code nav3}, {@code nav4}, {@code nav5} and {@code nav6} are label-link pairs. Entries with a
      *   {@code null} label are ignored. Links can have the following values:
      * </p>
-     * <p>
-     *   {@code nav2} is an array of HTML fragments. {@code null} entries are ignored.
-     * </p>
      * <dl>
      *   <dt>{@link #DISABLED}</dt>
      *   <dd>
@@ -363,16 +360,18 @@ options.top
      *   </dd>
      * </dl>
      * <p>
+     *   {@code nav2} is an array of HTML fragments. {@code null} entries are ignored.
+     * </p>
+     * <p>
      *   Example: The "Package" function is typically {@link #DISABLED} on the "overview packge", highlit on a "package
      *   page", and, on a "class page", displayed with a link to the class's package page.
      * </p>
      *
      * @param nav1 Typically {@code [ "Overview", x, "Package", x, "Class", x, "Tree", x, "Deprecated", x, "Index", x,
      *             "Help", x ]}, or {@code null} to suppress navigation bar 1
-     * @param nav2 Typically {@code [ "<a href=\"...\">Prev Class</a>", "Next Class" ]}, or {@code null} to suppress
-     *             navigation bar 2
-     * @param nav3 Typically {@code [ "Frames", x, "No Frames", x, "All Classes", x ]}, or {@code null} to suppress
-     *             navigation bar 3
+     * @param nav2 Typically {@code [ "<a href=\"...\">Prev Class</a>", ... ]}, or {@code null} to suppress navigation
+     *             bar 2
+     * @param nav3 Typically {@code [ "Frames", x, "No Frames", x ]}, or {@code null} to suppress navigation bar 3
      * @param nav4 Typically {@code [ "All Classes", x ]}, and is automagically hidden iff the page resides in a frame
      *             (opposed to the "top" browser window")
      * @param nav5 Typically {@code [ "Nested", x, "Field", x, "Constr", x, "Method", x ]}, or {@code null} to suppress

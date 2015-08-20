@@ -167,7 +167,11 @@ class NoTemplate {
             ), nsme);
         }
 
-        template.setOut(out);
+        try {
+            NoTemplate.class.getDeclaredField("pw").set(template, out);
+        } catch (Exception e) {
+            throw new AssertionError(e);
+        }
 
         return template;
     }
@@ -192,11 +196,6 @@ class NoTemplate {
     newTemplate(Class<T> templateClass, OutputStream os, Charset cs) {
 
         return NoTemplate.newTemplate(templateClass, new OutputStreamWriter(os, cs));
-    }
-
-    private void
-    setOut(Writer out) {
-        this.pw = out instanceof PrintWriter ? (PrintWriter) out : new PrintWriter(out);
     }
 
     /**
