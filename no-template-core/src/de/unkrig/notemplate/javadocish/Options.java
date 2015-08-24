@@ -31,7 +31,6 @@ import java.util.Date;
 
 import de.unkrig.commons.nullanalysis.Nullable;
 
-
 /**
  * Container for the command line options of the JAVADOC doclet.
  */
