@@ -367,8 +367,8 @@ class AbstractRightFrameHtml extends NoTemplate {
      *   see here:
      * </p>
      * <dl>
-     *   <dd>{@link #rTopNavBar(Options, String[], String[], String[], String, String[], String[])}</dd>
-     *   <dd>{@link #rBottomNavBar(Options, String[], String[], String[], String, String[], String[])}</dd>
+     *   <dd>{@link #rTopNavBar(Options, String[], String[], String[], String[], String[], String[])}</dd>
+     *   <dd>{@link #rBottomNavBar(Options, String[], String[], String[], String[], String[], String[])}</dd>
      * </dl>
      * <p>
      *   The HTML structure of the body should look like this:
