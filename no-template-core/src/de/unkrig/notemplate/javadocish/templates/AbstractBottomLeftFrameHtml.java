@@ -38,7 +38,7 @@ class AbstractBottomLeftFrameHtml extends NoTemplate {
     static { AssertionUtil.enableAssertionsForThisClass(); }
 
     /**
-     * Renders a page for the "package frame", i.e. the frame that covers the left 20% of the JAVADOC frame set.
+     * Renders a page for the bottom left frame.
      *
      * @param heading         The heading of this page, and also the window title (optionally augmented with {@link
      *                        Options#windowTitle}
