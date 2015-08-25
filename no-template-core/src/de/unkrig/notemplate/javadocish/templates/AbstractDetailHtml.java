@@ -37,6 +37,8 @@ import de.unkrig.notemplate.javadocish.Options;
 
 public
 class AbstractDetailHtml extends AbstractRightFrameHtml {
+    /** One. Two. Three. */
+    @Deprecated public static final int CONST = 8;
 
     public static
     class Section {

@@ -35,6 +35,9 @@ import de.unkrig.notemplate.javadocish.templates.include.TopHtml;
 public abstract
 class AbstractBottomLeftFrameHtml extends NoTemplate {
 
+    /** One. Two. Three. */
+    public static final int CONST = 8;
+
     static { AssertionUtil.enableAssertionsForThisClass(); }
 
     /**

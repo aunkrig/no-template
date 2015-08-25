@@ -35,6 +35,298 @@ import de.unkrig.notemplate.javadocish.templates.include.TopHtml;
 
 /**
  * Renders the typical "class frame" (the frame that covers the right 80% of the frame set) page.
+ * <p>
+ *   The following building blocks appear in more than one document:
+ * </p>
+ * <dl>
+ *   <dt>Heading:</dt>
+ *   <dd>{@code <h1 class="title">}</dd>
+ *   <dt>Summary table:</dt>
+ *   <dd>
+ *     <pre>
+ * heading1
+ * +-----------------+
+ * | heading2        |
+ * +-----------------+---+---------------------+---------------------+
+ * | th1                 | th2                 | th3...              |
+ * +---------------------+---------------------+---------------------+
+ * | text1               | text2               | text3...            |
+ * | text1               | text2               | text3...            | &lt- slightly darker background
+ * | text1               | text2               | text3...            |
+ * | text1               | text2               | text3...            | &lt- slightly darker background
+ * | ...                 | ...                 | ...                 |
+ * +---------------------+---------------------+---------------------+
+ *
+ * +-----------------------------------------------------------------+
+ * | addendum                                                        |
+ * +-----------------------------------------------------------------+
+ * | ...                                                             |
+ * +-----------------------------------------------------------------+
+ *     </pre>
+ *   </dd>
+ *   <dt>Section summary:</dt>
+ *   <dd>
+ *     <pre>
+ * +---------------------------------------------------------------------+
+ * | <i>heading1</i>                                                            |
+ * | +-----------------+                                                 |
+ * | | heading2        |                                                 |
+ * | +-----------------+---+---------------------+---------------------+ |
+ * | | th1                 | th2                 | th3...              | |
+ * | +---------------------+---------------------+---------------------+ |
+ * | | text1               | text2               | text3...            | |
+ * | | text1               | text2               | text3...            | | &lt- slightly darker background
+ * | | text1               | text2               | text3...            | |
+ * | | text1               | text2               | text3...            | | &lt- slightly darker background
+ * | | ...                 | ...                 | ...                 | |
+ * | +---------------------+---------------------+---------------------+ |
+ * +---------------------------------------------------------------------+
+ *     </pre>
+ *   </dd>
+ *   <dt>Section detail:</dt>
+ *   <dd>
+ *     <pre>
+ * +----------------------------------+
+ * | heading1                         |
+ * | +------------------------------+ |
+ * | | heading2                     | |
+ * | +------------------------------+ |
+ * | | (Free text.)                 | |
+ * | +------------------------------+ |
+ * | ...                              |
+ * +----------------------------------+
+ *     </pre>
+ *   </dd>
+ * </dl>
+ * <p>
+ *   There are nine kinds of documents that are composed from these building blocks:
+ * </p>
+ * <dl>
+ *   <dt>{@code constant-values.html}</dt>
+ *   <dd>
+ *     <dl>
+ *       <dt>Heading:</dt>
+ *       <dd>"Constant field values"</dd>
+ *       <dt>Free text:</dt>
+ *       <dd>Contents ({@code <h2 title="Contents">})<br />com.acme.pkg1.*<br />com.acme.pkg2.*</dd>
+ *       <dt>Summary table:</dt>
+ *       <dd>
+ *         <dl>
+ *           <dt>heading1:</dt><dd><var>package-name</var></dd>
+ *           <dt>heading2:</dt><dd><var>class-name</var></dd>
+ *           <dt>th1:</dt>     <dd>"Modifier and Type"</dd>
+ *           <dt>th2:</dt>     <dd>"Constant Field"</dd>
+ *           <dt>th3:</dt>     <dd>"Value"</dd>
+ *         </dl>
+ *       </dd>
+ *     </dl>
+ *   </dd>
+ *   <dt>{@code deprecated-list.html}</dt>
+ *   <dd>
+ *     <dl>
+ *       <dt>Heading:</dt>
+ *       <dd>"Deprecated API"</dd>
+ *       <dt>Free text:</dt>
+ *       <dd>Contents ({@code <h2 title="Contents">})<br />Deprecated Fields</dd>
+ *       <dt>Summary table:</dt>
+ *       <dd>
+ *         <dl>
+ *           <dt>heading1:</dt><dd>(none)</dd>
+ *           <dt>heading2:</dt><dd>"Deprecated Fields"</dd>
+ *           <dt>th1:</dt>     <dd>"Field and Description"</dd>
+ *         </dl>
+ *       </dd>
+ *     </dl>
+ *   </dd>
+ *   <dt>{@code help-doc.html}</dt>
+ *   <dd>
+ *     <dl>
+ *       <dt>Heading:</dt>
+ *       <dd>"How This API Document Is Organized"</dd>
+ *       <dt>Free text:</dt>
+ *       <dd>This API document...</dd>
+ *     </dl>
+ *   </dd>
+ *   <dt>{@code index-*.html}</dt>
+ *   <dd>
+ *     <dl>
+ *       <dt>Heading:</dt>
+ *       <dd>(none)</dd>
+ *       <dt>Free text:</dt>
+ *       <dd>A B C D E<br />A<br />MyClass - Class in pkg.pkg<br />...</dd>
+ *     </dl>
+ *   </dd>
+ *   <dt>{@code overview-summary.html}</dt>
+ *   <dd>
+ *     <dl>
+ *       <dt>Heading:</dt>
+ *       <dd>-doctitle</dd>
+ *       <dt>Free text:</dt>
+ *       <dd>(First sentence from "overview.html")<br />See: Description</dd>
+ *       <dt>Summary table:</dt>
+ *       <dd>
+ *         <dl>
+ *           <dt>heading1:</dt><dd>(none)</dd>
+ *           <dt>heading2:</dt><dd>"Packages"</dd>
+ *           <dt>th1:</dt>     <dd>"Package"</dd>
+ *           <dt>th2:</dt>     <dd>"Description"</dd>
+ *         </dl>
+ *       </dd>
+ *       <dt>Free text:</dt>
+ *       <dd>(Content of "overview.html".)</dd>
+ *     </dl>
+ *   </dd>
+ *   <dt>{@code overview-tree.html}</dt>
+ *   <dd>
+ *     <dl>
+ *       <dt>Heading:</dt>
+ *       <dd>Hierarchy For All Packages</dd>
+ *       <dt>Free text:</dt>
+ *       <dd>
+ *         Package Hierarchies:
+ *         <br />
+ *         pkg.pkg1, pkg.pkg2, ...
+ *         <br />
+ *         Class Hierarchy
+ *         <br />
+ *         <ul>
+ *           <li>java.lang.Object</li>
+ *           <li>...</li>
+ *         </ul>
+ *         <br />
+ *         Interface Hierarchy<br />
+ *         <ul>
+ *           <li>pkg.pkg.MyInterface</li>
+ *           <li>...</li>
+ *         </ul>
+ *       </dd>
+ *     </dl>
+ *   </dd>
+ *   <dt>{@code pkg/pkg/MyClass.Inner.html}</dt>
+ *   <dd>
+ *     <dl>
+ *       <dt>Free text:</dt>
+ *       <dd>
+ *         (package name)
+ *         <h2>Class (simple class name)</h2>
+ *         java.lang.Object
+ *         <dl><dd>
+ *           pkg.pkg.Foo
+ *           <dl><dd>
+ *             (qualified class name)
+ *           </dd></dl>
+ *         </dd></dl>
+ *         <hr />
+ *         public abstract class Foo
+ *         <br />
+ *         extends (simple superclass name)
+ *         <br />
+ *         (first sentence of description)
+ *       </dd>
+ *       <dt>Section summary:</dt>
+ *       <dd>
+ *         <dl>
+ *           <dt>Summary table:</dt>
+ *           <dd>
+ *             <dl>
+ *               <dt>heading1:</dt><dd>"Nested Class Summary"</dd>
+ *               <dt>heading2:</dt><dd>"Nested classes" ("Nested Interfaces", ...)</dd>
+ *               <dt>th1:</dt>     <dd>"Modifier and Type"</dd>
+ *               <dt>th2:</dt>     <dd>"Class and Description"</dd>
+ *             </dl>
+ *           <dt>Addendum:</dt>
+ *           <dd>"Nested classes/interfaces inherited from (superclass)"</dd>
+ *         </dl>
+ *       </dd>
+ *       <dt>Section summary:</dt>
+ *       <dd>
+ *         <dl>
+ *           <dt>Summary table:</dt>
+ *           <dd>
+ *             <dl>
+ *               <dt>heading1:</dt><dd>"Constructor Summary"</dd>
+ *               <dt>heading2:</dt><dd>"Constructors"</dd>
+ *               <dt>th1:</dt>     <dd>"Constructor and Description"</dd>
+ *             </dl>
+ *         </dl>
+ *       </dd>
+ *       <dt>Section summary:</dt>
+ *       <dd>
+ *         <dl>
+ *           <dt>Summary table:</dt>
+ *           <dd>
+ *             <dl>
+ *               <dt>heading1:</dt><dd>"Method Summary"</dd>
+ *               <dt>heading2:</dt><dd>"Methods"</dd>
+ *               <dt>th1:</dt>     <dd>"Modifier and Type"</dd>
+ *               <dt>th2:</dt>     <dd>"Method and Description"</dd>
+ *             </dl>
+ *           </dd>
+ *           <dt>Addendum:</dt>
+ *           <dd>"Methods inherited from class (immediate superclass)"</dd>
+ *           <dt>Addendum:</dt>
+ *           <dd>"Methods inherited from class (super-superclass)"</dd>
+ *         </dl>
+ *       </dd>
+ *       <dt>Section detail:</dt>
+ *       <dd>
+ *         <dl>
+ *           <dt>heading1:</dt><dd>"Constructor Detail" ("Method Detail", ...)</dd>
+ *           <dt>heading2:</dt><dd>(Constructor signature)</dd>
+ *         </dl>
+ *       </dd>
+ *     </dl>
+ *   </dd>
+ *   <dt>{@code pkg/pkg/package-summary.html}</dt>
+ *   <dd>
+ *     <dl>
+ *       <dt>Heading:</dt>
+ *       <dd>Package (package-name)</dd>
+ *       <dt>Free text:</dt>
+ *       <dd>(First sentence of package description)<br />See: Description</dd>
+ *       <dt>Summary table:</dt>
+ *       <dd>
+ *         <dl>
+ *           <dt>heading2:</dt><dd>"Interface Summary" ("Class Summary", ...)</dd>
+ *           <dt>th1:</dt>     <dd>"Interface"</dd>
+ *           <dt>th2:</dt>     <dd>"Description"</dd>
+ *         </dl>
+ *       </dd>
+ *     </dl>
+ *   </dd>
+ *   <dt>{@code pkg/pkg/package-tree.html}</dt>
+ *   <dd>
+ *     <dl>
+ *       <dt>Heading:</dt>
+ *       <dd>Hierarchy For Package pkg.pkg</dd>
+ *       <dt>Free text:</dt>
+ *         Package Hierarchies:
+ *         <br />
+ *         All Packages
+ *         <br />
+ *         Class Hierarchy
+ *         <br />
+ *         <ul>
+ *           <li>
+ *             java.lang.Object
+ *             <ul>
+ *               <li>...</li>
+ *             </ul>
+ *           </li>
+ *         </ul>
+ *         <br />
+ *         Interface Hierarchy<br />
+ *         <ul>
+ *           <li>
+ *             pkg.pkg.MyInterface
+ *             <ul>
+ *               <li>...</li>
+ *             </ul>
+ *           </li>
+ *         </ul>
+ *     </dl>
+ *   </dd>
+ * </dl>
  */
 public abstract
 class AbstractRightFrameHtml extends NoTemplate {

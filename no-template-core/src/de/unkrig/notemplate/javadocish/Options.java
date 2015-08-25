@@ -37,6 +37,10 @@ import de.unkrig.commons.nullanalysis.Nullable;
  */
 public
 class Options {
+    /**
+     * First. Second. Third.
+     */
+    public static final int CONST = 7;
 
     /** The argument of the "-d" command line option. */
     public File destination = new File(".");
