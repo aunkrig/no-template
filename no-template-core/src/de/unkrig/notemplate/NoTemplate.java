@@ -75,35 +75,37 @@ class NoTemplate {
      * Renders the given no-template (<var>templateClass</var>) to the given <var>file</var>. Silently creates any
      * missing parent directories.
      *
-     * @param <T>      The template class
-     * @param renderer Prints the text to its <var>subject</var> {@link PrintWriter}
+     * @param <T>        The template class
+     * @param outputFile The file to write to (in UTF-8 encoding)
+     * @param renderer   Prints the text to its <var>subject</var> {@link PrintWriter}
      */
     public static final <T extends NoTemplate, EX extends Exception> void
-    render(final Class<T> templateClass, File out, final ConsumerWhichThrows<? super T, EX> renderer)
+    render(final Class<T> templateClass, File outputFile, final ConsumerWhichThrows<? super T, EX> renderer)
     throws IOException, EX {
-        NoTemplate.render(templateClass, out, renderer, true);
+        NoTemplate.render(templateClass, outputFile, renderer, true);
     }
 
     /**
      * Renders the given no-template (<var>templateClass</var>) to the given <var>file</var>.
      *
      * @param <T>                            The template class
+     * @param outputFile                     The file to write to (in UTF-8 encoding)
      * @param renderer                       Prints the text to its <var>subject</var> {@link PrintWriter}
      * @param createMissingParentDirectories Whether to create any missing parent directories for the <var>file</var>
      */
     public static final <T extends NoTemplate, EX extends Exception> void
     render(
         final Class<T>                           templateClass,
-        File                                     file,
+        File                                     outputFile,
         final ConsumerWhichThrows<? super T, EX> renderer,
         boolean                                  createMissingParentDirectories
     )
     throws IOException, EX {
 
-        System.out.println("Generating " + file + "...");
+        System.out.println("Generating " + outputFile + "...");
 
         IoUtil.outputFilePrintWriter(
-            file,
+            outputFile,
             Charset.forName("UTF-8"),
             new ConsumerWhichThrows<PrintWriter, EX>() {
 

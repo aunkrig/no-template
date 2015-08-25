@@ -328,19 +328,19 @@ import de.unkrig.notemplate.javadocish.templates.include.TopHtml;
  *   </dd>
  * </dl>
  */
-public abstract
+public
 class AbstractRightFrameHtml extends NoTemplate {
 
     /**
      * The label is displayed without a link. This indicates that the function is not available in this context, but
      * may be in a different context.
      */
-    protected static final String DISABLED = new String("You should never see this text");
+    public static final String DISABLED = new String("You should never see this text");
 
     /**
      * The label is highlighted. This indicates that the document for this function is currently displayed.
      */
-    protected static final String HIGHLIT  = new String("You should never see this text");
+    public static final String HIGHLIT  = new String("You should never see this text");
 
     static { AssertionUtil.enableAssertionsForThisClass(); }
 
@@ -486,7 +486,7 @@ class AbstractRightFrameHtml extends NoTemplate {
      * @param nav5            See above
      * @param nav6            See above
      */
-    protected void
+    public void
     rRightFrameHtml(
         String             windowTitle,
         Options            options,
