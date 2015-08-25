@@ -95,11 +95,11 @@ class AbstractSummaryHtml extends AbstractRightFrameHtml {
             null, // nav5
             null, // nav6
             () -> {
+                this.l(
+"<div class=\"contentContainer\">"
+                );
                 prolog.run();
                 for (Section section : sections) {
-                    this.l(
-"<div class=\"contentContainer\">"
-                    );
                     if (section.anchor != null) {
                         this.l(
 "  <a name=\"" + section.anchor + "\">",
@@ -129,11 +129,13 @@ class AbstractSummaryHtml extends AbstractRightFrameHtml {
                     }
                     this.l(
 "    </tbody>",
-"  </table>",
-"</div>"
+"  </table>"
                     );
                 }
                 epilog.run();
+                this.l(
+"</div>"
+                );
             }
         );
     }
