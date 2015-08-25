@@ -33,8 +33,6 @@ import de.unkrig.notemplate.NoTemplate;
  */
 public
 class BottomHtml extends NoTemplate {
-    /** One. Two. Three. */
-    @Deprecated public static final int CONST = 8;
 
     /**
      * Renders the "bottom" of a JAVADOCish page (starting with "{@code </body>}").

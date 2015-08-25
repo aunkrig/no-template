@@ -42,8 +42,6 @@ import de.unkrig.commons.lang.AssertionUtil;
  */
 public final
 class Entities {
-    /** One. Two. Three. */
-    @Deprecated public static final int CONST = 8;
 
     static { AssertionUtil.enableAssertionsForThisClass(); }
 
