@@ -39,30 +39,6 @@ class AbstractBottomLeftFrameHtml extends NoTemplate {
 
     /**
      * Renders a page for the "package frame", i.e. the frame that covers the left 20% of the JAVADOC frame set.
-     * <p>
-     *   The layout is as follows:
-     * </p>
-     * <pre>
-     *   +--------------------------+
-     *   |   (top navigation bar)   |
-     *   +--------------------------+
-     *   |                          |
-     *   |                          |
-     *   |          (body)          |
-     *   |                          |
-     *   |                          |
-     *   +--------------------------+
-     *   | (bottom navigation bar)  |
-     *   +--------------------------+
-     * </pre>
-     * <p>
-     *   For the structure of the top and bottom navigation bars, and the meaning of the <var>nav*</var> parameters,
-     *   see here:
-     * </p>
-     * <dl>
-     *   <dd>{{@link #rTopNavBar(Options, String[], String[], String[], String, String[], String[])}</dd>
-     *   <dd>{{@link #rBottomNavBar(Options, String[], String[], String[], String, String[], String[])}</dd>
-     * </dl>
      *
      * @param heading         The heading of this page, and also the window title (optionally augmented with {@link
      *                        Options#windowTitle}
