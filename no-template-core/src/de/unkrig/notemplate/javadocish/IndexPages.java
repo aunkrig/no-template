@@ -102,6 +102,9 @@ class IndexPages {
         };
     }
 
+    /**
+     * Creates the "Single-page" index document.
+     */
     public static void
     createSingleIndex(
         File                   outputFile,
@@ -149,6 +152,9 @@ class IndexPages {
         );
     }
 
+    /**
+     * Create the "split index" documents.
+     */
     public static void
     createSplitIndex(
         File                   baseDirectory,
@@ -224,14 +230,14 @@ class IndexPages {
         String[]                               stylesheetLinks,
         @Nullable String[]                     nav1,
         @Nullable String[]                     nav2,
-        Consumer<NoTemplate>                   indexNavigation,
+        Consumer<? super NoTemplate>           indexNavigation,
         Map<Character, Collection<IndexEntry>> entriesByInitial
     ) throws IOException {
 
         String windowTitle2 = (
             options.windowTitle == null
             ? windowTitle
-            : windowTitle +" (" + options.windowTitle + ")"
+            : windowTitle + " (" + options.windowTitle + ")"
         );
 
         NoTemplate.render(
@@ -279,7 +285,7 @@ class IndexPages {
                                     );
                                 }
 
-                            arfh.l(
+                                arfh.l(
 "</dl>"
                                 );
                             }
