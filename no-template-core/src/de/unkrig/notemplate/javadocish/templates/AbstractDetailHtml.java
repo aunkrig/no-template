@@ -34,10 +34,16 @@ import de.unkrig.commons.lang.protocol.ProducerUtil;
 import de.unkrig.commons.nullanalysis.Nullable;
 import de.unkrig.notemplate.javadocish.Options;
 
-
+/**
+ * Base class for all "detail" pages, i.e. those that are very similar to a JAVADOC class detail page.
+ */
 public
 class AbstractDetailHtml extends AbstractRightFrameHtml {
 
+    /**
+     * Representation of a "section" on the detail page. For a JAVADOC class detail page, the sections are
+     * "Nested Class", "Field", "Constructor" and "Method".
+     */
     public static
     class Section {
 
@@ -63,6 +69,10 @@ class AbstractDetailHtml extends AbstractRightFrameHtml {
         @Nullable public List<SectionAddendum> addenda;
     }
 
+    /**
+     * Representation of an item in a {@link Section}. E.g. for the JAVADOC class detail page, the items of the "Field"
+     * section are the individual fields of the class.
+     */
     public static
     class SectionItem {
 
@@ -73,12 +83,16 @@ class AbstractDetailHtml extends AbstractRightFrameHtml {
         /**
          * E.g.
          * <br />
-         * {@code <pre>public static final&nbsp;<a href=\"../../../java/security/cert/CertPathValidatorException.BasicReason.html\" title=\"enum in java.security.cert\">CertPathValidatorException.BasicReason</a> UNSPECIFIED</pre>}
+         * {@code <pre>public static final&nbsp;<a href=\"../../../java/security/cert/CertPathValidatorException.Basi
+         *cReason.html\" title=\"enum in java.security.cert\">CertPathValidatorException.BasicReason</a> UNSPECIFIE
+         *D</pre>}
          * <br />
          * {@code <div class=\"block\">Unspecified reason.</div>}
          * <br />
          * <p>Or:</p>
-         * {@code <pre>public static&nbsp;<a href=\"../../../java/security/cert/CertPathValidatorException.BasicReason.html\" title=\"enum in java.security.cert\">CertPathValidatorException.BasicReason</a>[]&nbsp;values()</pre>}
+         * {@code <pre>public static&nbsp;<a href=\"../../../java/security/cert/CertPathValidatorException.BasicReaso
+         *n.html\" title=\"enum in java.security.cert\">CertPathValidatorException.BasicReason</a>[]&nbsp;valu
+         *es()</pre>}
          * <br />
          * {@code <div class=\"block\">Returns an array containing the constants of this enum type, in}
          * <br />
@@ -94,7 +108,8 @@ class AbstractDetailHtml extends AbstractRightFrameHtml {
          * <br />
          * {@code </pre></div>}
          * <br />
-         * {@code <dl><dt><span class=\"strong\">Returns:</span></dt><dd>an array containing the constants of this enum type, in}
+         * {@code <dl><dt><span class=\"strong\">Returns:</span></dt><dd>an array containing the constants of this
+         * enum type, in}
          * <br />
          * {@code the order they are declared</dd></dl>}
          * <br />
@@ -102,6 +117,10 @@ class AbstractDetailHtml extends AbstractRightFrameHtml {
         public String content;
     }
 
+    /**
+     * Representation of the optional "addendum" block(s) at the bottom of each section in the summary. E.g. for the
+     * JAVADOC class detail page, the addenda for the method summary are "Methods inherited from ...".
+     */
     public static
     class SectionAddendum {
 
