@@ -49,10 +49,12 @@ import de.unkrig.notemplate.javadocish.templates.AbstractRightFrameHtml;
  * Creates index pages ("{@code ./index-pages/index-1.html}", ...), or a single index page ("{@code
  * ./index-all.html}").
  */
-public
+public final
 class IndexPages {
 
     static { AssertionUtil.enableAssertionsForThisClass(); }
+
+    private IndexPages() {}
 
     /**
      * Representation of an entry in the generated index.
@@ -85,10 +87,10 @@ class IndexPages {
 
     /**
      *
-     * @param key            See {@link IndexEntry#getKey()}
-     * @param link      See {@link IndexEntry#getHtmlTerm1()}
-     * @param explanation      See {@link IndexEntry#getHtmlTerm2()}
-     * @param shortDescription See {@link IndexEntry#getHtmlDefinition()}
+     * @param key              See {@link IndexEntry#getKey()}
+     * @param link             See {@link IndexEntry#getLink()}
+     * @param explanation      See {@link IndexEntry#getExplanation()}
+     * @param shortDescription See {@link IndexEntry#getShortDescription()}
      * @see IndexEntry
      */
     public static IndexEntry
