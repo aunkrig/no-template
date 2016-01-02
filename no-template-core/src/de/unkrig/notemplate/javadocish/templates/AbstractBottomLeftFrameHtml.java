@@ -32,13 +32,16 @@ import de.unkrig.notemplate.javadocish.Options;
 import de.unkrig.notemplate.javadocish.templates.include.BottomHtml;
 import de.unkrig.notemplate.javadocish.templates.include.TopHtml;
 
+/**
+ * Base class for the bottom left frame (which typically display class names).
+ */
 public abstract
 class AbstractBottomLeftFrameHtml extends NoTemplate {
 
     static { AssertionUtil.enableAssertionsForThisClass(); }
 
     /**
-     * Renders a page for the bottom left frame.
+     * Renders a page for the "package frame", i.e. the frame that covers the left 20% of the JAVADOC frame set.
      *
      * @param heading         The heading of this page, and also the window title (optionally augmented with {@link
      *                        Options#windowTitle}

@@ -27,11 +27,14 @@
 package de.unkrig.notemplate.javadocish.templates;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import de.unkrig.commons.lang.protocol.Producer;
 import de.unkrig.commons.lang.protocol.ProducerUtil;
 import de.unkrig.commons.nullanalysis.Nullable;
+import de.unkrig.notemplate.NoTemplate;
 import de.unkrig.notemplate.javadocish.Options;
 
 /**
@@ -41,32 +44,45 @@ public
 class AbstractDetailHtml extends AbstractRightFrameHtml {
 
     /**
-     * Representation of a "section" on the detail page. For a JAVADOC class detail page, the sections are
-     * "Nested Class", "Field", "Constructor" and "Method".
+     * A "section" is a piece of documentation that appears twice on the JAVADOC detail page: First in the top half of
+     * the page as a "summary", then, in the bottom half of the page, as a "detail".
+     * <p>
+     *   For example, the sections of a "class" detail page are "Nested", "Field", "Constr" and "Method".
+     * </p>
+     * <p>
+     *   Each section contains a list of "items". E.g. the "Method" section contains one item for each documented
+     *   method.
+     * </p>
      */
     public static
     class Section {
 
-        /** E.g. {@code "Enum Constant"}. */
-        public String nameSingular;
-
-        /** E.g. {@code "Enum Constants"}. */
-        public String namePlural;
-
-        /** E.g. {@code "enum_constant"}. */
+        /** The anchor that links to the section summary and the section detail, e.g. {@code "constructor"}. */
         public String anchor;
 
-        /** E.g. {@code "Enum Constant Summary table, listing enum constants, and an explanation"}. */
-        public String summary;
+        /** E.g. "Constr". */
+        public String navigationLinkLabel;
 
-        /** E.g. {@code "Enum Constant and Description"}. */
-        public String summaryLeftColumnTitle;
+        /** E.g. "Constructor Summary". */
+        public String summaryTitle1;
+
+        /** E.g. "Constructors". */
+        public String summaryTitle2;
+
+        /** E.g. <code>{ "Modifier and Type", "Method and Description" }</code>. */
+        public String[] summaryTableHeadings;
+
+        /** E.g. {@code "Constructor Detail"}. */
+        public String detailTitle;
+
+        /** E.g. {@code "Default values appear <u>underlined</u>"}. */
+        public String detailDescription;
 
         /** E.g. the enum constants. */
-        public List<SectionItem> items;
+        public final List<SectionItem> items = new ArrayList<SectionItem>();
 
         /** E.g. "Methods inherited from class java.lang.Enum..." */
-        @Nullable public List<SectionAddendum> addenda;
+        public final List<SectionAddendum> addenda = new ArrayList<SectionAddendum>();
     }
 
     /**
@@ -76,45 +92,22 @@ class AbstractDetailHtml extends AbstractRightFrameHtml {
     public static
     class SectionItem {
 
+        /** The anchor that links from the item summary to the item detail. */
         public String anchor;
-        public String name;
-        public String shortDescription;
+
+        /** The contents of the cells of the item's row in the summary. */
+        public String[] summaryTableCells;
 
         /**
-         * E.g.
-         * <br />
-         * {@code <pre>public static final&nbsp;<a href=\"../../../java/security/cert/CertPathValidatorException.Basi
-         *cReason.html\" title=\"enum in java.security.cert\">CertPathValidatorException.BasicReason</a> UNSPECIFIE
-         *D</pre>}
-         * <br />
-         * {@code <div class=\"block\">Unspecified reason.</div>}
-         * <br />
-         * <p>Or:</p>
-         * {@code <pre>public static&nbsp;<a href=\"../../../java/security/cert/CertPathValidatorException.BasicReaso
-         *n.html\" title=\"enum in java.security.cert\">CertPathValidatorException.BasicReason</a>[]&nbsp;valu
-         *es()</pre>}
-         * <br />
-         * {@code <div class=\"block\">Returns an array containing the constants of this enum type, in}
-         * <br />
-         * {@code the order they are declared.  This method may be used to iterate}
-         * <br />
-         * {@code over the constants as follows:}
-         * <br />
-         * {@code <pre>}
-         * <br />
-         * {@code for (CertPathValidatorException.BasicReason c : CertPathValidatorException.BasicReason.values())}
-         * <br />
-         * {@code &nbsp;   System.out.println(c);}
-         * <br />
-         * {@code </pre></div>}
-         * <br />
-         * {@code <dl><dt><span class=\"strong\">Returns:</span></dt><dd>an array containing the constants of this
-         * enum type, in}
-         * <br />
-         * {@code the order they are declared</dd></dl>}
-         * <br />
+         * The title of the item in the detail section, e.g. "MyClass" for a constructor on the "MyClass" detail page.
          */
-        public String content;
+        public String detailTitle;
+
+        /**
+         * Renders the item's detail content, e.g. the description of constructor "MyClass()" in the "Constructor
+         * detail" section.
+         */
+        public Runnable printDetailContent;
     }
 
     /**
@@ -143,7 +136,8 @@ class AbstractDetailHtml extends AbstractRightFrameHtml {
     private static final String[] EMPTY_STRING_ARRAY = {};
 
     /**
-     * @param subtitle E.g. the name of the enclosing package, e.g. {@code "java.security.cert"}
+     * @param subtitle Displays in normal font  right above the <var>title</var>, e.g. the name of the enclosing
+     *                 package
      * @param title    E.g. {@code "Enum CertPathValidatorException.BasicReason"}
      * @param prolog   Would typically render "{@code <ul class="inheritance"> ... <div class="description"> ...}"
      * @param sections
@@ -166,9 +160,12 @@ class AbstractDetailHtml extends AbstractRightFrameHtml {
         List<String> nav5 = new ArrayList<String>();
         List<String> nav6 = new ArrayList<String>();
         for (Section section : sections) {
-            nav5.add(section.namePlural);
+
+            if (section.items.isEmpty()) continue;
+
+            nav5.add(section.navigationLinkLabel);
             nav5.add('#' + section.anchor + "_summary");
-            nav6.add(section.namePlural);
+            nav6.add(section.navigationLinkLabel);
             nav6.add('#' + section.anchor + "_detail");
         }
 
@@ -198,33 +195,69 @@ class AbstractDetailHtml extends AbstractRightFrameHtml {
                 );
                 prolog.run();
 
+                // Render the section summaries.
                 this.l(
 "  <div class=\"summary\">",
 "    <ul class=\"blockList\">",
 "      <li class=\"blockList\">"
                 );
                 for (Section section : sections) {
+
+                    if (section.items.isEmpty()) continue;
+
                     this.l(
 "        <ul class=\"blockList\">",
 "          <li class=\"blockList\">",
 "            <a name=\"" + section.anchor + "_summary\">",
 "              <!--   -->",
 "            </a>",
-"            <h3>" + section.nameSingular + " Summary</h3>",
-"            <table class=\"overviewSummary\" border=\"0\" cellpadding=\"3\" cellspacing=\"0\" summary=\"" + section.summary + "\">",
-"              <caption><span>" + section.namePlural + "</span><span class=\"tabEnd\">&nbsp;</span></caption>",
-"              <tr>",
-"                <th class=\"colOne\" scope=\"col\">" + section.summaryLeftColumnTitle + "</th>",
+"            <h3>" + section.summaryTitle1 + "</h3>",
+"            <table class=\"overviewSummary\" border=\"0\" cellpadding=\"3\" cellspacing=\"0\">",
+"              <caption><span>" + section.summaryTitle2 + "</span><span class=\"tabEnd\">&nbsp;</span></caption>",
+"              <tr>"
+                    );
+                    if (section.summaryTableHeadings != null) {
+                        Once first = NoTemplate.once();
+                        for (String sth : section.summaryTableHeadings) {
+                            this.l(
+"                <th class=\"" + (first.once() ? "colOne" : "colLast") + "\" scope=\"col\">" + sth + "</th>"
+                            );
+                        }
+                    }
+                    this.l(
 "              </tr>"
                     );
 
-                    Producer<String> trClass = ProducerUtil.alternate("altColor", "rowColor");
-                    for (SectionItem item : section.items) {
+                    List<SectionItem> sortedItems = section.items;
+                    Collections.sort(sortedItems, new Comparator<SectionItem>() {
+
+                        @Override public int
+                        compare(SectionItem si1, SectionItem si2) {
+                            return si1.summaryTableCells[0].compareTo(si2.summaryTableCells[0]);
+                        }
+                    });
+
+                    final Producer<String> trClass = ProducerUtil.alternate("altColor", "rowColor");
+                    for (SectionItem item : sortedItems) {
+
+                        if (item.summaryTableCells == null) continue;
+
                         this.l(
-"              <tr class=\"" + trClass.produce() + "\">",
-"                <td class=\"colOne\"><code><strong><a href=\"#" + item.anchor + "\">" + item.name + "</a></strong></code>",
-"                  <div class=\"block\">" + item.shortDescription + "</div>",
-"                </td>",
+"              <tr class=\"" + trClass.produce() + "\">"
+                        );
+                        Once first = NoTemplate.once();
+                        for (String stc : item.summaryTableCells) {
+                            boolean f = first.once();
+                            if (f) {
+                                stc = "<a href=\"#" + item.anchor + "_detail\">" + stc + "</a>";
+                            }
+                            this.l(
+"                <td class=\"" + (f ? "colOne" : "colLast") + "\">",
+"                  " + stc,
+"                </td>"
+                            );
+                        }
+                        this.l(
 "              </tr>"
                         );
                     }
@@ -263,24 +296,34 @@ class AbstractDetailHtml extends AbstractRightFrameHtml {
 "      <li class=\"blockList\">"
                 );
                 for (Section section : sections) {
+
+                    if (section.items.isEmpty()) continue;
+
                     this.l(
 "        <ul class=\"blockList\">",
 "          <li class=\"blockList\">",
 "            <a name=\"" + section.anchor + "_detail\">",
 "              <!--   -->",
 "            </a>",
-"            <h3>" + section.nameSingular + " Detail</h3>"
+"            <h3>" + section.detailTitle + "</h3>"
                     );
+                    if (section.detailDescription != null) {
+                        this.l(
+"            <p>",
+"              " + section.detailDescription,
+"            </p>"
+                        );
+                    }
                     for (SectionItem item : section.items) {
                         this.l(
-"            <a name=\"" + item.anchor + "\">",
+"            <a name=\"" + item.anchor + "_detail\">",
 "              <!--   -->",
 "            </a>",
 "            <ul class=\"blockList\">",
 "              <li class=\"blockList\">",
-"                <h4>" + item.name + "</h4>"
+"                <h4>" + item.detailTitle + "</h4>"
                         );
-                        this.p(item.content);
+                        item.printDetailContent.run();
                         this.l(
 "              </li>",
 "            </ul>"

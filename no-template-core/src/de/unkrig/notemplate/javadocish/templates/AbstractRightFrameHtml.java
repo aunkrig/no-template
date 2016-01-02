@@ -425,7 +425,8 @@ class AbstractRightFrameHtml extends NoTemplate {
      *         <li class="blockList">
      *           <a name="field_summary"><!--   --></a>
      *           <h3>Field Summary</h3>
-     *           <table class="overviewSummary" border="0" cellpadding="3" cellspacing="0" summary="Field Summary table, listing fields, and an explanation">
+     *           <table class="overviewSummary" border="0" cellpadding="3" cellspacing="0" summary="Field Summary tab
+     *le, listing fields, and an explanation">
      *             <caption><span>Fields</span><span class="tabEnd">&nbsp;</span></caption>
      *             <tr>
      *               <th class="colFirst" scope="col">Modifier and Type</th>

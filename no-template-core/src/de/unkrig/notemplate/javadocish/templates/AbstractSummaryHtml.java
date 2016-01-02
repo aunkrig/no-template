@@ -43,12 +43,15 @@ import de.unkrig.notemplate.javadocish.Options;
  *   <li><a href="http://docs.oracle.com/javase/7/docs/api/java/awt/dnd/package-summary.html">package-summary.html</a></li>
  *   <li><a href="docs.oracle.com/javase/7/docs/api/deprecated-list.html">deprecated-list.html</a></li>
  * </ul>
- *
- * @param prolog Should render one or more {@code <div class="header">} sections
  */
 public
 class AbstractSummaryHtml extends AbstractRightFrameHtml {
 
+    /**
+     * Representation of a section on the "summary page". E.g. on the JAVADOC package summary page, the sections are
+     * "Interface Summary", "Class Summary", "Enum Summary", "Exception Summary", "Error Summary", "Annotation Type
+     * Summary".
+     */
     public static
     class Section {
         public String            anchor;
@@ -58,6 +61,10 @@ class AbstractSummaryHtml extends AbstractRightFrameHtml {
         public List<SectionItem> items;
     }
 
+    /**
+     * Representation of an item in a {@link Section}. E.g. on the JAVADOC package summary page, the items of the
+     * "Interface Summary" section are the individual interfaces declared in the package.
+     */
     public static
     class SectionItem {
 
@@ -67,6 +74,8 @@ class AbstractSummaryHtml extends AbstractRightFrameHtml {
     }
 
     /**
+     * @param prolog Should render one or more {@code <div class="header">} sections
+     *
      * @see AbstractRightFrameHtml#rRightFrameHtml(String, Options, String[], String[], String[], String[], String[],
      *      String[], String[], Runnable)
      */
@@ -85,21 +94,24 @@ class AbstractSummaryHtml extends AbstractRightFrameHtml {
     ) {
 
         super.rRightFrameHtml(
-            windowTitle,
-            options,
-            stylesheetLinks,
-            nav1,
-            nav2,
-            nav3,
-            nav4,
-            null, // nav5
-            null, // nav6
-            () -> {
+            windowTitle,     // windowTitle
+            options,         // options
+            stylesheetLinks, // stylesheetLinks
+            nav1,            // nav1
+            nav2,            // nav2
+            nav3,            // nav3
+            nav4,            // nav4
+            null,            // nav5
+            null,            // nav6
+            () -> {          // renderBody
                 this.l(
 "<div class=\"contentContainer\">"
                 );
                 prolog.run();
                 for (Section section : sections) {
+
+                    if (section.items.isEmpty()) continue;
+
                     if (section.anchor != null) {
                         this.l(
 "  <a name=\"" + section.anchor + "\">",
