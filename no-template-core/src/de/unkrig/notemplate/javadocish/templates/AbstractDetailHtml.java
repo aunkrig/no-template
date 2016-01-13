@@ -161,12 +161,14 @@ class AbstractDetailHtml extends AbstractRightFrameHtml {
         List<String> nav6 = new ArrayList<String>();
         for (Section section : sections) {
 
-            if (section.items.isEmpty()) continue;
-
-            nav5.add(section.navigationLinkLabel);
-            nav5.add('#' + section.anchor + "_summary");
-            nav6.add(section.navigationLinkLabel);
-            nav6.add('#' + section.anchor + "_detail");
+            if (!section.items.isEmpty() || !section.addenda.isEmpty()) {
+                nav5.add(section.navigationLinkLabel);
+                nav5.add('#' + section.anchor + "_summary");
+            }
+            if (!section.items.isEmpty()) {
+                nav6.add(section.navigationLinkLabel);
+                nav6.add('#' + section.anchor + "_detail");
+            }
         }
 
         this.rRightFrameHtml(
@@ -203,7 +205,7 @@ class AbstractDetailHtml extends AbstractRightFrameHtml {
                 );
                 for (Section section : sections) {
 
-                    if (section.items.isEmpty()) continue;
+                    if (section.items.isEmpty() && section.addenda.isEmpty()) continue;
 
                     this.l(
 "        <ul class=\"blockList\">",
@@ -211,60 +213,64 @@ class AbstractDetailHtml extends AbstractRightFrameHtml {
 "            <a name=\"" + section.anchor + "_summary\">",
 "              <!--   -->",
 "            </a>",
-"            <h3>" + section.summaryTitle1 + "</h3>",
+"            <h3>" + section.summaryTitle1 + "</h3>"
+                    );
+                    if (!section.items.isEmpty()) {
+                        this.l(
 "            <table class=\"overviewSummary\" border=\"0\" cellpadding=\"3\" cellspacing=\"0\">",
 "              <caption><span>" + section.summaryTitle2 + "</span><span class=\"tabEnd\">&nbsp;</span></caption>",
 "              <tr>"
-                    );
-                    if (section.summaryTableHeadings != null) {
-                        Once first = NoTemplate.once();
-                        for (String sth : section.summaryTableHeadings) {
-                            this.l(
-"                <th class=\"" + (first.once() ? "colOne" : "colLast") + "\" scope=\"col\">" + sth + "</th>"
-                            );
-                        }
-                    }
-                    this.l(
-"              </tr>"
-                    );
-
-                    List<SectionItem> sortedItems = section.items;
-                    Collections.sort(sortedItems, new Comparator<SectionItem>() {
-
-                        @Override public int
-                        compare(SectionItem si1, SectionItem si2) {
-                            return si1.summaryTableCells[0].compareTo(si2.summaryTableCells[0]);
-                        }
-                    });
-
-                    final Producer<String> trClass = ProducerUtil.alternate("altColor", "rowColor");
-                    for (SectionItem item : sortedItems) {
-
-                        if (item.summaryTableCells == null) continue;
-
-                        this.l(
-"              <tr class=\"" + trClass.produce() + "\">"
                         );
-                        Once first = NoTemplate.once();
-                        for (String stc : item.summaryTableCells) {
-                            boolean f = first.once();
-                            if (f) {
-                                stc = "<a href=\"#" + item.anchor + "_detail\">" + stc + "</a>";
+                        if (section.summaryTableHeadings != null) {
+                            Once first = NoTemplate.once();
+                            for (String sth : section.summaryTableHeadings) {
+                                this.l(
+"                <th class=\"" + (first.once() ? "colOne" : "colLast") + "\" scope=\"col\">" + sth + "</th>"
+                                );
                             }
+                        }
+                        this.l(
+"              </tr>"
+                        );
+
+                        List<SectionItem> sortedItems = section.items;
+                        Collections.sort(sortedItems, new Comparator<SectionItem>() {
+
+                            @Override public int
+                            compare(SectionItem si1, SectionItem si2) {
+                                return si1.summaryTableCells[0].compareTo(si2.summaryTableCells[0]);
+                            }
+                        });
+
+                        final Producer<String> trClass = ProducerUtil.alternate("altColor", "rowColor");
+                        for (SectionItem item : sortedItems) {
+
+                            if (item.summaryTableCells == null) continue;
+
                             this.l(
+"              <tr class=\"" + trClass.produce() + "\">"
+                            );
+                            Once first = NoTemplate.once();
+                            for (String stc : item.summaryTableCells) {
+                                boolean f = first.once();
+                                if (f) {
+                                    stc = "<a href=\"#" + item.anchor + "_detail\">" + stc + "</a>";
+                                }
+                                this.l(
 "                <td class=\"" + (f ? "colOne" : "colLast") + "\">",
 "                  " + stc,
 "                </td>"
+                                );
+                            }
+                            this.l(
+"              </tr>"
                             );
                         }
+
                         this.l(
-"              </tr>"
+"            </table>"
                         );
                     }
-
-                    this.l(
-"            </table>"
-                    );
 
                     if (section.addenda != null) {
                         for (SectionAddendum addendum : section.addenda) {
@@ -295,6 +301,8 @@ class AbstractDetailHtml extends AbstractRightFrameHtml {
 "    <ul class=\"blockList\">",
 "      <li class=\"blockList\">"
                 );
+
+                // Render the section details.
                 for (Section section : sections) {
 
                     if (section.items.isEmpty()) continue;

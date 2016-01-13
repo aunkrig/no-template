@@ -46,15 +46,17 @@ class HtmlTemplate extends NoTemplate {
      * <p>
      *   Examples:
      * </dl>
-     * <dl>
-     *   <dt>"{@code \u00E4}"</dt>
-     *   <dt>"{@code ä}"</dt>
-     *   <dd>"{@code &auml;}"</dd>
-     *   <dt>"{@code \u1234}"</dt>
-     *   <dd>"{@code &#4660;}"</dd>
-     * </dl>
+     * <table>
+     *   <tr><td>"{@code \}{@code u00E4}" or "{@code \u00E4}":</td><td>&rarr;</td><td>"{@code &auml;}"</td></tr>
+     *   <tr><td>"{@code \}{@code u1234}"</td><td>&rarr;</td><td>"{@code &#4660;}"</td></tr>
+     * </table>
+     * <p>
+     *   Notice that the five HTML special characters "{@code "&*<>}" are <i>not</i> converted into character entities;
+     *   to do that, use {@link #esc(String)}.
+     * </p>
      * <p>
      *   By default, this conversion is <i>on</i>.
+     * </p>
      */
     public void
     setReplaceNonAsciiCharactersWithHtmlCharacterReferences(boolean value) {
@@ -109,8 +111,9 @@ class HtmlTemplate extends NoTemplate {
     /**
      * Replaces the five HTML special characters with "character entities".
      * <p>
-     *   Notice that non-ASCII characters (like "{@code ä}") need not (and should not) be printed as character entities
-     *   by the template, because they are already automatically converted.
+     *   Notice that non-ASCII characters (like "{@code \u00E4}") need not (and should not) be printed as character
+     *   entities by the template, because they are automatically converted (see {@link
+     *   #setReplaceNonAsciiCharactersWithHtmlCharacterReferences(boolean)}).
      * </p>
      * <table border="1">
      *   <caption>Predefined entities in XML</caption>
