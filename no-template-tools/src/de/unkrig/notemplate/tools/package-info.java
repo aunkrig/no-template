@@ -26,7 +26,6 @@
 
 /**
  * This package implements tools related to the "no template" pattern.
- *
  */
 @NotNullByDefault
 package de.unkrig.notemplate.tools;
