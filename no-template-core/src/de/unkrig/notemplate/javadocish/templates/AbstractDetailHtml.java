@@ -136,11 +136,35 @@ class AbstractDetailHtml extends AbstractRightFrameHtml {
     private static final String[] EMPTY_STRING_ARRAY = {};
 
     /**
+     * Renders a "detail page".
+     * <p>
+     *   The layout is as follows:
+     * </p>
+     * <pre>
+     *   +--------------------------+
+     *   |   (top navigation bar)   |
+     *   +--------------------------+
+     *   | (subtitle)               |
+     *   | (title)                  |
+     *   | (prolog)                 |
+     *   |+------------------------+|
+     *   || (section 1 summary)    ||
+     *   |+------------------------+|
+     *   |...                       |
+     *   |+------------------------+|
+     *   || (section 1 detail)     ||
+     *   |+------------------------+|
+     *   |...                       |
+     *   +--------------------------+
+     *   | (bottom navigation bar)  |
+     *   +--------------------------+
+     * </pre>
+
      * @param subtitle Displays in normal font  right above the <var>title</var>, e.g. the name of the enclosing
      *                 package
      * @param title    E.g. {@code "Enum CertPathValidatorException.BasicReason"}
-     * @param prolog   Would typically render "{@code <ul class="inheritance"> ... <div class="description"> ...}"
-     * @param sections
+     * @param prolog   Would typically render the "class description
+     * @param sections The sections to render (e.g. "fields", "methods", "nested types")
      */
     public void
     rDetail(
@@ -276,10 +300,16 @@ class AbstractDetailHtml extends AbstractRightFrameHtml {
                         for (SectionAddendum addendum : section.addenda) {
                             this.l(
 "            <ul class=\"blockList\">",
-"              <li class=\"blockList\">",
+"              <li class=\"blockList\">"
+                            );
+                            if (addendum.anchor != null) {
+                                this.l(
 "                <a name=\"" + addendum.anchor + "\">",
 "                  <!--   -->",
-"                </a>",
+"                </a>"
+                                );
+                            }
+                            this.l(
 "                <h3>" + addendum.title + "</h3>",
 "                " + addendum.content,
 "              </li>",

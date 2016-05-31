@@ -74,7 +74,8 @@ class AbstractSummaryHtml extends AbstractRightFrameHtml {
     }
 
     /**
-     * @param prolog Should render one or more {@code <div class="header">} sections
+     * @param prolog Renders the content of the {@code <div class="header">} section
+     * @param epilog Renders the "description" at the bottom of the page
      *
      * @see AbstractRightFrameHtml#rRightFrameHtml(String, Options, String[], String[], String[], String[], String[],
      *      String[], String[], Runnable)
@@ -105,45 +106,57 @@ class AbstractSummaryHtml extends AbstractRightFrameHtml {
             null,            // nav6
             () -> {          // renderBody
                 this.l(
-"<div class=\"contentContainer\">"
+"<div class=\"header\">"
                 );
                 prolog.run();
+                this.l(
+"</div>"
+                );
+                this.l(
+"<div class=\"contentContainer\">",
+"  <ul class=\"blockList\">"
+                );
                 for (Section section : sections) {
 
                     if (section.items.isEmpty()) continue;
 
                     if (section.anchor != null) {
                         this.l(
-"  <a name=\"" + section.anchor + "\">",
-"    <!--   -->",
-"  </a>"
+"    <a name=\"" + section.anchor + "\">",
+"      <!--   -->",
+"    </a>"
                         );
                     }
                     this.l(
-"  <table class=\"overviewSummary\" border=\"0\" cellpadding=\"3\" cellspacing=\"0\" summary=\"" + section.summary + "\">",
-"    <caption><span>" + section.title + "</span><span class=\"tabEnd\">&nbsp;</span></caption>",
-"    <tr>",
-"      <th class=\"colFirst\" scope=\"col\">" + section.firstColumnHeading + "</th>",
-"      <th class=\"colLast\" scope=\"col\">Description</th>",
-"    </tr>",
-"    <tbody>"
+"    <li class=\"blockList\">",
+"      <table class=\"overviewSummary\" border=\"0\" cellpadding=\"3\" cellspacing=\"0\" summary=\"" + section.summary + "\">",
+"        <caption><span>" + section.title + "</span><span class=\"tabEnd\">&nbsp;</span></caption>",
+"        <tr>",
+"          <th class=\"colFirst\" scope=\"col\">" + section.firstColumnHeading + "</th>",
+"          <th class=\"colLast\" scope=\"col\">Description</th>",
+"        </tr>",
+"        <tbody>"
                     );
                     Producer<String> trClass = ProducerUtil.alternate("altColor", "rowColor");
                     for (SectionItem item : section.items) {
                         this.l(
-"      <tr class=\"" + trClass.produce() + "\">",
-"        <td class=\"colFirst\"><a href=\"" + item.link + "\">" + item.name + "</a></td>",
-"        <td class=\"colLast\">",
-"          <div class=\"block\">" + item.summary + "</div>",
-"        </td>",
-"      </tr>"
+"          <tr class=\"" + trClass.produce() + "\">",
+"            <td class=\"colFirst\"><a href=\"" + item.link + "\">" + item.name + "</a></td>",
+"            <td class=\"colLast\">",
+"              <div class=\"block\">" + item.summary + "</div>",
+"            </td>",
+"          </tr>"
                         );
                     }
                     this.l(
-"    </tbody>",
-"  </table>"
+"        </tbody>",
+"      </table>",
+"    </li>"
                     );
                 }
+                this.l(
+"  </ul>"
+                );
                 epilog.run();
                 this.l(
 "</div>"
