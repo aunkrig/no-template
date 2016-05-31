@@ -141,10 +141,20 @@ class AbstractSummaryHtml extends AbstractRightFrameHtml {
                     for (SectionItem item : section.items) {
                         this.l(
 "          <tr class=\"" + trClass.produce() + "\">",
-"            <td class=\"colFirst\"><a href=\"" + item.link + "\">" + item.name + "</a></td>",
+"            <td class=\"colFirst\"><a href=\"" + item.link + "\">" + item.name + "</a></td>"
+                        );
+                        if (item.summary.isEmpty()) {
+                            l(
+"            <td class=\"colLast\">&nbsp;</td>"
+                            );
+                        } else {
+                            l(
 "            <td class=\"colLast\">",
 "              <div class=\"block\">" + item.summary + "</div>",
-"            </td>",
+"            </td>"
+                            );
+                        }
+                        l(
 "          </tr>"
                         );
                     }
