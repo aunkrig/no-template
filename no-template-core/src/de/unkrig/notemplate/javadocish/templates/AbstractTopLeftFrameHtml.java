@@ -27,16 +27,15 @@
 package de.unkrig.notemplate.javadocish.templates;
 
 import de.unkrig.commons.lang.AssertionUtil;
-import de.unkrig.notemplate.NoTemplate;
 import de.unkrig.notemplate.javadocish.Options;
-import de.unkrig.notemplate.javadocish.templates.include.BottomHtml;
-import de.unkrig.notemplate.javadocish.templates.include.TopHtml;
+
+// Re-use the "bottom left frame" because the two frames are so similar.
 
 /**
- * Base class for the bottom left frame (which typically display class names).
+ * Base class for the top left frame (which typically display package names).
  */
 public abstract
-class AbstractBottomLeftFrameHtml extends NoTemplate {
+class AbstractTopLeftFrameHtml extends AbstractBottomLeftFrameHtml {
 
     static { AssertionUtil.enableAssertionsForThisClass(); }
 
@@ -47,7 +46,7 @@ class AbstractBottomLeftFrameHtml extends NoTemplate {
      * @param styleSheetLinks The (optional) external stylesheets for this page
      */
     protected void
-    rBottomLeftFrameHtml(
+    rTopLeftFrameHtml(
         String   windowTitle,
         String   heading,
         String   headingLink,
@@ -55,24 +54,6 @@ class AbstractBottomLeftFrameHtml extends NoTemplate {
         String[] styleSheetLinks,
         Runnable renderBody
     ) {
-
-        this.include(TopHtml.class).render(
-            windowTitle,    // windowTitle
-            options,        // options
-            styleSheetLinks // styleSheetLinks
-        );
-
-        this.l(
-"    <h1 title=\"" + heading + "\" class=\"bar\"><a href=\"" + headingLink + "\" target=\"classFrame\">" + heading + "</a></h1>",
-"    <div class=\"indexContainer\">"
-        );
-
-        renderBody.run();
-
-        this.l(
-"    </div>"
-        );
-
-        this.include(BottomHtml.class).render();
+        this.rBottomLeftFrameHtml(windowTitle, heading, headingLink, options, styleSheetLinks, renderBody);
     }
 }
