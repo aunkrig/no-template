@@ -72,8 +72,10 @@ class AbstractDetailHtml extends AbstractRightFrameHtml {
         /** E.g. <code>{ "Modifier and Type", "Method and Description" }</code>. */
         public String[] summaryTableHeadings;
 
-        /** E.g. {@code "Constructor Detail"}. */
-        public String detailTitle;
+        /**
+         * E.g. {@code "Constructor Detail"}. {@code null} iff this section has a summary, but not a detail.
+         */
+        @Nullable public String detailTitle;
 
         /** E.g. {@code "Default values appear <u>underlined</u>"}. */
         public String detailDescription;
@@ -83,6 +85,12 @@ class AbstractDetailHtml extends AbstractRightFrameHtml {
 
         /** E.g. "Methods inherited from class java.lang.Enum..." */
         public final List<SectionAddendum> addenda = new ArrayList<SectionAddendum>();
+
+        /**
+         * For sorting the items in the summary. Iff {@code null}, then the items are sorted by {@link
+         * SectionItem#detailTitle}.
+         */
+        @Nullable public Comparator<SectionItem> summaryItemComparator;
     }
 
     /**
@@ -145,7 +153,7 @@ class AbstractDetailHtml extends AbstractRightFrameHtml {
      *   |   (top navigation bar)   |
      *   +--------------------------+
      *   | (subtitle)               |
-     *   | (title)                  |
+     *   | (heading)                |
      *   | (prolog)                 |
      *   |+------------------------+|
      *   || (section 1 summary)    ||
@@ -176,7 +184,8 @@ class AbstractDetailHtml extends AbstractRightFrameHtml {
         @Nullable String[] nav3,
         @Nullable String[] nav4,
         @Nullable String   subtitle,
-        String             title,
+        String             heading,
+        String             headingTitle,
         Runnable           prolog,
         List<Section>      sections
     ) {
@@ -185,27 +194,26 @@ class AbstractDetailHtml extends AbstractRightFrameHtml {
         List<String> nav6 = new ArrayList<String>();
         for (Section section : sections) {
 
-            if (!section.items.isEmpty() || !section.addenda.isEmpty()) {
-                nav5.add(section.navigationLinkLabel);
-                nav5.add('#' + section.anchor + "_summary");
-            }
-            if (!section.items.isEmpty()) {
+            nav5.add(section.navigationLinkLabel);
+            nav5.add(section.items.isEmpty() && section.addenda.isEmpty() ? AbstractRightFrameHtml.DISABLED : '#' + section.anchor + "_summary");
+
+            if (section.detailTitle != null) {
                 nav6.add(section.navigationLinkLabel);
-                nav6.add('#' + section.anchor + "_detail");
+                nav6.add(section.items.isEmpty() ? AbstractRightFrameHtml.DISABLED :  '#' + section.anchor + "_detail");
             }
         }
 
         this.rRightFrameHtml(
-            windowTitle,
-            options,
-            stylesheetLinks,
-            nav1,
-            nav2,
-            nav3,
-            nav4,
-            nav5.toArray(AbstractDetailHtml.EMPTY_STRING_ARRAY),
-            nav6.toArray(AbstractDetailHtml.EMPTY_STRING_ARRAY),
-            () -> {
+            windowTitle,                           // windowTitle
+            options,                               // options
+            stylesheetLinks,                       // stylesheetLinks
+            nav1,                                  // nav1
+            nav2,                                  // nav2
+            nav3,                                  // nav3
+            nav4,                                  // nav4
+            nav5.toArray(new String[nav5.size()]), // nav5
+            nav6.toArray(new String[nav6.size()]), // nav6
+            () -> {                                // renderBody
                 this.l(
 "<div class=\"header\">"
                 );
@@ -215,7 +223,7 @@ class AbstractDetailHtml extends AbstractRightFrameHtml {
                     );
                 }
                 this.l(
-"  <h2 title=\"" + title + "\" class=\"title\">" + title + "</h2>",
+"  <h2 title=\"" + headingTitle + "\" class=\"title\">" + heading + "</h2>",
 "</div>",
 "<div class=\"contentContainer\">"
                 );
@@ -257,14 +265,21 @@ class AbstractDetailHtml extends AbstractRightFrameHtml {
 "              </tr>"
                         );
 
-                        List<SectionItem> sortedItems = section.items;
-                        Collections.sort(sortedItems, new Comparator<SectionItem>() {
+                        List<SectionItem> sortedItems = new ArrayList<>(section.items);
+                        Collections.sort(
+                            sortedItems,
+                            (
+                                section.summaryItemComparator != null
+                                ? section.summaryItemComparator
+                                : new Comparator<SectionItem>() {
 
-                            @Override public int
-                            compare(SectionItem si1, SectionItem si2) {
-                                return si1.summaryTableCells[0].compareTo(si2.summaryTableCells[0]);
-                            }
-                        });
+                                    @Override public int
+                                    compare(SectionItem o1, SectionItem o2) {
+                                        return o1.detailTitle.compareTo(o2.detailTitle);
+                                    }
+                                }
+                            )
+                        );
 
                         final Producer<String> trClass = ProducerUtil.alternate("altColor", "rowColor");
                         for (SectionItem item : sortedItems) {
@@ -335,7 +350,7 @@ class AbstractDetailHtml extends AbstractRightFrameHtml {
                 // Render the section details.
                 for (Section section : sections) {
 
-                    if (section.items.isEmpty()) continue;
+                    if (section.detailTitle == null || section.items.isEmpty()) continue;
 
                     this.l(
 "        <ul class=\"blockList\">",
