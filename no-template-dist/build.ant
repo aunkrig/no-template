@@ -29,6 +29,7 @@
 		<eclipse.convertPath resourcepath="/de.unkrig.commons.io"           property="de.unkrig.commons.io"           />
 		<eclipse.convertPath resourcepath="/de.unkrig.commons.lang"         property="de.unkrig.commons.lang"         />
 		<eclipse.convertPath resourcepath="/de.unkrig.commons.nullanalysis" property="de.unkrig.commons.nullanalysis" />
+		<eclipse.convertPath resourcepath="/de.unkrig.commons.util"         property="de.unkrig.commons.util"         />
 		<jar destfile="mirror/download/${version}/no-template-core.jar" filesonly="true">
 
 			<fileset dir="../no-template-core/bin" />
@@ -77,6 +78,7 @@
 				<pathelement location="${de.unkrig.commons.io}/bin"           />
 				<pathelement location="${de.unkrig.commons.lang}/bin"         />
 				<pathelement location="${de.unkrig.commons.nullanalysis}/bin" />
+				<pathelement location="${de.unkrig.commons.util}/bin"         />
 			</classpath>
 			<arg value="-Xdoclint:none"/> <!-- Otherwise JAVADOC 8 warns from missing "@param" tags. -->
 		</javadoc>
