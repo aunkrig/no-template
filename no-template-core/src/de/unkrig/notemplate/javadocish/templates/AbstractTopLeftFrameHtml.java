@@ -41,27 +41,27 @@ class AbstractTopLeftFrameHtml extends AbstractBottomLeftFrameHtml {
     static { AssertionUtil.enableAssertionsForThisClass(); }
 
     /**
-     * @param heading         The heading of this page, and also the window title (optionally augmented with {@link
-     *                        Options#windowTitle}
      * @param options         Container for the various command line options
      * @param styleSheetLinks The (optional) external stylesheets for this page
+     * @param heading         The heading of this page, and also the window title (optionally augmented with {@link
+     *                        Options#windowTitle}
      */
     protected void
     rTopLeftFrameHtml(
         String           windowTitle,
-        String           heading,
-        @Nullable String headingLink,
         Options          options,
         String[]         styleSheetLinks,
+        String           heading,
+        @Nullable String headingLink,
         Runnable         renderIndexHeader,
         Runnable         renderIndexContainer
     ) {
         this.rBottomLeftFrameHtml(
             windowTitle,
-            heading,
-            headingLink,
             options,
             styleSheetLinks,
+            heading,
+            headingLink,
             renderIndexHeader,
             renderIndexContainer
         );

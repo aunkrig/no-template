@@ -28,10 +28,7 @@ package de.unkrig.notemplate.javadocish.templates;
 
 import de.unkrig.commons.lang.AssertionUtil;
 import de.unkrig.commons.nullanalysis.Nullable;
-import de.unkrig.notemplate.NoTemplate;
 import de.unkrig.notemplate.javadocish.Options;
-import de.unkrig.notemplate.javadocish.templates.include.BottomHtml;
-import de.unkrig.notemplate.javadocish.templates.include.TopHtml;
 
 /**
  * Renders the typical "class frame" (the frame that covers the right 80% of the frame set) page.
@@ -329,7 +326,7 @@ import de.unkrig.notemplate.javadocish.templates.include.TopHtml;
  * </dl>
  */
 public
-class AbstractRightFrameHtml extends NoTemplate {
+class AbstractRightFrameHtml extends AbstractHtml {
 
     /**
      * The label is displayed without a link. This indicates that the function is not available in this context, but
@@ -501,10 +498,10 @@ class AbstractRightFrameHtml extends NoTemplate {
         Runnable           renderBody
     ) {
 
-        this.include(TopHtml.class).render(windowTitle, options, stylesheetLinks);
+        this.rHtml(windowTitle, options, stylesheetLinks, () -> {
 
-        String wt = options.windowTitle == null ? "" : " (" + options.windowTitle + ")";
-        this.l(
+            String wt = options.windowTitle == null ? "" : " (" + options.windowTitle + ")";
+            this.l(
 "    <script type=\"text/javascript\"><!--",
 "if (location.href.indexOf('is-external=true') == -1) {",
 "  parent.document.title=\"" + windowTitle + wt + "\";",
@@ -514,15 +511,14 @@ class AbstractRightFrameHtml extends NoTemplate {
 "    <noscript>",
 "      <div>JavaScript is disabled on your browser.</div>",
 "    </noscript>"
-        );
+            );
 
-        this.rTopNavBar(options, nav1, nav2, nav3, nav4, nav5, nav6);
+            this.rTopNavBar(options, nav1, nav2, nav3, nav4, nav5, nav6);
 
-        renderBody.run();
+            renderBody.run();
 
-        this.rBottomNavBar(options, nav1, nav2, nav3, nav4, nav5, nav6);
-
-        this.include(BottomHtml.class).render();
+            this.rBottomNavBar(options, nav1, nav2, nav3, nav4, nav5, nav6);
+        });
     }
 
     /**

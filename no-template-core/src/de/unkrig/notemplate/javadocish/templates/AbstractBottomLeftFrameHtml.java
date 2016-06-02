@@ -28,16 +28,13 @@ package de.unkrig.notemplate.javadocish.templates;
 
 import de.unkrig.commons.lang.AssertionUtil;
 import de.unkrig.commons.nullanalysis.Nullable;
-import de.unkrig.notemplate.NoTemplate;
 import de.unkrig.notemplate.javadocish.Options;
-import de.unkrig.notemplate.javadocish.templates.include.BottomHtml;
-import de.unkrig.notemplate.javadocish.templates.include.TopHtml;
 
 /**
  * Base class for the bottom left frame (which typically display class names).
  */
 public abstract
-class AbstractBottomLeftFrameHtml extends NoTemplate {
+class AbstractBottomLeftFrameHtml extends AbstractHtml {
 
     static { AssertionUtil.enableAssertionsForThisClass(); }
 
@@ -47,59 +44,53 @@ class AbstractBottomLeftFrameHtml extends NoTemplate {
      * index-header         <= Optional; e.g. the "All Classes" link
      * index-container      <= The rest of the page
      * </pre>
-     *
-     * @param heading         The heading of this page, and also the window title (optionally augmented with {@link
-     *                        Options#windowTitle}
      * @param options         Container for the various command line options
      * @param styleSheetLinks The (optional) external stylesheets for this page
+     * @param heading         The heading of this page, and also the window title (optionally augmented with {@link
+     *                        Options#windowTitle}
      * @param renderIndexHeader Renders the section between the
      */
     protected void
     rBottomLeftFrameHtml(
         String             windowTitle,
-        String             heading,
-        @Nullable String   headingLink,
         Options            options,
         String[]           styleSheetLinks,
+        String             heading,
+        @Nullable String   headingLink,
         @Nullable Runnable renderIndexHeader,
         Runnable           renderIndexContainer
     ) {
 
-        this.include(TopHtml.class).render(
-            windowTitle,    // windowTitle
-            options,        // options
-            styleSheetLinks // styleSheetLinks
-        );
+        this.rHtml(windowTitle, options, styleSheetLinks, () -> {
 
-        {
-            String hwl = (
-                headingLink == null
-                ? heading
-                : "<a href=\"" + headingLink + "\" target=\"classFrame\">" + heading + "</a>"
-            );
-            this.l(
-    "    <h1 title=\"" + heading + "\" class=\"bar\">" + hwl + "</h1>"
-            );
-        }
+            {
+                String hwl = (
+                    headingLink == null
+                    ? heading
+                    : "<a href=\"" + headingLink + "\" target=\"classFrame\">" + heading + "</a>"
+                );
+                this.l(
+"    <h1 title=\"" + heading + "\" class=\"bar\">" + hwl + "</h1>"
+                );
+            }
 
-        if (renderIndexHeader != null) {
-            this.l(
+            if (renderIndexHeader != null) {
+                this.l(
 "    <div class=\"indexHeader\">"
+                );
+                renderIndexHeader.run();
+                this.l(
+"    </div>"
+                );
+            }
+
+            this.l(
+"    <div class=\"indexContainer\">"
             );
-            renderIndexHeader.run();
+            renderIndexContainer.run();
             this.l(
 "    </div>"
             );
-        }
-
-        this.l(
-"    <div class=\"indexContainer\">"
-        );
-        renderIndexContainer.run();
-        this.l(
-"    </div>"
-        );
-
-        this.include(BottomHtml.class).render();
+        });
     }
 }

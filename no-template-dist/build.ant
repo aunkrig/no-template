@@ -7,7 +7,7 @@
 	<taskdef classpath="lib/de.unkrig.ant-contrib.jar" resource="de/unkrig/antcontrib/ant.xml" />
 
 	<!-- For "<ftp2>". -->
-	<taskdef classpath="lib/ant_issue_54883.jar" resource="ant_issue_54883.properties" />
+	<taskdef classpath="lib/ant_issue_54883.jar;lib/commons-net-3.1.jar" resource="ant_issue_54883.properties" />
 
 	<!-- For "<jarjar>". -->
 	<taskdef
@@ -104,6 +104,7 @@
 			<checkbox text="Use passive FTP"   property="ftp.passive" preselected="true" />
 			<checkbox text="Verbose reporting" property="ftp.verbose" preselected="true" />
 		</swingDialog>
+
 		<!-- Do the upload. -->
 		<ftp2
 			server       ="${ftp.server}"
