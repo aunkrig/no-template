@@ -1,4 +1,7 @@
 
+Changes in version 1.0.1, 2016-06-02:
+  * Minor refactoring
+
 Changes in version 1.0.0, 2016-06-02:
   * Added the "javadocish" package with templates that generate documents in the style of the Java 8 JAVADOC tool.
 
