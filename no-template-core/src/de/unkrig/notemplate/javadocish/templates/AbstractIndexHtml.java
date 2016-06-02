@@ -29,14 +29,14 @@ package de.unkrig.notemplate.javadocish.templates;
 import de.unkrig.commons.lang.AssertionUtil;
 import de.unkrig.commons.lang.ObjectUtil;
 import de.unkrig.commons.nullanalysis.Nullable;
-import de.unkrig.notemplate.NoTemplate;
+import de.unkrig.notemplate.HtmlTemplate;
 import de.unkrig.notemplate.javadocish.Options;
 
 /**
  * The top frameset for JAVADOCish documentation sites. Supports both the two-frame design and the thre-frame design.
  */
 public
-class AbstractIndexHtml extends NoTemplate {
+class AbstractIndexHtml extends HtmlTemplate {
 
     static { AssertionUtil.enableAssertionsForThisClass(); }
 

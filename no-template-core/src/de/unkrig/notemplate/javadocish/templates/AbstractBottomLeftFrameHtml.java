@@ -55,7 +55,7 @@ class AbstractBottomLeftFrameHtml extends AbstractHtml {
         String             windowTitle,
         Options            options,
         String[]           styleSheetLinks,
-        String             heading,
+        @Nullable String   heading,
         @Nullable String   headingLink,
         @Nullable Runnable renderIndexHeader,
         Runnable           renderIndexContainer
@@ -63,7 +63,7 @@ class AbstractBottomLeftFrameHtml extends AbstractHtml {
 
         this.rHtml(windowTitle, options, styleSheetLinks, () -> {
 
-            {
+            if (heading != null) {
                 String hwl = (
                     headingLink == null
                     ? heading

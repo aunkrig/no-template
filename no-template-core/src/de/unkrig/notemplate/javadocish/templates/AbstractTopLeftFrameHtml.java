@@ -51,7 +51,7 @@ class AbstractTopLeftFrameHtml extends AbstractBottomLeftFrameHtml {
         String           windowTitle,
         Options          options,
         String[]         styleSheetLinks,
-        String           heading,
+        @Nullable String heading,
         @Nullable String headingLink,
         Runnable         renderIndexHeader,
         Runnable         renderIndexContainer

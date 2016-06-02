@@ -30,14 +30,14 @@ import java.text.SimpleDateFormat;
 
 import de.unkrig.commons.lang.AssertionUtil;
 import de.unkrig.commons.nullanalysis.Nullable;
-import de.unkrig.notemplate.NoTemplate;
+import de.unkrig.notemplate.HtmlTemplate;
 import de.unkrig.notemplate.javadocish.Options;
 
 /**
  * Base class for all "real html pages", i.e. all except the frameset documents and the "package-list".
  */
 public abstract
-class AbstractHtml extends NoTemplate {
+class AbstractHtml extends HtmlTemplate {
 
     static { AssertionUtil.enableAssertionsForThisClass(); }
 
