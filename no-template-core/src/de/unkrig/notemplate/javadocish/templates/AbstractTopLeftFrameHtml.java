@@ -27,6 +27,7 @@
 package de.unkrig.notemplate.javadocish.templates;
 
 import de.unkrig.commons.lang.AssertionUtil;
+import de.unkrig.commons.nullanalysis.Nullable;
 import de.unkrig.notemplate.javadocish.Options;
 
 // Re-use the "bottom left frame" because the two frames are so similar.
@@ -47,13 +48,22 @@ class AbstractTopLeftFrameHtml extends AbstractBottomLeftFrameHtml {
      */
     protected void
     rTopLeftFrameHtml(
-        String   windowTitle,
-        String   heading,
-        String   headingLink,
-        Options  options,
-        String[] styleSheetLinks,
-        Runnable renderBody
+        String           windowTitle,
+        String           heading,
+        @Nullable String headingLink,
+        Options          options,
+        String[]         styleSheetLinks,
+        Runnable         renderIndexHeader,
+        Runnable         renderIndexContainer
     ) {
-        this.rBottomLeftFrameHtml(windowTitle, heading, headingLink, options, styleSheetLinks, renderBody);
+        this.rBottomLeftFrameHtml(
+            windowTitle,
+            heading,
+            headingLink,
+            options,
+            styleSheetLinks,
+            renderIndexHeader,
+            renderIndexContainer
+        );
     }
 }

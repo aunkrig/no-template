@@ -26,6 +26,7 @@
 
 package de.unkrig.notemplate.javadocish.templates;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import de.unkrig.commons.lang.protocol.Producer;
@@ -54,11 +55,11 @@ class AbstractSummaryHtml extends AbstractRightFrameHtml {
      */
     public static
     class Section {
-        public String            anchor;
-        public String            title;
-        public String            summary;
-        public String            firstColumnHeading;
-        public List<SectionItem> items;
+        public String                  anchor;
+        public String                  title;
+        public String                  summary;
+        public String                  firstColumnHeading;
+        public final List<SectionItem> items = new ArrayList<>();
     }
 
     /**
@@ -106,15 +107,15 @@ class AbstractSummaryHtml extends AbstractRightFrameHtml {
             null,            // nav6
             () -> {          // renderBody
                 this.l(
-"<div class=\"header\">"
+"    <div class=\"header\">"
                 );
                 prolog.run();
                 this.l(
-"</div>"
+"    </div>"
                 );
                 this.l(
-"<div class=\"contentContainer\">",
-"  <ul class=\"blockList\">"
+"    <div class=\"contentContainer\">",
+"      <ul class=\"blockList\">"
                 );
                 for (Section section : sections) {
 
@@ -122,54 +123,54 @@ class AbstractSummaryHtml extends AbstractRightFrameHtml {
 
                     if (section.anchor != null) {
                         this.l(
-"    <a name=\"" + section.anchor + "\">",
-"      <!--   -->",
-"    </a>"
+"        <a name=\"" + section.anchor + "\">",
+"          <!--   -->",
+"        </a>"
                         );
                     }
                     this.l(
-"    <li class=\"blockList\">",
-"      <table class=\"overviewSummary\" border=\"0\" cellpadding=\"3\" cellspacing=\"0\" summary=\"" + section.summary + "\">",
-"        <caption><span>" + section.title + "</span><span class=\"tabEnd\">&nbsp;</span></caption>",
-"        <tr>",
-"          <th class=\"colFirst\" scope=\"col\">" + section.firstColumnHeading + "</th>",
-"          <th class=\"colLast\" scope=\"col\">Description</th>",
-"        </tr>",
-"        <tbody>"
+"        <li class=\"blockList\">",
+"          <table class=\"overviewSummary\" border=\"0\" cellpadding=\"3\" cellspacing=\"0\" summary=\"" + section.summary + "\">",
+"            <caption><span>" + section.title + "</span><span class=\"tabEnd\">&nbsp;</span></caption>",
+"            <tr>",
+"              <th class=\"colFirst\" scope=\"col\">" + section.firstColumnHeading + "</th>",
+"              <th class=\"colLast\" scope=\"col\">Description</th>",
+"            </tr>",
+"            <tbody>"
                     );
                     Producer<String> trClass = ProducerUtil.alternate("altColor", "rowColor");
                     for (SectionItem item : section.items) {
                         this.l(
-"          <tr class=\"" + trClass.produce() + "\">",
-"            <td class=\"colFirst\"><a href=\"" + item.link + "\">" + item.name + "</a></td>"
+"              <tr class=\"" + trClass.produce() + "\">",
+"                <td class=\"colFirst\"><a href=\"" + item.link + "\">" + item.name + "</a></td>"
                         );
                         if (item.summary.isEmpty()) {
-                            l(
-"            <td class=\"colLast\">&nbsp;</td>"
+                            this.l(
+"                <td class=\"colLast\">&nbsp;</td>"
                             );
                         } else {
-                            l(
-"            <td class=\"colLast\">",
-"              <div class=\"block\">" + item.summary + "</div>",
-"            </td>"
+                            this.l(
+"                <td class=\"colLast\">",
+"                  <div class=\"block\">" + item.summary + "</div>",
+"                </td>"
                             );
                         }
-                        l(
-"          </tr>"
+                        this.l(
+"              </tr>"
                         );
                     }
                     this.l(
-"        </tbody>",
-"      </table>",
-"    </li>"
+"            </tbody>",
+"          </table>",
+"        </li>"
                     );
                 }
                 this.l(
-"  </ul>"
+"      </ul>"
                 );
                 epilog.run();
                 this.l(
-"</div>"
+"    </div>"
                 );
             }
         );

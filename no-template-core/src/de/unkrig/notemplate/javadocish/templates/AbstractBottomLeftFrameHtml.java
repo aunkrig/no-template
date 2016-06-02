@@ -27,6 +27,7 @@
 package de.unkrig.notemplate.javadocish.templates;
 
 import de.unkrig.commons.lang.AssertionUtil;
+import de.unkrig.commons.nullanalysis.Nullable;
 import de.unkrig.notemplate.NoTemplate;
 import de.unkrig.notemplate.javadocish.Options;
 import de.unkrig.notemplate.javadocish.templates.include.BottomHtml;
@@ -41,19 +42,27 @@ class AbstractBottomLeftFrameHtml extends NoTemplate {
     static { AssertionUtil.enableAssertionsForThisClass(); }
 
     /**
+     * <pre>
+     * [###heading###]      <= Blue bar
+     * index-header         <= Optional; e.g. the "All Classes" link
+     * index-container      <= The rest of the page
+     * </pre>
+     *
      * @param heading         The heading of this page, and also the window title (optionally augmented with {@link
      *                        Options#windowTitle}
      * @param options         Container for the various command line options
      * @param styleSheetLinks The (optional) external stylesheets for this page
+     * @param renderIndexHeader Renders the section between the
      */
     protected void
     rBottomLeftFrameHtml(
-        String   windowTitle,
-        String   heading,
-        String   headingLink,
-        Options  options,
-        String[] styleSheetLinks,
-        Runnable renderBody
+        String             windowTitle,
+        String             heading,
+        @Nullable String   headingLink,
+        Options            options,
+        String[]           styleSheetLinks,
+        @Nullable Runnable renderIndexHeader,
+        Runnable           renderIndexContainer
     ) {
 
         this.include(TopHtml.class).render(
@@ -62,13 +71,31 @@ class AbstractBottomLeftFrameHtml extends NoTemplate {
             styleSheetLinks // styleSheetLinks
         );
 
+        {
+            String hwl = (
+                headingLink == null
+                ? heading
+                : "<a href=\"" + headingLink + "\" target=\"classFrame\">" + heading + "</a>"
+            );
+            this.l(
+    "    <h1 title=\"" + heading + "\" class=\"bar\">" + hwl + "</h1>"
+            );
+        }
+
+        if (renderIndexHeader != null) {
+            this.l(
+"    <div class=\"indexHeader\">"
+            );
+            renderIndexHeader.run();
+            this.l(
+"    </div>"
+            );
+        }
+
         this.l(
-"    <h1 title=\"" + heading + "\" class=\"bar\"><a href=\"" + headingLink + "\" target=\"classFrame\">" + heading + "</a></h1>",
 "    <div class=\"indexContainer\">"
         );
-
-        renderBody.run();
-
+        renderIndexContainer.run();
         this.l(
 "    </div>"
         );
