@@ -170,7 +170,7 @@ class AbstractDetailHtml extends AbstractRightFrameHtml {
 
      * @param subtitle Displays in normal font  right above the <var>title</var>, e.g. the name of the enclosing
      *                 package
-     * @param heding   E.g. {@code "Enum CertPathValidatorException.BasicReason"}
+     * @param heading  E.g. {@code "Enum CertPathValidatorException.BasicReason"}
      * @param prolog   Would typically render the "class description
      * @param sections The sections to render (e.g. "fields", "methods", "nested types")
      */
