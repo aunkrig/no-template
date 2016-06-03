@@ -169,6 +169,8 @@ class NoTemplate {
             ), nsme);
         }
 
+        if (!(out instanceof PrintWriter)) out = new PrintWriter(out, true);
+
         try {
             NoTemplate.class.getDeclaredField("pw").set(template, out);
         } catch (Exception e) {
