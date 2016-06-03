@@ -201,12 +201,14 @@ source for inspiration.
 
 ## Download
       
-No-Template is available for download <a href="../download">here</a>; there is also a
-<a href="../CHANGELOG.txt">change log</a>.
+No-Template is available for download
+<a href="http://no-template.unkrig.de/download/">here</a>;
+there is also a
+<a href="http://no-template.unkrig.de/CHANGELOG.txt">change log</a>.
 
 ## Documentation
       
-The <a href="index.html">API documentation</a>
+The <a href="http://no-template.unkrig.de/javadoc/">API documentation</a>
 
 The
 <a href="https://raw.githubusercontent.com/aunkrig/no-template/master/no-template-tools/src/de/unkrig/notemplate/tools/MakeClass.main(String%5B%5D).txt"><code>MakeClass</code></a>
@@ -214,4 +216,5 @@ command line utility
 
 ## License
 
-No-Template is distributed under the <a href="../new_bsd_license.txt">New BSD License</a>.
+No-Template is distributed under the
+<a href="https://raw.githubusercontent.com/aunkrig/no-template/master/no-template-dist/new_bsd_license.txt">New BSD License</a>.
