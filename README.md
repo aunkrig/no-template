@@ -46,25 +46,25 @@ A super-small Java library for templating, i.e. generating text files (HTML, XML
     The approach of no-template is as simple as it could be:
   <p>
 ```java
-// You keep all template classes in a package named "...templates":
+// By convention, you place all your template classes in packages named "*.templates[.*]":
 package com.acme.myproject.templates;
 
 import de.unkrig.notemplate.*;
 
-// Your template extends NoTemplate, either directly, as here, or indirectly to get extra convenience
-// functionality useful for a particular purpose, e.g. by extending HtmlTemplate.
+// Your template class extends the "NoTemplate" class, either directly, as here, or indirectly to get extra
+// convenience functionality useful for a particular purpose, e.g. by extending "HtmlTemplate".
 //
 // The name of the template class is typically chosen to reflect the "name" of the generated document (whatever
-// "name" means in the specific context). For example, the name of this template indicates that the name of its
-// product is "index.html".
+// "name" means in the specific context). For example, the name of this template class indicates that the name
+// of its product is "index.html".
 public
 class IndexHtml extends NoTemplate {
 
     // Your template class has only a zero-arg constructor (or no constructor at all).
-    // It (typically) declares no non-static fields.
+    // It (typically) declares no fields.
 
-    // You declare a method (typically, but necessarily) named "render" (the "renderer") with all the parameters
-    // necessary for the dynamic data that it needs.
+    // You declare a method (typically, but necessarily) named "render" with all the parameters necessary for
+    // the dynamic data that it needs.
     public void
     render(String firstName, String lastName, int age) {
 
@@ -72,8 +72,7 @@ class IndexHtml extends NoTemplate {
         // break.
         //
         // By putting each string on a separate line, and aligning these lines in column one, the indentation in
-        // the generated document is exactly reflected here in the source code (apart from the leading quote in
-        // each line).
+        // the generated document is exactly reflected here in the source code (apart from the enclosing quotes).
         l(
 "<!DOCTYPE html>",
 "<html>",
@@ -89,17 +88,18 @@ class IndexHtml extends NoTemplate {
 "</html>"
         );
     }
+```
 
-    // For simplicity, we declare the "main()" method right here in the template class. Normally the template would
-    // be used from a class outside the ".templates" package.
-    public static void
-    main(String[] args) {
+```java
+// Examples of how to use the template class declared above:
 
-       // Let's just render to STDOUT; "newTemplate()" has a range of brethren that render elsewhere, e.g. to
-       // a java.io.Writer or into a file.
-       NoTemplate.newTemplate(IndexHtml.class, System.out).render("John", "Doe", 99);
-    }
-}
+// Render to STDOUT:
+NoTemplate.newTemplate(IndexHtml.class, System.out).render("John", "Doe", 99);
+
+// Render to a file:
+NoTemplate.render(IndexHtml.class, new File("index.html"), (IndexHtml t) -> {
+  t.render("John", "Doe", 99);
+});
 ```
 
   <p>
@@ -137,15 +137,17 @@ class IndexHtml extends NoTemplate {
     <li style="padding:3px">
       Literal text (which maps to Java string literals) must be enclosed in quotes, and some characters must
       (as you all know) be escaped with backslashes. This is particularly annoying for tag attributes
-      <pre>        l(
-"    Look &lt;a href=\"" + href + "\">here</a>".
-        );</pre>
-      and for embedded JavaScript code.
+```java
+      l(
+"    Look &lt;a href=\"" + href + "\">here&lt;/a>".
+      );
+```
+and for embedded JavaScript code.
       <br />
       One possible workaround is to use single quotes instead of double quotes, which both HTML and JavaScript
       permit. (And single quotes need not be backslash-escaped in Java string literals.)
       <br />
-      Another is to use the <a href="de/unkrig/notemplate/tools/MakeClass.html#main-java.lang.String:A-"><code>main(String[])</code></a> command line utility, which
+      Another is to use the <a href="master/no-template-tools/src/de/unkrig/notemplate/tools/MakeClass.main(String%5B%5D).txt"><code>MakeClass</code></a> command line utility, which
       converts an "example file" into a template class with one big "<code>l()</code>" call.
     </li>
     <li style="padding:3px">
