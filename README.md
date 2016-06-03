@@ -1,19 +1,14 @@
 # no-template
 A super-small Java library for templating, i.e. generating text files (HTML, XML, whatever) from a "template" text file and dynamic data.
 
-  <p>
-    It is based on the concept that the templates are bare Java&trade; classes.
-  </p>
+It is based on the concept that the templates are bare Java&trade; classes.
 
-  <h2>Motivation</h2>
+## Motivation
 
-  <p>
-    Other templating engines like <a href="http://freemarker.org">Freemarker</a> or Java ServerPages (a.k.a. "JSP")
-    use template files written their special markup language, optimized for the particular purpose. 
-  </p>
-  <p>
-    This has the following problems:
-  </p>
+Other templating engines like <a href="http://freemarker.org">Freemarker</a> or Java ServerPages (a.k.a. "JSP")
+use template files written their special markup language, optimized for the particular purpose. 
+
+This has the following problems:
   <ul>
     <li style="padding:3px">
       Each framework has its own syntax and semantics for implementing the dynamic part of a document (variables,
@@ -40,11 +35,10 @@ A super-small Java library for templating, i.e. generating text files (HTML, XML
     </li>
   </ul>
 
-  <h2>Quick Start</h2>
+## Quick Start
 
-  <p>
-    The approach of no-template is as simple as it could be:
-  <p>
+The approach of no-template is as simple as it could be:
+
 ```java
 // By convention, you place all your template classes in packages named "*.templates[.*]":
 package com.acme.myproject.templates;
@@ -96,15 +90,13 @@ class IndexHtml extends NoTemplate {
 // Render to STDOUT:
 NoTemplate.newTemplate(IndexHtml.class, System.out).render("John", "Doe", 99);
 
-// Render to a file:
+// Render file "index.html":
 NoTemplate.render(IndexHtml.class, new File("index.html"), (IndexHtml t) -> {
   t.render("John", "Doe", 99);
 });
 ```
 
-  <p>
-    No-Template addresses most of the above-mentioned problems:
-  </p>
+No-Template addresses most of the above-mentioned problems:
   <ul>
     <li style="padding:3px">
       You don't need to learn yet another syntax - it's all Java! Honestly, HTML, JavaScript, CSS, ... is already
@@ -147,8 +139,9 @@ and for embedded JavaScript code.
       One possible workaround is to use single quotes instead of double quotes, which both HTML and JavaScript
       permit. (And single quotes need not be backslash-escaped in Java string literals.)
       <br />
-      Another is to use the <a href="master/no-template-tools/src/de/unkrig/notemplate/tools/MakeClass.main(String%5B%5D).txt"><code>MakeClass</code></a> command line utility, which
-      converts an "example file" into a template class with one big "<code>l()</code>" call.
+      Another is to use the
+      <a href="https://raw.githubusercontent.com/aunkrig/no-template/master/no-template-tools/src/de/unkrig/notemplate/tools/MakeClass.main(String%5B%5D).txt"><code>MakeClass</code></a>
+      command line utility, which converts an "example file" into a template class with one big "<code>l()</code>" call.
     </li>
     <li style="padding:3px">
       Embedding variables is not as compact as in other templating languages, where you can typically write
@@ -170,11 +163,10 @@ and for embedded JavaScript code.
     </li>
   </ul>
 
-  <h2>More possibilities</h2>
+## More possibilities
 
-  <p>
-    Other concepts that are not demostrated in the above example are:
-  </p>
+Other concepts that are not demostrated in the above example are:
+
   <ul>
     <li style="padding:3px">
       Within the renderer, you can use local variables, control structures, constants, etc., as in any Java&trade;
@@ -190,41 +182,36 @@ and for embedded JavaScript code.
     <li style="padding:3px">
       To encapsulate code that is re-used by multiple templates, you'd move it into "subtemplates" and include it
       from the top-level template with
-      <pre>   this.include(MySubtemplateHtml.class).render( /* ... */ );</pre>
-      Again, the subtemplate declares a method named "render" with all the parameters that it requires to do the
-      job.
+```java
+this.include(MySubtemplateHtml.class).render( /* ... */ );
+```
+Again, the subtemplate declares a method named "render" with all the parameters that it requires to do the job.
       <br />
       To keep the (top-level) template classes and the subtemplate classes separate, you'd put them in a package
-      "...templates.include" (or a subpackage thereof, if you feel the urge to add even more structure.
+      "*.templates.include" (or a subpackage thereof, if you feel the urge to add even more structure).
     </li>
   </ul>
   
-  <h2>Example Code</h2>
+## Example Code
   
-  <p>
-    The "<a href="http://doclet.unkrig.de">JAVADOC doclet</a>" (an open-source reimplementation of the standard JDK
-    JAVADOC doclet) makes heavy use of No-Template and is a good source for inspiration.
-  </p>
+The
+"<a href="http://unkrig.de/w/JAVADOC_doclet">JAVADOC doclet</a>"
+(an open-source reimplementation of the standard JDK JAVADOC doclet) makes heavy use of No-Template and is a good
+source for inspiration.
+
+## Download
       
-  <h2>Download</h2>
+No-Template is available for download <a href="../download">here</a>; there is also a
+<a href="../CHANGELOG.txt">change log</a>.
+
+## Documentation
       
-  <p>
-    No-Template is available for download <a href="../download">here</a>; there is also a <a
-    href="../CHANGELOG.txt">change log</a>.
-  </p>
-      
-  <h2>Documentation</h2>
-      
-  <p>
-    <a href="index.html">API documentation</a>
-  </p>
-  <p>
-    <a href="de/unkrig/notemplate/tools/MakeClass.html#main-java.lang.String:A-">The "<code>MakeClass</code>" command line
-    utility</a>
-  </p>
-    
-  <h2>License</h2>
-    
-  <p>
-    No-Template is distributed under the <a href="../new_bsd_license.txt">New BSD License</a>.
-  </p></div>
+The <a href="index.html">API documentation</a>
+
+The
+<a href="https://raw.githubusercontent.com/aunkrig/no-template/master/no-template-tools/src/de/unkrig/notemplate/tools/MakeClass.main(String%5B%5D).txt"><code>MakeClass</code></a>
+command line utility
+
+## License
+
+No-Template is distributed under the <a href="../new_bsd_license.txt">New BSD License</a>.
