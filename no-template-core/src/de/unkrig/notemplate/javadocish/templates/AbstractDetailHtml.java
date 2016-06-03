@@ -215,54 +215,54 @@ class AbstractDetailHtml extends AbstractRightFrameHtml {
             nav6.toArray(new String[nav6.size()]), // nav6
             () -> {                                // renderBody
                 this.l(
-"<div class=\"header\">"
+"    <div class=\"header\">"
                 );
                 if (subtitle != null) {
                     this.l(
-"  <div class=\"subTitle\">" + subtitle + "</div>"
+"      <div class=\"subTitle\">" + subtitle + "</div>"
                     );
                 }
                 this.l(
-"  <h2 title=\"" + headingTitle + "\" class=\"title\">" + heading + "</h2>",
-"</div>",
-"<div class=\"contentContainer\">"
+"      <h2 title=\"" + headingTitle + "\" class=\"title\">" + heading + "</h2>",
+"    </div>",
+"    <div class=\"contentContainer\">"
                 );
                 prolog.run();
 
                 // Render the section summaries.
                 this.l(
-"  <div class=\"summary\">",
-"    <ul class=\"blockList\">",
-"      <li class=\"blockList\">"
+"      <div class=\"summary\">",
+"        <ul class=\"blockList\">",
+"          <li class=\"blockList\">"
                 );
                 for (Section section : sections) {
 
                     if (section.items.isEmpty() && section.addenda.isEmpty()) continue;
 
                     this.l(
-"        <ul class=\"blockList\">",
-"          <li class=\"blockList\">",
-"            <a name=\"" + section.anchor + "_summary\">",
-"              <!--   -->",
-"            </a>",
-"            <h3>" + section.summaryTitle1 + "</h3>"
+"            <ul class=\"blockList\">",
+"              <li class=\"blockList\">",
+"                <a name=\"" + section.anchor + "_summary\">",
+"                  <!--   -->",
+"                </a>",
+"                <h3>" + section.summaryTitle1 + "</h3>"
                     );
                     if (!section.items.isEmpty()) {
                         this.l(
-"            <table class=\"overviewSummary\" border=\"0\" cellpadding=\"3\" cellspacing=\"0\">",
-"              <caption><span>" + section.summaryTitle2 + "</span><span class=\"tabEnd\">&nbsp;</span></caption>",
-"              <tr>"
+"                <table class=\"overviewSummary\" border=\"0\" cellpadding=\"3\" cellspacing=\"0\">",
+"                  <caption><span>" + section.summaryTitle2 + "</span><span class=\"tabEnd\">&nbsp;</span></caption>",
+"                  <tr>"
                         );
                         if (section.summaryTableHeadings != null) {
                             Once first = NoTemplate.once();
                             for (String sth : section.summaryTableHeadings) {
                                 this.l(
-"                <th class=\"" + (first.once() ? "colOne" : "colLast") + "\" scope=\"col\">" + sth + "</th>"
+"                    <th class=\"" + (first.once() ? "colOne" : "colLast") + "\" scope=\"col\">" + sth + "</th>"
                                 );
                             }
                         }
                         this.l(
-"              </tr>"
+"                  </tr>"
                         );
 
                         List<SectionItem> sortedItems = new ArrayList<>(section.items);
@@ -287,7 +287,7 @@ class AbstractDetailHtml extends AbstractRightFrameHtml {
                             if (item.summaryTableCells == null) continue;
 
                             this.l(
-"              <tr class=\"" + trClass.produce() + "\">"
+"                  <tr class=\"" + trClass.produce() + "\">"
                             );
                             Once first = NoTemplate.once();
                             for (String stc : item.summaryTableCells) {
@@ -296,55 +296,55 @@ class AbstractDetailHtml extends AbstractRightFrameHtml {
                                     stc = "<a href=\"#" + item.anchor + "_detail\">" + stc + "</a>";
                                 }
                                 this.l(
-"                <td class=\"" + (f ? "colOne" : "colLast") + "\">",
-"                  " + stc,
-"                </td>"
+"                    <td class=\"" + (f ? "colOne" : "colLast") + "\">",
+"                      " + stc,
+"                    </td>"
                                 );
                             }
                             this.l(
-"              </tr>"
+"                  </tr>"
                             );
                         }
 
                         this.l(
-"            </table>"
+"                </table>"
                         );
                     }
 
                     if (section.addenda != null) {
                         for (SectionAddendum addendum : section.addenda) {
                             this.l(
-"            <ul class=\"blockList\">",
-"              <li class=\"blockList\">"
+"                <ul class=\"blockList\">",
+"                  <li class=\"blockList\">"
                             );
                             if (addendum.anchor != null) {
                                 this.l(
-"                <a name=\"" + addendum.anchor + "\">",
-"                  <!--   -->",
-"                </a>"
+"                    <a name=\"" + addendum.anchor + "\">",
+"                      <!--   -->",
+"                    </a>"
                                 );
                             }
                             this.l(
-"                <h3>" + addendum.title + "</h3>",
-"                " + addendum.content,
-"              </li>",
-"            </ul>"
+"                    <h3>" + addendum.title + "</h3>",
+"                    " + addendum.content,
+"                  </li>",
+"                </ul>"
                             );
                         }
                     }
 
                     this.l(
-"          </li>",
-"        </ul>"
+"              </li>",
+"            </ul>"
                     );
                 }
                 this.l(
-"      </li>",
-"    </ul>",
-"  </div>",
-"  <div class=\"details\">",
-"    <ul class=\"blockList\">",
-"      <li class=\"blockList\">"
+"          </li>",
+"        </ul>",
+"      </div>",
+"      <div class=\"details\">",
+"        <ul class=\"blockList\">",
+"          <li class=\"blockList\">"
                 );
 
                 // Render the section details.
@@ -353,46 +353,46 @@ class AbstractDetailHtml extends AbstractRightFrameHtml {
                     if (section.detailTitle == null || section.items.isEmpty()) continue;
 
                     this.l(
-"        <ul class=\"blockList\">",
-"          <li class=\"blockList\">",
-"            <a name=\"" + section.anchor + "_detail\">",
-"              <!--   -->",
-"            </a>",
-"            <h3>" + section.detailTitle + "</h3>"
+"            <ul class=\"blockList\">",
+"              <li class=\"blockList\">",
+"                <a name=\"" + section.anchor + "_detail\">",
+"                  <!--   -->",
+"                </a>",
+"                <h3>" + section.detailTitle + "</h3>"
                     );
                     if (section.detailDescription != null) {
                         this.l(
-"            <p>",
-"              " + section.detailDescription,
-"            </p>"
+"                <p>",
+"                  " + section.detailDescription,
+"                </p>"
                         );
                     }
                     for (SectionItem item : section.items) {
                         this.l(
-"            <a name=\"" + item.anchor + "_detail\">",
-"              <!--   -->",
-"            </a>",
-"            <ul class=\"blockList\">",
-"              <li class=\"blockList\">",
-"                <h4>" + item.detailTitle + "</h4>"
+"                <a name=\"" + item.anchor + "_detail\">",
+"                  <!--   -->",
+"                </a>",
+"                <ul class=\"blockList\">",
+"                  <li class=\"blockList\">",
+"                    <h4>" + item.detailTitle + "</h4>"
                         );
                         item.printDetailContent.run();
                         this.l(
-"              </li>",
-"            </ul>"
+"                  </li>",
+"                </ul>"
                         );
                     }
 
                     this.l(
-"          </li>",
-"        </ul>"
+"              </li>",
+"            </ul>"
                     );
                 }
                 this.l(
-"      </li>",
-"    </ul>",
-"  </div>",
-"</div>"
+"          </li>",
+"        </ul>",
+"      </div>",
+"    </div>"
                 );
             }
         );
