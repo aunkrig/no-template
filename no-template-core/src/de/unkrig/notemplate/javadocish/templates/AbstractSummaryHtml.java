@@ -41,7 +41,9 @@ import de.unkrig.notemplate.javadocish.Options;
  * </p>
  * <ul>
  *   <li><a href="http://docs.oracle.com/javase/7/docs/api/overview-summary.html">overview-summary.html</a></li>
- *   <li><a href="http://docs.oracle.com/javase/7/docs/api/java/awt/dnd/package-summary.html">package-summary.html</a></li>
+ *   <li>
+ *     <a href="http://docs.oracle.com/javase/7/docs/api/java/awt/dnd/package-summary.html">package-summary.html</a>
+ *   </li>
  *   <li><a href="docs.oracle.com/javase/7/docs/api/deprecated-list.html">deprecated-list.html</a></li>
  * </ul>
  */
@@ -55,11 +57,20 @@ class AbstractSummaryHtml extends AbstractRightFrameHtml {
      */
     public static
     class Section {
-        public String                  anchor;
-        public String                  title;
-        public String                  summary;
-        public String                  firstColumnHeading;
+
+        @Nullable public final String  anchor;
+        public final String            title;
+        @Nullable public final String  summary;
+        public final String            firstColumnHeading;
         public final List<SectionItem> items = new ArrayList<>();
+
+        public
+        Section(@Nullable String anchor, String title, @Nullable String summary, String firstColumnHeading) {
+            this.anchor             = anchor;
+            this.title              = title;
+            this.summary            = summary;
+            this.firstColumnHeading = firstColumnHeading;
+        }
     }
 
     /**
@@ -69,9 +80,17 @@ class AbstractSummaryHtml extends AbstractRightFrameHtml {
     public static
     class SectionItem {
 
-        public String link;
-        public String name;
-        public String summary;
+        public final String           link;
+        @Nullable public final String name;
+        public final String           summary;
+
+        public
+        SectionItem(String link, @Nullable String name, String summary) {
+            this.link    = link;
+            this.name    = name;
+            this.summary = summary;
+
+        }
     }
 
     /**

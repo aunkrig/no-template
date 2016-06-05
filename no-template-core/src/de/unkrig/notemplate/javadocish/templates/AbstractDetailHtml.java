@@ -57,28 +57,49 @@ class AbstractDetailHtml extends AbstractRightFrameHtml {
     public static
     class Section {
 
+        public
+        Section(
+            String                            anchor,
+            String                            navigationLinkLabel,
+            String                            summaryTitle1,
+            @Nullable String                  summaryTitle2,
+            @Nullable String[]                summaryTableHeadings,
+            @Nullable String                  detailTitle,
+            @Nullable String                  detailDescription,
+            @Nullable Comparator<SectionItem> summaryItemComparator
+        ) {
+            this.anchor                = anchor;
+            this.navigationLinkLabel   = navigationLinkLabel;
+            this.summaryTitle1         = summaryTitle1;
+            this.summaryTitle2         = summaryTitle2;
+            this.summaryTableHeadings  = summaryTableHeadings;
+            this.detailTitle           = detailTitle;
+            this.detailDescription     = detailDescription;
+            this.summaryItemComparator = summaryItemComparator;
+        }
+
         /** The anchor that links to the section summary and the section detail, e.g. {@code "constructor"}. */
-        public String anchor;
+        public final String anchor;
 
         /** E.g. "Constr". */
-        public String navigationLinkLabel;
+        public final String navigationLinkLabel;
 
         /** E.g. "Constructor Summary". */
-        public String summaryTitle1;
+        public final String summaryTitle1;
 
         /** E.g. "Constructors". */
-        public String summaryTitle2;
+        @Nullable public final String summaryTitle2;
 
         /** E.g. <code>{ "Modifier and Type", "Method and Description" }</code>. */
-        public String[] summaryTableHeadings;
+        @Nullable public final String[] summaryTableHeadings;
 
         /**
          * E.g. {@code "Constructor Detail"}. {@code null} iff this section has a summary, but not a detail.
          */
-        @Nullable public String detailTitle;
+        @Nullable public final String detailTitle;
 
         /** E.g. {@code "Default values appear <u>underlined</u>"}. */
-        public String detailDescription;
+        @Nullable public final String detailDescription;
 
         /** E.g. the enum constants. */
         public final List<SectionItem> items = new ArrayList<SectionItem>();
@@ -90,7 +111,7 @@ class AbstractDetailHtml extends AbstractRightFrameHtml {
          * For sorting the items in the summary. Iff {@code null}, then the items are sorted by {@link
          * SectionItem#detailTitle}.
          */
-        @Nullable public Comparator<SectionItem> summaryItemComparator;
+        @Nullable public final Comparator<SectionItem> summaryItemComparator;
     }
 
     /**
@@ -100,22 +121,35 @@ class AbstractDetailHtml extends AbstractRightFrameHtml {
     public static
     class SectionItem {
 
+        public
+        SectionItem(
+            @Nullable String anchor,
+            String[]         summaryTableCells,
+            String           detailTitle,
+            Runnable         printDetailContent
+        ) {
+            this.anchor             = anchor;
+            this.summaryTableCells  = summaryTableCells;
+            this.detailTitle        = detailTitle;
+            this.printDetailContent = printDetailContent;
+        }
+
         /** The anchor that links from the item summary to the item detail. */
-        public String anchor;
+        @Nullable public final String anchor;
 
         /** The contents of the cells of the item's row in the summary. */
-        public String[] summaryTableCells;
+        public final String[] summaryTableCells;
 
         /**
          * The title of the item in the detail section, e.g. "MyClass" for a constructor on the "MyClass" detail page.
          */
-        public String detailTitle;
+        public final String detailTitle;
 
         /**
          * Renders the item's detail content, e.g. the description of constructor "MyClass()" in the "Constructor
          * detail" section.
          */
-        public Runnable printDetailContent;
+        public final Runnable printDetailContent;
     }
 
     /**
@@ -125,23 +159,27 @@ class AbstractDetailHtml extends AbstractRightFrameHtml {
     public static
     class SectionAddendum {
 
+        public
+        SectionAddendum(String title, String content, @Nullable String anchor) {
+            this.title   = title;
+            this.content = content;
+            this.anchor  = anchor;
+        }
         /**
          * E.g. {@code "Methods inherited from class&nbsp;java.lang.<a href=\"../../../java/lang/Enum.html\"
          * title=\"class in java.lang\">Enum</a>"}.
          */
-        public String title;
+        public final String title;
 
         /**
          * E.g. {@code "<code><a href=\"../../../java/lang/Enum.html#clone()\">clone</a>, <a
          * href=\"../../../java/lang/Enum.html#compareTo(E)\">compareTo</a></code>"}.
          */
-        public String content;
+        public final String content;
 
         /** E.g. {@code "methods_inherited_from_class_java.lang.Enum"}. */
-        public String anchor;
+        @Nullable public final String anchor;
     }
-
-    private static final String[] EMPTY_STRING_ARRAY = {};
 
     /**
      * Renders a "detail page".
@@ -195,7 +233,11 @@ class AbstractDetailHtml extends AbstractRightFrameHtml {
         for (Section section : sections) {
 
             nav5.add(section.navigationLinkLabel);
-            nav5.add(section.items.isEmpty() && section.addenda.isEmpty() ? AbstractRightFrameHtml.DISABLED : '#' + section.anchor + "_summary");
+            nav5.add(
+                section.items.isEmpty() && section.addenda.isEmpty()
+                ? AbstractRightFrameHtml.DISABLED
+                : '#' + section.anchor + "_summary"
+            );
 
             if (section.detailTitle != null) {
                 nav6.add(section.navigationLinkLabel);
@@ -253,9 +295,10 @@ class AbstractDetailHtml extends AbstractRightFrameHtml {
 "                  <caption><span>" + section.summaryTitle2 + "</span><span class=\"tabEnd\">&nbsp;</span></caption>",
 "                  <tr>"
                         );
-                        if (section.summaryTableHeadings != null) {
+                        String[] sths = section.summaryTableHeadings;
+                        if (sths != null) {
                             Once first = NoTemplate.once();
-                            for (String sth : section.summaryTableHeadings) {
+                            for (String sth : sths) {
                                 this.l(
 "                    <th class=\"" + (first.once() ? "colOne" : "colLast") + "\" scope=\"col\">" + sth + "</th>"
                                 );
@@ -274,8 +317,10 @@ class AbstractDetailHtml extends AbstractRightFrameHtml {
                                 : new Comparator<SectionItem>() {
 
                                     @Override public int
-                                    compare(SectionItem o1, SectionItem o2) {
-                                        return o1.detailTitle.compareTo(o2.detailTitle);
+                                    compare(@Nullable SectionItem si1, @Nullable SectionItem si2) {
+                                        assert si1 != null;
+                                        assert si2 != null;
+                                        return si1.detailTitle.compareTo(si2.detailTitle);
                                     }
                                 }
                             )
