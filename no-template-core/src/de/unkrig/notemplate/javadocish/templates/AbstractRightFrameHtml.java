@@ -553,7 +553,7 @@ class AbstractRightFrameHtml extends AbstractHtml {
         // "-top" command line option.
         if (options.top != null) {
             this.l(
-options.top
+"" + options.top
             );
         }
 
