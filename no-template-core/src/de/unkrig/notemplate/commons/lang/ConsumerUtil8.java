@@ -59,5 +59,4 @@ class ConsumerUtil8 {
     ignoreExceptions(Class<EX> exceptionClass, ConsumerWhichThrows<T, EX> delegate) {
         return ConsumerUtil8.asJavaUtil(ConsumerUtil.ignoreExceptions(exceptionClass, delegate));
     }
-
 }
