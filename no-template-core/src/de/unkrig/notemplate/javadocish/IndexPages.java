@@ -29,6 +29,7 @@ package de.unkrig.notemplate.javadocish;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
@@ -102,6 +103,42 @@ class IndexPages {
             @Override public String getExplanation()      { return explanation;      }
             @Override public String getShortDescription() { return shortDescription; }
         };
+    }
+
+    /**
+     * Create a single-index file, or a set of initial-based index files, depending on the {@link Options#splitIndex}
+     * flag.
+     */
+    public static void
+    createIndex(File outputFile, Collection<IndexEntry> indexEntries, Options options, String[] nav1)
+    throws IOException {
+
+        if (options.splitIndex) {
+
+            // Fix up the "nav1", because the split index files live in subdirectory "./index-files".
+            nav1 = Arrays.copyOf(nav1, nav1.length);
+            for (int i = 1; i < nav1.length; i += 2) {
+                String href = nav1[i];
+                if (href != AbstractRightFrameHtml.DISABLED && href != AbstractRightFrameHtml.HIGHLIT) {
+                    nav1[i] = "../" + href;
+                }
+            }
+
+            IndexPages.createSplitIndex(
+                new File(options.destination, "index-files"), // baseDirectory
+                indexEntries,                                 // indexEntries
+                options,                                      // options
+                nav1                                          // nav1
+            );
+        } else {
+
+            IndexPages.createSingleIndex(
+                new File(options.destination, "index-all.html"), // outputFile
+                indexEntries,                                    // indexEntries
+                options,                                         // options
+                nav1                                             // nav1
+            );
+        }
     }
 
     /**
@@ -200,7 +237,7 @@ class IndexPages {
                 new File(baseDirectory, "index-" + idx + ".html"),  // outputFile
                 initial + "-Index",                                 // windowTitle
                 options,                                            // options
-                new String[] { "stylesheet.css" },                  // stylesheetLinks
+                new String[] { "../stylesheet.css" },               // stylesheetLinks
                 nav1,                                               // nav1
                 new String[] {                                      // nav2
                     "Prev Letter", previousIndexPage == null ? null : "index-" + (idx - 1) + ".html",
@@ -210,7 +247,7 @@ class IndexPages {
                     int idx2 = 1;
                     for (Character initial2 : entriesByInitial.keySet()) {
                         noTemplate.l(
-"    <a href=\"index-" + idx2 + ".html\">" + initial2 + "</a>"
+"    <a href=\"index-" + idx2++ + ".html\">" + initial2 + "</a>"
                         );
                     }
                 },
@@ -267,6 +304,10 @@ class IndexPages {
                         null,            // nav6
                         () -> {
 
+                            arfh.l(
+"    <div class=\"contentContainer\">"
+                            );
+
                             // Top index navigation.
                             indexNavigation.consume(arfh);
 
@@ -294,6 +335,10 @@ class IndexPages {
 
                             // Bottom index navigation.
                             indexNavigation.consume(arfh);
+
+                            arfh.l(
+"    </div"
+                            );
                         }
                     );
                 }

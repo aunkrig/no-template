@@ -66,4 +66,7 @@ class Options {
 
     /** The name of the "generator" as it will appear in an HTML comment near the top of each document. */
     public String generator = "javadoc";
+
+    /** Whether to split the index by initial. */
+    public boolean splitIndex;
 }
