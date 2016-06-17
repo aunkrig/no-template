@@ -109,8 +109,8 @@ class AbstractSummaryHtml extends AbstractRightFrameHtml {
         @Nullable String[] nav2,
         @Nullable String[] nav3,
         @Nullable String[] nav4,
-        Runnable           prolog,
-        Runnable           epilog,
+        Runnable[]         headers,
+        @Nullable Runnable epilog,
         List<Section>      sections
     ) {
 
@@ -125,13 +125,17 @@ class AbstractSummaryHtml extends AbstractRightFrameHtml {
             null,            // nav5
             null,            // nav6
             () -> {          // renderBody
-                this.l(
+
+                for (Runnable header : headers) {
+                    this.l(
 "    <div class=\"header\">"
-                );
-                prolog.run();
-                this.l(
+                    );
+                    header.run();
+                    this.l(
 "    </div>"
-                );
+                    );
+                }
+
                 this.l(
 "    <div class=\"contentContainer\">",
 "      <ul class=\"blockList\">"
@@ -187,7 +191,9 @@ class AbstractSummaryHtml extends AbstractRightFrameHtml {
                 this.l(
 "      </ul>"
                 );
-                epilog.run();
+
+                if (epilog != null) epilog.run();
+
                 this.l(
 "    </div>"
                 );
