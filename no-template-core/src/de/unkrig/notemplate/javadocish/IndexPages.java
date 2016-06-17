@@ -294,7 +294,11 @@ class IndexPages {
                         nav1,            // nav1
                         nav2,            // nav2
                         new String[] {   // nav3
-                            "Frames",    "index.html?" + outputFile.getName(),
+                            "Frames",    (
+                                options.splitIndex
+                                ? "../index.html?index-files/"
+                                : "index.html?"
+                            ) + outputFile.getName(),
                             "No Frames", outputFile.getName(),
                         },
                         new String[] {   // nav4
