@@ -183,7 +183,7 @@ class IndexPages {
             noTemplate -> {                    // indexNavigation
                 for (Character initial : entriesByInitial.keySet()) {
                     noTemplate.l(
-"    <a href=\"#" + (int) initial + "\">" + initial + "</a>"
+"      <a href=\"#" + (int) initial + "\">" + initial + "</a>"
                     );
                 }
             },
@@ -247,7 +247,7 @@ class IndexPages {
                     int idx2 = 1;
                     for (Character initial2 : entriesByInitial.keySet()) {
                         noTemplate.l(
-"    <a href=\"index-" + idx2++ + ".html\">" + initial2 + "</a>"
+"      <a href=\"index-" + idx2++ + ".html\">" + initial2 + "</a>"
                         );
                     }
                 },
@@ -320,20 +320,20 @@ class IndexPages {
                                 Collection<IndexEntry> entriesOfInitial = e.getValue();
 
                                 arfh.l(
-"    <a name=\"" + (int) initial + "\" />",
-"    <h2 class=\"title\">" + initial + "</h2>",
-"    <dl>"
+"      <a name=\"" + (int) initial + "\" />",
+"      <h2 class=\"title\">" + initial + "</h2>",
+"      <dl>"
                                 );
 
                                 for (IndexEntry entry : entriesOfInitial) {
                                     arfh.l(
-"      <dt><span class=\"strong\"><a href=\"" + entry.getLink() + "\">" + entry.getKey() + "</a></span> - " + entry.getExplanation() + "</dt>",
-"      <dd><div class=\"block\">" + entry.getShortDescription() + "</div></dd>"
+"        <dt><span class=\"strong\"><a href=\"" + entry.getLink() + "\">" + entry.getKey() + "</a></span> - " + entry.getExplanation() + "</dt>",
+"        <dd><div class=\"block\">" + entry.getShortDescription() + "</div></dd>"
                                     );
                                 }
 
                                 arfh.l(
-"    </dl>"
+"      </dl>"
                                 );
                             }
 
