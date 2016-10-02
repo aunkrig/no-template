@@ -127,6 +127,8 @@ class AbstractSummaryHtml extends AbstractRightFrameHtml {
             () -> {          // renderBody
 
                 for (Runnable header : headers) {
+                    if (header == null) continue;
+
                     this.l(
 "    <div class=\"header\">"
                     );
