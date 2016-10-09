@@ -45,28 +45,29 @@ package com.acme.myproject.templates;
 
 import de.unkrig.notemplate.*;
 
-// Your template class extends the "NoTemplate" class, either directly, as here, or indirectly to get extra
-// convenience functionality useful for a particular purpose, e.g. by extending "HtmlTemplate".
+// Your template class extends the "NoTemplate" class, either directly, as here, or indirectly to get
+// extra convenience functionality useful for a particular purpose, e.g. by extending "HtmlTemplate".
 //
-// The name of the template class is typically chosen to reflect the "name" of the generated document (whatever
-// "name" means in the specific context). For example, the name of this template class indicates that the name
-// of its product is "index.html".
+// The name of the template class is typically chosen to reflect the "name" of the generated document
+// (whatever "name" means in the specific context). For example, the name of this template class
+// indicates that the name of its product is "index.html".
 public
 class IndexHtml extends NoTemplate {
 
     // Your template class has only a zero-arg constructor (or no constructor at all).
     // It (typically) declares no fields.
 
-    // You declare a method (typically, but necessarily) named "render" with all the parameters necessary for
-    // the dynamic data that it needs.
+    // You declare a method (typically, but not necessarily) named "render" with all the parameters
+    // necessary for the dynamic data that it needs.
     public void
     render(String firstName, String lastName, int age) {
 
-        // The method "NoTemplate.l(String...)" writes the given strings to the output, each followed by a line
-        // break.
+        // The method "NoTemplate.l(String...)" writes the given strings to the output, each followed
+        // by a line break.
         //
-        // By putting each string on a separate line, and aligning these lines in column one, the indentation in
-        // the generated document is exactly reflected here in the source code (apart from the enclosing quotes).
+        // By putting each argument on a separate line, and aligning these lines in column one, the
+        // indentation in the generated document is exactly reflected here in the source code (apart
+        // from the enclosing quotes).
         l(
 "<!DOCTYPE html>",
 "<html>",
@@ -103,11 +104,10 @@ No-Template addresses most of the above-mentioned problems:
       enough to confuse me.
     </li>
     <li style="padding:3px">
-      The "content" lines are quite easy to spot in the source code, since they appear in column one and start with
-      a quote.
+      The "content" lines are quite easy to spot in the source code, since they all appear in column one of the source code.
     </li>
     <li style="padding:3px">
-      You benefit from the static type model of Java, and get compiler warnings and errors when other frameworks
+      You benefit from the static type model of Java, and get compiler warnings and errors, whereas other frameworks
       produce only <i>runtime</i> errors.
     </li>
     <li style="padding:3px">
@@ -128,7 +128,7 @@ No-Template addresses most of the above-mentioned problems:
   <ul>
     <li style="padding:3px">
       Literal text (which maps to Java string literals) must be enclosed in quotes, and some characters must
-      (as you all know) be escaped with backslashes. This is particularly annoying for tag attributes
+      (as you all know) be escaped with backslashes. This is particularly annoying for double quotes
 ```java
       l(
 "    Look &lt;a href=\"" + href + "\">here&lt;/a>".
@@ -158,7 +158,7 @@ and for embedded JavaScript code.
     </li>
     <li style="padding:3px">
       Code checkers may complain about the "wrong" indentation of the arguments to the "<code>l()</code>" method. You need
-      to suppress these message, or, even better, verify that the arguments of "<code>l()</code>" indeed start in coloumn
+      to suppress these message, or, even better, verify that the arguments of "<code>l()</code>" indeed start in column
       one.
     </li>
   </ul>
