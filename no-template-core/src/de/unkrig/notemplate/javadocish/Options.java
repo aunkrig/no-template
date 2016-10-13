@@ -27,6 +27,7 @@
 package de.unkrig.notemplate.javadocish;
 
 import java.io.File;
+import java.nio.charset.Charset;
 import java.util.Date;
 
 import de.unkrig.commons.nullanalysis.Nullable;
@@ -69,4 +70,23 @@ class Options {
 
     /** Whether to split the index by initial. */
     public boolean splitIndex;
+
+    /**
+     * Inserts the following line in the head of every generated page:
+     * <p>
+     *    {@code <META http-equiv="Content-Type" content="text/html; charset=}<var>htmlCharset</var>{@code ">}
+     * </p>
+     *
+     * @see <a href="http://docs.oracle.com/javase/7/docs/technotes/tools/windows/javadoc.html#charset">The "{@code
+     *      -charset}" command line option of the JAVADOC tool</a>
+     */
+    @Nullable public String htmlCharset;
+
+    /**
+     * The charset of the generated HTML files.
+     *
+     * @see <a href="http://docs.oracle.com/javase/7/docs/technotes/tools/windows/javadoc.html#docencoding">The {@code
+     *      -docencoding}" command line option of the JAVADOC tool</a>
+     */
+    public Charset documentCharset = Charset.defaultCharset();
 }

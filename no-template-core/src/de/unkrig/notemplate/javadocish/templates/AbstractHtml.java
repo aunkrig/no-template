@@ -63,6 +63,13 @@ class AbstractHtml extends HtmlTemplate {
 "    <title>" + windowTitle + (options.windowTitle == null ? "" : " (" + options.windowTitle + ")") + "</title>"
         );
 
+        // Charset, as controlled by the "-charset" command line option.
+        if (options.htmlCharset != null) {
+            this.l(
+"    <meta http-equiv=\"Content-Type\" content=\"text/html; charset=" + options.htmlCharset + "\">"
+            );
+        }
+
         // Generation date meta entry.
         if (!options.noTimestamp) {
             this.l(

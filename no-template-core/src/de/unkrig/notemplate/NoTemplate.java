@@ -86,7 +86,7 @@ class NoTemplate {
     }
 
     /**
-     * Renders the given no-template (<var>templateClass</var>) to the given <var>file</var>.
+     * Renders the given no-template (<var>templateClass</var>) to the given <var>file</var> with the "UTF-8" charset.
      *
      * @param <T>                            The template class
      * @param outputFile                     The file to write to (in UTF-8 encoding)
@@ -99,14 +99,33 @@ class NoTemplate {
         File                                     outputFile,
         final ConsumerWhichThrows<? super T, EX> renderer,
         boolean                                  createMissingParentDirectories
-    )
-    throws IOException, EX {
+    ) throws IOException, EX {
+        NoTemplate.render(templateClass, outputFile, renderer, createMissingParentDirectories, Charset.forName("UTF-8"));
+    }
+
+    /**
+     * Renders the given no-template (<var>templateClass</var>) to the given <var>file</var>.
+     *
+     * @param <T>                            The template class
+     * @param outputFile                     The file to write to (in UTF-8 encoding)
+     * @param renderer                       Prints the text to its <var>subject</var> {@link PrintWriter}
+     * @param createMissingParentDirectories Whether to create any missing parent directories for the <var>file</var>
+     * @param charset                        The charset to use
+     */
+    public static final <T extends NoTemplate, EX extends Exception> void
+    render(
+        final Class<T>                           templateClass,
+        File                                     outputFile,
+        final ConsumerWhichThrows<? super T, EX> renderer,
+        boolean                                  createMissingParentDirectories,
+        Charset                                  charset
+    ) throws IOException, EX {
 
         System.out.println("Generating " + outputFile + "...");
 
         IoUtil.outputFilePrintWriter(
             outputFile,
-            Charset.forName("UTF-8"),
+            charset,
             new ConsumerWhichThrows<PrintWriter, EX>() {
 
                 @Override public void
