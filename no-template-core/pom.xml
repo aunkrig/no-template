@@ -23,7 +23,7 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>de.unkrig.</groupId>
+      <groupId>de.unkrig</groupId>
       <artifactId>de-unkrig-commons</artifactId>
       <version>1.1.12</version>
     </dependency>
@@ -115,16 +115,12 @@
               <url>http://commons.unkrig.de/javadoc</url>
               <location>../../package-lists/de.unkrig.commons</location>
             </offlineLink>
-            <offlineLink>
-              <url>http://api.dpml.net/org/apache/ant/1.7.0</url>
-              <location>../../package-lists/org.apache.ant</location>
-            </offlineLink>
           </offlineLinks>
         </configuration>
       </plugin>
     </plugins>
   </build>
-  <name>The core functionality of the &quot;no template&quot; concept</name>
+  <name>no-template-core</name>
   <description>A super-small Java library for templating, i.e. generating text files (HTML, XML, whatever) from a &quot;template&quot; text file and dynamic data.
 
 It is based on the concept that the templates are bare Java classes.</description>
@@ -154,5 +150,6 @@ It is based on the concept that the templates are bare Java classes.</descriptio
       </roles>
     </developer>
   </developers>
+
   <url>https://github.com/aunkrig/no-template</url>
 </project>
