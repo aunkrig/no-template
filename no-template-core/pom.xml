@@ -124,4 +124,35 @@
       </plugin>
     </plugins>
   </build>
+  <name>The core functionality of the &quot;no template&quot; concept</name>
+  <description>A super-small Java library for templating, i.e. generating text files (HTML, XML, whatever) from a &quot;template&quot; text file and dynamic data.
+
+It is based on the concept that the templates are bare Java classes.</description>
+  <organization>
+  	<url>https://github.com/aunkrig/no-template</url>
+  </organization>
+
+  <scm>
+  	<url>https://github.com/aunkrig/no-template</url>
+  </scm>
+
+  <licenses>
+    <license>
+      <name>New BSD License</name>
+      <url>https://raw.githubusercontent.com/aunkrig/no-template/master/LICENSE</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <developers>
+    <developer>
+      <id>aunkrig</id>
+      <name>Arno Unkrig</name>
+      <roles>
+        <role>Developer</role>
+        <role>Release Manager</role>
+      </roles>
+    </developer>
+  </developers>
+  <url>https://github.com/aunkrig/no-template</url>
 </project>
