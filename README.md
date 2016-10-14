@@ -202,9 +202,16 @@ source for inspiration.
 ## Download
       
 No-Template is available for download
-<a href="http://no-template.unkrig.de/download/">here</a>;
-there is also a
-<a href="http://no-template.unkrig.de/CHANGELOG.txt">change log</a>.
+<a href="http://no-template.unkrig.de/download/">here</a>.
+
+## Change Log
+
+* Recent, yet unreleased changes:
+ * Bla
+
+* Version 1.0.0, 2016-10-14:
+ * First official release.
+ * Changed build process from ANT to MAVEN.
 
 ## Documentation
       
