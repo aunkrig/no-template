@@ -202,7 +202,7 @@ source for inspiration.
 ## Download
       
 No-Template is available for download
-<a href="http://no-template.unkrig.de/download/">here</a>.
+<a href="https://repository.sonatype.org/service/local/artifact/maven/redirect?r=central-proxy&g=de.unkrig&a=no-template-core&v=LATEST">here</a>.
 
 ## Change Log
 
