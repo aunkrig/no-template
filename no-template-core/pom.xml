@@ -8,7 +8,7 @@
 
   <groupId>de.unkrig</groupId>
   <artifactId>no-template-core</artifactId>
-  <version>1.0.0-SNAPSHOT</version>
+  <version>1.0.1</version>
 
   <properties>
     <maven.compiler.source>1.8</maven.compiler.source>
@@ -120,11 +120,15 @@
       </plugin>
     </plugins>
   </build>
+
   <name>no-template-core</name>
   <description>A super-small Java library for templating, i.e. generating text files (HTML, XML, whatever) from a &quot;template&quot; text file and dynamic data.
 
 It is based on the concept that the templates are bare Java classes.</description>
+  <url>https://github.com/aunkrig/no-template</url>
+
   <organization>
+    <name>Arno Unkrig</name>
   	<url>https://github.com/aunkrig/no-template</url>
   </organization>
 
@@ -150,6 +154,4 @@ It is based on the concept that the templates are bare Java classes.</descriptio
       </roles>
     </developer>
   </developers>
-
-  <url>https://github.com/aunkrig/no-template</url>
 </project>
