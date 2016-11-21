@@ -53,6 +53,9 @@ class Options {
     /** The argument of the "-footer" command line option. */
     @Nullable public String footer;
 
+    /** Whether the "-quiet" command line option is given. */
+    public boolean quiet;
+
     /** The argument of the "-top" command line option. */
     @Nullable public String top;
 

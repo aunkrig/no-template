@@ -25,17 +25,17 @@
     <dependency>
     	<groupId>de.unkrig.commons</groupId>
     	<artifactId>commons-lang</artifactId>
-    	<version>1.2.3</version>
+    	<version>1.2.4-SNAPSHOT</version>
     </dependency>
     <dependency>
     	<groupId>de.unkrig.commons</groupId>
     	<artifactId>commons-io</artifactId>
-    	<version>1.2.3</version>
+    	<version>1.2.4-SNAPSHOT</version>
     </dependency>
     <dependency>
     	<groupId>de.unkrig.commons</groupId>
     	<artifactId>commons-util</artifactId>
-    	<version>1.2.3</version>
+    	<version>1.2.4-SNAPSHOT</version>
     </dependency>
   </dependencies>
 
