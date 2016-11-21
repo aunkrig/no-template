@@ -126,8 +126,30 @@ class NoTemplate {
         boolean                                  createMissingParentDirectories,
         Charset                                  charset
     ) throws IOException, EX {
+        NoTemplate.render(templateClass, outputFile, renderer, createMissingParentDirectories, charset, false);
+    }
 
-        System.out.println("Generating " + outputFile + "...");
+    /**
+     * Renders the given no-template (<var>templateClass</var>) to the given <var>file</var>.
+     *
+     * @param <T>                            The template class
+     * @param outputFile                     The file to write to (in UTF-8 encoding)
+     * @param renderer                       Prints the text to its <var>subject</var> {@link PrintWriter}
+     * @param createMissingParentDirectories Whether to create any missing parent directories for the <var>file</var>
+     * @param charset                        The charset to use
+     * @param quiet                          Whether to <em>not</em> report the file generation on {@code System.out}
+     */
+    public static final <T extends NoTemplate, EX extends Exception> void
+    render(
+        final Class<T>                           templateClass,
+        File                                     outputFile,
+        final ConsumerWhichThrows<? super T, EX> renderer,
+        boolean                                  createMissingParentDirectories,
+        Charset                                  charset,
+        boolean                                  quiet
+    ) throws IOException, EX {
+
+        if (!quiet) System.out.println("Generating " + outputFile + "...");
 
         IoUtil.outputFilePrintWriter(
             outputFile,
