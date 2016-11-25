@@ -1,168 +1,188 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project
-  xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
 >
-  <modelVersion>4.0.0</modelVersion>
+	<modelVersion>4.0.0</modelVersion>
 
-  <groupId>de.unkrig</groupId>
-  <artifactId>no-template-core</artifactId>
-  <version>1.0.3-SNAPSHOT</version>
+	<groupId>de.unkrig</groupId>
+	<artifactId>no-template-core</artifactId>
+	<version>1.0.3</version>
 
-  <properties>
-    <maven.compiler.source>1.8</maven.compiler.source>
-    <maven.compiler.target>1.8</maven.compiler.target>
-  </properties>
+	<properties>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+	</properties>
 
-  <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.11</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-    	<groupId>de.unkrig.commons</groupId>
-    	<artifactId>commons-lang</artifactId>
-    	<version>1.2.4-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-    	<groupId>de.unkrig.commons</groupId>
-    	<artifactId>commons-io</artifactId>
-    	<version>1.2.4-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-    	<groupId>de.unkrig.commons</groupId>
-    	<artifactId>commons-util</artifactId>
-    	<version>1.2.4-SNAPSHOT</version>
-    </dependency>
-  </dependencies>
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.11</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>de.unkrig.commons</groupId>
+			<artifactId>commons-lang</artifactId>
+			<version>1.2.4</version>
+		</dependency>
+		<dependency>
+			<groupId>de.unkrig.commons</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>1.2.4</version>
+		</dependency>
+		<dependency>
+			<groupId>de.unkrig.commons</groupId>
+			<artifactId>commons-util</artifactId>
+			<version>1.2.4</version>
+		</dependency>
+	</dependencies>
 
-  <build>
-    <plugins>
-      <plugin>
-        <artifactId>maven-assembly-plugin</artifactId>
-        <version>2.6</version>
-        <configuration>
-          <descriptorRefs>
-            <descriptorRef>jar-with-dependencies</descriptorRef>
-          </descriptorRefs>
-        </configuration>
-        <executions>
-          <execution>
-            <id>make-assembly</id> <!-- this is used for inheritance merges -->
-            <phase>package</phase> <!-- bind to the packaging phase -->
-            <goals>
-              <goal>single</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
+	<build>
+		<pluginManagement>
+			<plugins>
+			
+				<!-- Signs the artifacts with GPG (oss.sonatype.org requires that). -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-gpg-plugin</artifactId>
+					<version>1.5</version>
+					<executions>
+						<execution>
+							<id>sign-artifacts</id>
+							<phase>verify</phase>
+							<goals><goal>sign</goal></goals>
+						</execution>
+					</executions>
+				</plugin>
+			</plugins>
+		</pluginManagement>
 
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-source-plugin</artifactId>
-        <version>2.4</version>
-        <executions>
-          <execution>
-            <id>attach-sources</id>
-            <goals>
-              <goal>jar</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
+		<plugins>
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>2.6</version>
+				<configuration>
+					<descriptorRefs>
+						<descriptorRef>jar-with-dependencies</descriptorRef>
+					</descriptorRefs>
+				</configuration>
+				<executions>
+					<execution>
+						<id>make-assembly</id> <!-- this is used for inheritance merges -->
+						<phase>package</phase> <!-- bind to the packaging phase -->
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 
-      <plugin>
-        <groupId>org.sonatype.plugins</groupId>
-        <artifactId>nexus-staging-maven-plugin</artifactId>
-        <version>1.6.7</version>
-        <extensions>true</extensions>
-        <configuration>
-           <serverId>ossrh</serverId>
-           <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-           <autoReleaseAfterClose>false</autoReleaseAfterClose>
-        </configuration>
-      </plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>2.4</version>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-gpg-plugin</artifactId>
-        <version>1.5</version>
-        <executions>
-          <execution>
-            <id>sign-artifacts</id>
-            <phase>verify</phase>
-            <goals>
-              <goal>sign</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
+			<plugin>
+				<groupId>org.sonatype.plugins</groupId>
+				<artifactId>nexus-staging-maven-plugin</artifactId>
+				<version>1.6.7</version>
+				<extensions>true</extensions>
+				<configuration>
+					 <serverId>ossrh</serverId>
+					 <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+					 <autoReleaseAfterClose>false</autoReleaseAfterClose>
+				</configuration>
+			</plugin>
 
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <version>2.10.4</version>
-        <executions>
-          <execution>
-            <id>attach-javadocs</id>
-            <goals>
-              <goal>jar</goal>
-            </goals>
-          </execution>
-        </executions>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.10.4</version>
+				<executions>
+					<execution>
+						<id>attach-javadocs</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
 
-        <configuration>
-          <author>false</author>
-          <use>false</use>
-          <version>false</version>
-          <additionalparam>-Xdoclint:none</additionalparam>
-          <encoding>UTF-8</encoding>
-          <quiet>true</quiet>
-          <offlineLinks>
-            <offlineLink>
-              <url>http://commons.unkrig.de/javadoc</url>
-              <location>../../package-lists/de.unkrig.commons</location>
-            </offlineLink>
-          </offlineLinks>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
+				<configuration>
+					<author>false</author>
+					<use>false</use>
+					<version>false</version>
+					<additionalparam>-Xdoclint:none</additionalparam>
+					<encoding>UTF-8</encoding>
+					<quiet>true</quiet>
+					<offlineLinks>
+						<offlineLink>
+							<url>http://commons.unkrig.de/javadoc</url>
+							<location>../../package-lists/de.unkrig.commons</location>
+						</offlineLink>
+					</offlineLinks>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 
-  <name>no-template-core</name>
-  <description>A super-small Java library for templating, i.e. generating text files (HTML, XML, whatever) from a &quot;template&quot; text file and dynamic data.
+	<profiles>
+
+		<!-- Signs all artifacts with GPG (oss.sonatype.org requires that). -->
+		<profile>
+			<id>have_gpg</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-gpg-plugin</artifactId>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+
+	<name>no-template-core</name>
+	<description>A super-small Java library for templating, i.e. generating text files (HTML, XML, whatever) from a &quot;template&quot; text file and dynamic data.
 
 It is based on the concept that the templates are bare Java classes.</description>
-  <url>https://github.com/aunkrig/no-template</url>
+	<url>https://github.com/aunkrig/no-template</url>
 
-  <organization>
-    <name>Arno Unkrig</name>
-  	<url>https://github.com/aunkrig/no-template</url>
-  </organization>
+	<organization>
+		<name>Arno Unkrig</name>
+		<url>https://github.com/aunkrig/no-template</url>
+	</organization>
 
-  <scm>
-  	<url>https://github.com/aunkrig/no-template</url>
-  </scm>
+	<scm>
+		<url>https://github.com/aunkrig/no-template</url>
+	</scm>
 
-  <licenses>
-    <license>
-      <name>New BSD License</name>
-      <url>https://raw.githubusercontent.com/aunkrig/no-template/master/LICENSE</url>
-      <distribution>repo</distribution>
-    </license>
-  </licenses>
+	<licenses>
+		<license>
+			<name>New BSD License</name>
+			<url>https://raw.githubusercontent.com/aunkrig/no-template/master/LICENSE</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
 
-  <developers>
-    <developer>
-      <id>aunkrig</id>
-      <name>Arno Unkrig</name>
-      <roles>
-        <role>Developer</role>
-        <role>Release Manager</role>
-      </roles>
-    </developer>
-  </developers>
+	<developers>
+		<developer>
+			<id>aunkrig</id>
+			<name>Arno Unkrig</name>
+			<roles>
+				<role>Developer</role>
+				<role>Release Manager</role>
+			</roles>
+		</developer>
+	</developers>
 </project>
