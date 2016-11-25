@@ -209,6 +209,11 @@ No-Template is available for download
 * Recent, yet unreleased changes:
  * -
 
+* Version 1.0.3, 2016-11-25:
+ * The printing of the "Generating..." message to System.out is now conditional (by a "boolean quiet" parameter).
+ * The "old" (pre-MAVEN) source directory tree was still there.
+ * Modified the text of the copyright notice slightly: Replaced "author" with "copyright holders and contributors".
+
 * Version 1.0.2, 2016-11-07:
  * Switched from de-unkrig-commons 1.1.12 to 1.2.2.
 
