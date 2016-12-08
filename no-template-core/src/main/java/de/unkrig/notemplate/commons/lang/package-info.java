@@ -24,48 +24,9 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-// CHECKSTYLE Wrap:OFF
+/***/
+@NotNullByDefault
+package de.unkrig.notemplate.commons.lang;
 
-package de.unkrig.notemplate.javadocish.templates;
+import de.unkrig.commons.nullanalysis.NotNullByDefault;
 
-import de.unkrig.commons.lang.AssertionUtil;
-import de.unkrig.commons.nullanalysis.Nullable;
-import de.unkrig.notemplate.javadocish.Options;
-
-// Re-use the "bottom left frame" because the two frames are so similar.
-
-/**
- * Base class for the top left frame (which typically display package names).
- */
-public abstract
-class AbstractTopLeftFrameHtml extends AbstractBottomLeftFrameHtml {
-
-    static { AssertionUtil.enableAssertionsForThisClass(); }
-
-    /**
-     * @param options         Container for the various command line options
-     * @param styleSheetLinks The (optional) external stylesheets for this page
-     * @param heading         The heading of this page, and also the window title (optionally augmented with {@link
-     *                        Options#windowTitle}
-     */
-    protected void
-    rTopLeftFrameHtml(
-        String           windowTitle,
-        Options          options,
-        String[]         styleSheetLinks,
-        @Nullable String heading,
-        @Nullable String headingLink,
-        Runnable         renderIndexHeader,
-        Runnable         renderIndexContainer
-    ) {
-        this.rBottomLeftFrameHtml(
-            windowTitle,
-            options,
-            styleSheetLinks,
-            heading,
-            headingLink,
-            renderIndexHeader,
-            renderIndexContainer
-        );
-    }
-}

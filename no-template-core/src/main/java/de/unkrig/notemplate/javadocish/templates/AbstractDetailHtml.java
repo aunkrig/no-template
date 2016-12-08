@@ -24,6 +24,8 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+// CHECKSTYLE Wrap:OFF
+
 package de.unkrig.notemplate.javadocish.templates;
 
 import java.util.ArrayList;

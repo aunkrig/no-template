@@ -1,3 +1,5 @@
+// CHECKSTYLE .*:OFF
+
 /*
  * Copyright 2016 SWM Services GmbH
  */
