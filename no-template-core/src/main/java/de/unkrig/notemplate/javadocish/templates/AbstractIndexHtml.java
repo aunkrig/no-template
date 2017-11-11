@@ -1,6 +1,6 @@
 
 /*
- * de.unkrig.doclet.ant - A doclet which generates metadata documents for an APACHE ANT extension
+ * No-Template - an extremely light-weight templating framework
  *
  * Copyright (c) 2015, Arno Unkrig
  * All rights reserved.
@@ -24,7 +24,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-// CHECKSTYLE Wrap|LineLength:OFF
+// SUPPRESS CHECKSTYLE Wrap|LineLength:9999
 
 package de.unkrig.notemplate.javadocish.templates;
 

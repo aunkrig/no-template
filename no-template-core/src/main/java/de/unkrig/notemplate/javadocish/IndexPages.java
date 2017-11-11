@@ -24,7 +24,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-// CHECKSTYLE Wrap|LineLength:OFF
+// SUPPRESS CHECKSTYLE Wrap|LineLength:9999
 
 package de.unkrig.notemplate.javadocish;
 

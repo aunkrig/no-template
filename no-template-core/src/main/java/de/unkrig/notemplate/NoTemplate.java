@@ -312,11 +312,10 @@ class NoTemplate {
     public void
     l(String... lines) {
 
-        assert this.pw != null;
+        PrintWriter pw = this.pw;
+        assert pw != null;
 
-        for (String line : lines) {
-            this.pw.println(line);
-        }
+        for (String line : lines) pw.println(line);
     }
 
     /**
