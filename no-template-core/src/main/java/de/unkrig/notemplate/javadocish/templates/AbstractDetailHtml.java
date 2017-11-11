@@ -24,7 +24,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-// CHECKSTYLE Wrap:OFF
+// SUPPRESS CHECKSTYLE Wrap|LineLength:9999
 
 package de.unkrig.notemplate.javadocish.templates;
 
@@ -331,8 +331,6 @@ class AbstractDetailHtml extends AbstractRightFrameHtml {
                         final Producer<String> trClass = ProducerUtil.alternate("altColor", "rowColor");
                         for (SectionItem item : sortedItems) {
 
-                            if (item.summaryTableCells == null) continue;
-
                             this.l(
 "                  <tr class=\"" + trClass.produce() + "\">"
                             );
@@ -358,26 +356,24 @@ class AbstractDetailHtml extends AbstractRightFrameHtml {
                         );
                     }
 
-                    if (section.addenda != null) {
-                        for (SectionAddendum addendum : section.addenda) {
-                            this.l(
+                    for (SectionAddendum addendum : section.addenda) {
+                        this.l(
 "                <ul class=\"blockList\">",
 "                  <li class=\"blockList\">"
-                            );
-                            if (addendum.anchor != null) {
-                                this.l(
+                        );
+                        if (addendum.anchor != null) {
+                            this.l(
 "                    <a name=\"" + addendum.anchor + "\">",
 "                      <!--   -->",
 "                    </a>"
-                                );
-                            }
-                            this.l(
+                            );
+                        }
+                        this.l(
 "                    <h3>" + addendum.title + "</h3>",
 "                    " + addendum.content,
 "                  </li>",
 "                </ul>"
-                            );
-                        }
+                        );
                     }
 
                     this.l(
