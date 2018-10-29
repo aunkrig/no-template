@@ -43,8 +43,8 @@ import de.unkrig.commons.lang.AssertionUtil;
 import de.unkrig.commons.lang.protocol.Consumer;
 import de.unkrig.commons.lang.protocol.ConsumerWhichThrows;
 import de.unkrig.commons.nullanalysis.Nullable;
+import de.unkrig.commons.util.collections.ElementWithContext;
 import de.unkrig.commons.util.collections.IterableUtil;
-import de.unkrig.commons.util.collections.IterableUtil.ElementWithContext;
 import de.unkrig.notemplate.NoTemplate;
 import de.unkrig.notemplate.javadocish.templates.AbstractRightFrameHtml;
 
