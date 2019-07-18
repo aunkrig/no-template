@@ -2,9 +2,9 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/de.unkrig.commons.io"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/de.unkrig.commons.lang"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/de.unkrig.commons.nullanalysis"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/no-template-core"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/commons-lang"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/commons-nullanalysis"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/commons-io"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

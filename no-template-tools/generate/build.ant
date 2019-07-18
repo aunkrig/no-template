@@ -9,11 +9,11 @@
 
 	<eclipse.convertPath resourcepath="/de.unkrig.html2txt"             property="de.unkrig.html2txt"             />
 
-	<eclipse.convertPath resourcepath="/de.unkrig.commons.io"           property="de.unkrig.commons.io"           />
-	<eclipse.convertPath resourcepath="/de.unkrig.commons.lang"         property="de.unkrig.commons.lang"         />
-	<eclipse.convertPath resourcepath="/de.unkrig.commons.nullanalysis" property="de.unkrig.commons.nullanalysis" />
-	<eclipse.convertPath resourcepath="/de.unkrig.commons.util"         property="de.unkrig.commons.util"         />
-	<eclipse.convertPath resourcepath="/de.unkrig.commons.text"         property="de.unkrig.commons.text"         />
+	<eclipse.convertPath resourcepath="/commons-io"           property="de.unkrig.commons.io"           />
+	<eclipse.convertPath resourcepath="/commons-lang"         property="de.unkrig.commons.lang"         />
+	<eclipse.convertPath resourcepath="/commons-nullanalysis" property="de.unkrig.commons.nullanalysis" />
+	<eclipse.convertPath resourcepath="/commons-util"         property="de.unkrig.commons.util"         />
+	<eclipse.convertPath resourcepath="/commons-text"         property="de.unkrig.commons.text"         />
 
 	<!-- For the "<html2txt>" task. -->
 	<taskdef resource="de/unkrig/html2txt/antlib.xml">
@@ -23,12 +23,12 @@
 		<classpath location="generate/html2txt.jar" />
 -->
 		<classpath>
-			<pathelement location="${de.unkrig.html2txt}/bin"     />
+			<pathelement location="${de.unkrig.html2txt}/target/classes"     />
 
-			<pathelement location="${de.unkrig.commons.io}/bin"   />
-			<pathelement location="${de.unkrig.commons.lang}/bin" />
-			<pathelement location="${de.unkrig.commons.util}/bin" />
-			<pathelement location="${de.unkrig.commons.text}/bin" />
+			<pathelement location="${de.unkrig.commons.io}/target/classes"   />
+			<pathelement location="${de.unkrig.commons.lang}/target/classes" />
+			<pathelement location="${de.unkrig.commons.util}/target/classes" />
+			<pathelement location="${de.unkrig.commons.text}/target/classes" />
 		</classpath>
 	</taskdef>
 
@@ -43,10 +43,10 @@
 			<fileset file="src/de/unkrig/notemplate/tools/MakeClass.java" />
 			<classpath>
 				<pathelement location="bin" />
-				<pathelement location="../no-template-core/bin"               />
-				<pathelement location="${de.unkrig.commons.io}/bin"           />
-				<pathelement location="${de.unkrig.commons.lang}/bin"         />
-				<pathelement location="${de.unkrig.commons.nullanalysis}/bin" />
+				<pathelement location="../no-template-core/target/classes"               />
+				<pathelement location="${de.unkrig.commons.io}/target/classes"           />
+				<pathelement location="${de.unkrig.commons.lang}/target/classes"         />
+				<pathelement location="${de.unkrig.commons.nullanalysis}/target/classes" />
 			</classpath>
 		</javadoc>
 
