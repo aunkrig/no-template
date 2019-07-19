@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project
+	xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+>
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>de.unkrig</groupId>
+	<artifactId>no-template-tools</artifactId>
+	<version>1.0.6-SNAPSHOT</version>
+
+	<properties>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.11</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>de.unkrig.commons</groupId>
+			<artifactId>commons-lang</artifactId>
+			<version>1.2.12</version>
+		</dependency>
+		<dependency>
+			<groupId>de.unkrig.commons</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>1.2.12</version>
+		</dependency>
+		<dependency>
+			<groupId>de.unkrig.commons</groupId>
+			<artifactId>commons-util</artifactId>
+			<version>1.2.12</version>
+		</dependency>
+		<dependency>
+			<groupId>de.unkrig</groupId>
+			<artifactId>no-template-core</artifactId>
+			<version>1.0.6-SNAPSHOT</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<pluginManagement>
+			<plugins>
+			
+				<!-- Signs the artifacts with GPG (oss.sonatype.org requires that). -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-gpg-plugin</artifactId>
+					<version>1.5</version>
+					<executions>
+						<execution>
+							<id>sign-artifacts</id>
+							<phase>verify</phase>
+							<goals><goal>sign</goal></goals>
+						</execution>
+					</executions>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+
+		<plugins>
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>2.6</version>
+				<configuration>
+					<descriptorRefs>
+						<descriptorRef>jar-with-dependencies</descriptorRef>
+					</descriptorRefs>
+				</configuration>
+				<executions>
+					<execution>
+						<id>make-assembly</id> <!-- this is used for inheritance merges -->
+						<phase>package</phase> <!-- bind to the packaging phase -->
+						<goals>
+							<goal>single</goal>
+						</goals>
+						<configuration>
+							<archive><manifest><mainClass>de.unkrig.notemplate.tools.MakeClass</mainClass></manifest></archive>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>2.4</version>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.sonatype.plugins</groupId>
+				<artifactId>nexus-staging-maven-plugin</artifactId>
+				<version>1.6.7</version>
+				<extensions>true</extensions>
+				<configuration>
+					 <serverId>ossrh</serverId>
+					 <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+					 <autoReleaseAfterClose>true</autoReleaseAfterClose>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.10.4</version>
+				<executions>
+
+					<!-- Generate API docs. -->
+					<execution>
+						<id>attach-javadocs</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+
+						<configuration>
+							<additionalparam>-Xdoclint:none</additionalparam>
+							<quiet>true</quiet>
+							<encoding>UTF-8</encoding>
+							<author>false</author>
+							<use>false</use>
+							<version>false</version>
+							<tags>
+								<tag><name>ant.defaultValue</name>       <placement>a</placement><head>Default value:</head></tag>
+								<tag><name>main.commandLineOptions</name><placement>X</placement></tag>
+							</tags>
+						</configuration>
+					</execution>
+
+					<!-- Generate HTML MAINDOC. -->
+					<execution>
+						<id>make-maindoc</id>
+						<phase>compile</phase>
+						<goals>
+							<goal>javadoc</goal>
+						</goals>
+
+						<configuration>
+							<useStandardDocletOptions>false</useStandardDocletOptions>
+
+							<quiet>true</quiet>
+							<encoding>UTF-8</encoding>
+
+							<doclet>de.unkrig.doclet.main.MainDoclet</doclet>
+							<docletArtifact>
+								<groupId>de.unkrig</groupId>
+								<artifactId>doclet-main</artifactId>
+								<version>1.0.2</version>
+							</docletArtifact>
+
+							<additionalparam>
+								-charset     UTF-8
+								-docencoding UTF-8
+								-method      main(String[])
+							</additionalparam>
+
+							<destDir>../../classes</destDir>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<version>1.5.0</version>
+				<executions>
+
+					<!-- Convert HTML MAINDOC to TXT. -->
+					<execution>
+						<id>no-template-tools-maindoc</id>
+						<phase>compile</phase>
+						<goals>
+							<goal>java</goal>
+						</goals>
+						<configuration>
+							<includePluginDependencies>true</includePluginDependencies>
+							<mainClass>de.unkrig.html2txt.Main</mainClass>
+							<arguments>
+								<argument>target/classes/de/unkrig/notemplate/tools/MakeClass.main(String[]).html</argument>
+								<argument>target/classes/de/unkrig/notemplate/tools/MakeClass.main(String[]).txt</argument>
+							</arguments>
+						</configuration>
+					</execution>
+				</executions>
+
+				<dependencies>
+					<dependency>
+						<groupId>de.unkrig</groupId>
+						<artifactId>html2txt</artifactId>
+						<version>1.0.0</version>
+						<scope>runtime</scope>
+					</dependency>
+				</dependencies>
+			</plugin>
+		</plugins>
+	</build>
+
+	<profiles>
+
+		<!-- Signs all artifacts with GPG (oss.sonatype.org requires that). -->
+		<profile>
+			<id>have_gpg</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-gpg-plugin</artifactId>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+
+	<name>no-template-tools</name>
+	<description>TBD</description>
+	<url>https://github.com/aunkrig/no-template</url>
+
+	<organization>
+		<name>Arno Unkrig</name>
+		<url>https://github.com/aunkrig/no-template</url>
+	</organization>
+
+	<scm>
+		<url>https://github.com/aunkrig/no-template</url>
+	</scm>
+
+	<licenses>
+		<license>
+			<name>New BSD License</name>
+			<url>https://raw.githubusercontent.com/aunkrig/no-template/master/LICENSE</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+
+	<developers>
+		<developer>
+			<id>aunkrig</id>
+			<name>Arno Unkrig</name>
+			<roles>
+				<role>Developer</role>
+				<role>Release Manager</role>
+			</roles>
+		</developer>
+	</developers>
+</project>
