@@ -112,7 +112,7 @@ class IndexPages {
      * flag.
      */
     public static void
-    createIndex(File outputFile, Collection<IndexEntry> indexEntries, Options options, String[] nav1)
+    createIndex(Collection<IndexEntry> indexEntries, Options options, String[] nav1)
     throws IOException {
 
         if (options.splitIndex) {
